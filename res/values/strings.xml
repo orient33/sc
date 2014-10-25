@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">SecurityCenter</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <!-- 子模块名称 -->
+    <string name="module_optimizer">系统优化</string>
+    <string name="module_net">流量监控</string>
+    <string name="module_block">骚扰拦截</string>
+    <string name="module_save">省电优化</string>
+    <string name="module_antivirse">病毒扫描</string>
+    <string name="module_mac">权限管理</string>
+    
+    <string name="action_settings">Settings</string>
+	<string name="netstat">流量</string>
+	<string name="isRoot">检查是否root</string>
+	<string name="clear">清理</string>
+	<string name="kill">杀死</string>
+	
+	<string name="rooted">已root</string>
+	<string name="root_unavalable">未root</string>
+	
+	<!-- 系统优化 -->
+	<string name="app_cache">应用缓存</string>
+	<string name="sdcard_cache">垃圾缓存</string>
+	<string name="kill_app">进程清理</string>
+	<string name="app_cache_summary">已发现 %1$s 应用缓存</string>
+	<string name="sdcard_cache_summary">已发现 %1$s 垃圾缓存</string>
+	<string name="kill_app_summary">可清理进程 %1$s 个</string>
+	
+	<string name="start_scan">开始扫描</string>
+	<string name="clear_all">一键清理</string>
+	<string name="sd_info">可用 %1$s / 共 %2$s</string>
+	<string name="find_no_cache">没有发现系统缓存</string>
+	<string name="clear_ok">清理完成</string>
+	
+	<!-- 流量统计 -->
+	<string name="process_kernel_label">android系统</string>
+	<string name="data_usage_uninstalled_apps_users">已删除的应用和用户</string>
+	<string name="data_usage_uninstalled_apps">已删除的应用</string>
+	<string name="running_process_item_user_label" >用户： %1$s</string>
+	<string name="data_usage_app_restricted">受限</string>
+	<string-array name="data_usage_cycles">
+        <item>本月流量统计</item>
+        <item>当日流量统计</item>
+    </string-array>
+	<string-array name="data_type">
+        <item>WIFI网络</item>
+        <item>数据网络</item>
+    </string-array>
+    
+	<!-- app ops -->
+	<string name="app_ops_running">"正在运行"</string>
+	<string name="app_ops_never_used">"（从未使用）"</string>
+	<string name="version_text">"版本 <xliff:g id="VERSION_NUM">%1$s</xliff:g>"</string>
+</resources>

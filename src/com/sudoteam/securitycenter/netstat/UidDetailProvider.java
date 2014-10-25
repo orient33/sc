@@ -1,0 +1,145 @@
+package com.sudoteam.securitycenter.netstat;
+
+import com.sudoteam.securitycenter.R;
+import com.sudoteam.securitycenter.Util;
+
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.UserInfo;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.net.TrafficStats;
+import android.os.UserManager;
+import android.text.TextUtils;
+import android.util.SparseArray;
+
+/**
+ * Return details about a specific UID, handling special cases like
+ * {@link TrafficStats#UID_TETHERING} and {@link UserInfo}.
+ */
+public class UidDetailProvider {
+    private final Context mContext;
+    private final SparseArray<UidDetail> mUidDetailCache;
+
+    public static int buildKeyForUser(int userHandle) {
+        return -(2000 + userHandle);
+    }
+
+    public UidDetailProvider(Context context) {
+        mContext = context.getApplicationContext();
+        mUidDetailCache = new SparseArray<UidDetail>();
+    }
+
+    public void clearCache() {
+        synchronized (mUidDetailCache) {
+            mUidDetailCache.clear();
+        }
+    }
+
+    /**
+     * Resolve best descriptive label for the given UID.
+     */
+    public UidDetail getUidDetail(int uid, boolean blocking) {
+        UidDetail detail;
+
+        synchronized (mUidDetailCache) {
+            detail = mUidDetailCache.get(uid);
+        }
+
+        if (detail != null) {
+            return detail;
+        } else if (!blocking) {
+            return null;
+        }
+
+        detail = buildUidDetail(uid);
+
+        synchronized (mUidDetailCache) {
+            mUidDetailCache.put(uid, detail);
+        }
+
+        return detail;
+    }
+
+    /**
+     * Build {@link UidDetail} object, blocking until all {@link Drawable}
+     * lookup is finished.
+     */
+    private UidDetail buildUidDetail(int uid) {
+        final Resources res = mContext.getResources();
+        final PackageManager pm = mContext.getPackageManager();
+
+        final UidDetail detail = new UidDetail();
+        detail.label = pm.getNameForUid(uid);
+        detail.icon = pm.getDefaultActivityIcon();
+
+        // handle special case labels
+        switch (uid) {
+            case android.os.Process.SYSTEM_UID:
+                detail.label = res.getString(R.string.process_kernel_label);
+                detail.icon = pm.getDefaultActivityIcon();
+                return detail;
+            case TrafficStats.UID_REMOVED:
+                detail.label = res.getString(UserManager.supportsMultipleUsers()
+                        ? R.string.data_usage_uninstalled_apps_users
+                        : R.string.data_usage_uninstalled_apps);
+                detail.icon = pm.getDefaultActivityIcon();
+                return detail;
+            case TrafficStats.UID_TETHERING:
+//                final ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(
+//                        Context.CONNECTIVITY_SERVICE);
+//                detail.label = res.getString(Utils.getTetheringLabel(cm));
+//                detail.icon = pm.getDefaultActivityIcon();
+            	Util.w("UID_TETHERING  ..... uid ");
+                return detail;
+        }
+
+        // Handle keys that are actually user handles
+        if (uid <= -2000) {
+            final int userHandle = (-uid) - 2000;
+            final UserManager um = (UserManager) mContext.getSystemService(Context.USER_SERVICE);
+            final UserInfo info = um.getUserInfo(userHandle);
+            if (info != null) {
+                detail.label = res.getString(R.string.running_process_item_user_label, info.name);
+//                detail.icon = UserUtils.getUserIcon(mContext, um, info, res);
+                Util.w("108== icon...");
+                return detail;
+            }
+        }
+
+        // otherwise fall back to using packagemanager labels
+        final String[] packageNames = pm.getPackagesForUid(uid);
+        final int length = packageNames != null ? packageNames.length : 0;
+        try {
+            if (length == 1) {
+                final ApplicationInfo info = pm.getApplicationInfo(packageNames[0], 0);
+                detail.label = info.loadLabel(pm).toString();
+                detail.icon = info.loadIcon(pm);
+            } else if (length > 1) {
+                detail.detailLabels = new CharSequence[length];
+                for (int i = 0; i < length; i++) {
+                    final String packageName = packageNames[i];
+                    final PackageInfo packageInfo = pm.getPackageInfo(packageName, 0);
+                    final ApplicationInfo appInfo = pm.getApplicationInfo(packageName, 0);
+
+                    detail.detailLabels[i] = appInfo.loadLabel(pm).toString();
+                    if (packageInfo.sharedUserLabel != 0) {
+                        detail.label = pm.getText(packageName, packageInfo.sharedUserLabel,
+                                packageInfo.applicationInfo).toString();
+                        detail.icon = appInfo.loadIcon(pm);
+                    }
+                }
+            }
+        } catch (NameNotFoundException e) {
+        }
+
+        if (TextUtils.isEmpty(detail.label)) {
+            detail.label = Integer.toString(uid);
+        }
+
+        return detail;
+    }
+}
