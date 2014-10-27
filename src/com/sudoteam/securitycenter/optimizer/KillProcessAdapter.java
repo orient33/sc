@@ -115,8 +115,8 @@ public class KillProcessAdapter extends BaseAdapter implements IScan {
 
 	@Override
 	public void destoryResult() {
-		// TODO Auto-generated method stub
-
+		if(mList != null)
+			mList.clear();
 	}
 
 	@Override

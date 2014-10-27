@@ -68,7 +68,6 @@ public class ClearCacheFragment extends MyFragment implements View.OnClickListen
 		mAdapter = ClearCacheAdapter.get(mActivity, mHandler);
 		mListView.setAdapter(mAdapter);
 		mListView.setOnItemClickListener(this);
-		mClearAll.setText("clear all");
 		mClearAll.setOnClickListener(this);
 		mCheckboxAll.setOnClickListener(this);
 		mCheckboxAll.setFocusable(false);

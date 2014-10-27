@@ -77,6 +77,6 @@ public class MyFragment extends Fragment {
 	}
 
 	private void i(String s) {
-//		Util.i(this + "----" + s + "( )");
+		Util.i(this + "----" + s + "( )");
 	}
 }

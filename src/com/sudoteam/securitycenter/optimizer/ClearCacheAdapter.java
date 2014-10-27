@@ -10,19 +10,17 @@ import android.content.pm.IPackageStatsObserver;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageStats;
 import android.graphics.drawable.Drawable;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.RemoteException;
-import android.os.StatFs;
 import android.os.SystemClock;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sudoteam.securitycenter.R;
@@ -67,6 +65,7 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
 			this.id = id;
 			this.info = info;
 			ensureLabel(context);
+			ensureIconLocked(context);
 		}
 
 		private void ensureLabel(Context context) {
@@ -84,7 +83,8 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
 			}
 		}
 
-		boolean ensureIconLocked(Context context, PackageManager pm) {
+		boolean ensureIconLocked(Context context) {
+			PackageManager pm = context.getPackageManager();
 			if (this.icon == null) {
 				if (this.apkFile.exists()) {
 					this.icon = this.info.loadIcon(pm);
@@ -120,9 +120,9 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
 		};
 	}
 	void refresh() {
-//		if (mList != null)
-//			mList.clear();/
-//		mList = getItems();
+		if (mList != null)
+			mList.clear();
+		doCheck(null);
 		notifyDataSetChanged();
 	}
 	@Override
@@ -159,24 +159,28 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
 
 	@Override
 	public void destoryResult() {
-		// TODO Auto-generated method stub
-
+		if (mList != null)
+			mList.clear();
 	}
 
 	@Override
 	public View getView(int position, View v, ViewGroup parent) {
+		ViewHold vh;
+		final AppCacheInfo aci = (AppCacheInfo) getItem(position);
 		if (v == null) {
 			v = View.inflate(mContext, R.layout.clear_cache_item, null);
+			vh = new ViewHold(v);
+			v.setTag(vh);
+		} else {
+			vh = (ViewHold)v.getTag();
 		}
-		TextView title = (TextView) v.findViewById(R.id.clear_item_title);
-		TextView size = (TextView) v.findViewById(R.id.clear_item_size);
-		CheckBox cb = (CheckBox) v.findViewById(R.id.clear_item_cb);
-		final AppCacheInfo aci = (AppCacheInfo) getItem(position);
+		
 		if (aci != null) {
-			title.setText(aci.label);
-			size.setText(Formatter.formatFileSize(mContext, aci.cacheSize));
-			cb.setChecked(aci.selected);
-			cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			vh.title.setText(aci.label);
+			vh.size.setText(Formatter.formatFileSize(mContext, aci.cacheSize));
+			vh.cb.setChecked(aci.selected);
+			vh.iv.setImageDrawable(aci.icon);
+			vh.cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				@Override
 				public void onCheckedChanged(CompoundButton bv,
 						boolean isChecked) {
@@ -184,9 +188,21 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
 				}
 			});
 		} else {
-			title.setText("loading...");
+			vh.title.setText("loading...");
 		}
+		Util.i(TAG+" getView() position = "+position);
 		return v;
+	}
+	class ViewHold{
+		TextView title, size;
+		ImageView iv;
+		CheckBox cb;
+		ViewHold(View v){
+			title = (TextView) v.findViewById(R.id.clear_item_title);
+			size = (TextView) v.findViewById(R.id.clear_item_size);
+			cb = (CheckBox) v.findViewById(R.id.clear_item_cb);
+			iv = (ImageView)v.findViewById(R.id.clear_item_icon);
+		}
 	}
 
 	/** 必须在 非UI线程 执行 */
@@ -194,7 +210,7 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
 	public int doCheck(Handler h) {
 		final long start = System.currentTimeMillis();
 		PackageManager pm = mPM;
-		final ArrayList<AppCacheInfo> data = new ArrayList<AppCacheInfo>(30);
+		final ArrayList<AppCacheInfo> data = new ArrayList<AppCacheInfo>();
 		List<ApplicationInfo> list = pm.getInstalledApplications(0);
 		synchronized (AppCacheInfo.findApp) {
 			AppCacheInfo.findApp = 0;
@@ -252,7 +268,7 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
 			}
 		}
 		long after = Util.getAvailableByte();
-		Util.i("实际值 : " + (after - before) + ",,, 应该是 ： " + all + ",,, 相差: "
+		Util.i("实际值 : " + (after - before) + ",,, 应该是 ： " + count + ",,, 相差: "
 				+ (after - before - count));
 		return (int) ((after - before) / 1024 / 1024);
 	}

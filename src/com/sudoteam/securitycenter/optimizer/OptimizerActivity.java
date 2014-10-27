@@ -103,10 +103,11 @@ public class OptimizerActivity extends Activity implements View.OnClickListener{
 		}
 		
 		@Override
-		public void onDestroyView(){
-			super.onDestroyView();
+		public void onDestroy(){
+			super.onDestroy();
 			mAdapter.unbind();
 			mmHandler.removeMessages(MSG_UPDATE_UI);
+			
 		}
 		@Override
 		public void onClick(View v) {
@@ -161,6 +162,7 @@ public class OptimizerActivity extends Activity implements View.OnClickListener{
 					if(scan.task != null)
 						scan.task.destoryResult();
 				}
+				list.clear();
 			}
 			boolean canClear(){
 				for(OneCheckItem item : list)
@@ -198,12 +200,12 @@ public class OptimizerActivity extends Activity implements View.OnClickListener{
 				if(!TextUtils.isEmpty(oci.sizeInfo)){
 					vh.summary.setText(cv.getContext().getString(oci.summaryId, oci.sizeInfo));
 					vh.image.setVisibility(View.VISIBLE);
+					cv.setOnClickListener(oci);
 				}else{
 					vh.summary.setText("");
-//					cv.setOnClickListener(null);
+					cv.setOnClickListener(null);
 					vh.image.setVisibility(View.GONE);
 				}
-				cv.setOnClickListener(oci);
 				return cv;
 			}
 			class ViewHold{
@@ -241,8 +243,11 @@ public class OptimizerActivity extends Activity implements View.OnClickListener{
 			public void useResult(int rs){
 				if(rs == 0)
 					sizeInfo = null;
-				else
+				else{
 					sizeInfo = "" + rs;
+					if(rs > 1024)	//:TODO 假定 rs大于1024 认为是size信息，而非进程数
+						sizeInfo = Formatter.formatFileSize(mmActivity, rs);
+				}
 			}
 			public boolean canClear(){
 				return !TextUtils.isEmpty(sizeInfo);
@@ -274,7 +279,7 @@ public class OptimizerActivity extends Activity implements View.OnClickListener{
 					final OneCheckItem oci = mAdapter.getItem(ii);
 					if(oci.task == null)
 						continue;
-					SystemClock.sleep(1500);
+					SystemClock.sleep(500);
 					int rs =0;
 					if (scan )
 						rs = oci.task.doCheck(h[0]);

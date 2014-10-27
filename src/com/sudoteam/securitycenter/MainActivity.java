@@ -1,7 +1,6 @@
 package com.sudoteam.securitycenter;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,7 +18,7 @@ import com.sudoteam.securitycenter.optimizer.OptimizerActivity;
 public class MainActivity extends Activity {
 
 	private static final int[] BUTTON_IDS = {R.id.module_optimizer,R.id.module_net,R.id.module_block,
-			R.id.module_save, R.id.module_antivirse, R.id.module_mac};
+			R.id.module_save, R.id.module_antivirse, R.id.module_mac, R.id.one_key_check};
 	@Override
 	protected void onCreate(Bundle b) {
 		super.onCreate(b);
@@ -28,6 +27,9 @@ public class MainActivity extends Activity {
 		if (b == null) {
 			getFragmentManager().beginTransaction().add(R.id.container, new _Frag()).commit();
 		}
+//		ActionBar ab = getActionBar();
+//		if (ab != null)
+//			ab.hide();
 	}
 
 	@Override
@@ -50,21 +52,6 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	void replaceNewFragment(Fragment newF) {
-		if (newF == null)
-			return;
-		Fragment cur = getFragmentManager().findFragmentById(R.id.container);
-		Util.i("replaceNewFragment() cur=" + cur + ", new=" + newF);
-		if (cur != newF) {
-			android.app.FragmentTransaction ft = getFragmentManager()
-					.beginTransaction();
-			ft.replace(R.id.container, newF);
-			ft.addToBackStack(newF.toString());
-			ft.commitAllowingStateLoss();
-			Util.i("replaceNewFragment() commit()");
-		}
-	}
-
 	public static class _Frag extends MyFragment implements View.OnClickListener {
 
 		public _Frag() {
@@ -85,7 +72,9 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			final MainActivity ma = (MainActivity) getActivity();
 			int id = v.getId();
-			if (id == R.id.module_optimizer) {
+			if(id == R.id.one_key_check){
+				Toast.makeText(ma, "hmm...", Toast.LENGTH_SHORT).show();
+			}else if (id == R.id.module_optimizer) {
 				ma.startActivity(new Intent(ma, OptimizerActivity.class));
 			}else if(id == R.id.module_mac){
 				ma.startActivity(new Intent(ma, OpsActivity.class));

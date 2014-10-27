@@ -225,7 +225,6 @@ public class OpsSummary extends ListFragment implements LoaderManager.LoaderCall
             } else {
                 view = convertView;
             }
-            i("getView() pos = " + position);
 
             AppEntry item = getItem(position);
             
@@ -412,7 +411,6 @@ public class OpsSummary extends ListFragment implements LoaderManager.LoaderCall
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		final AppEntry ae = mAdapter.getItem(pos);
 		String pkg = ae.getApplicationInfo().packageName;
-		Toast.makeText(mActivity, "click " + pos +", "+pkg, Toast.LENGTH_SHORT).show();
 		final Activity act = getActivity();
 		AppOpsDetails aod = new AppOpsDetails(pkg);
 		Util.replaceNewFragment(act, R.id.container, aod);

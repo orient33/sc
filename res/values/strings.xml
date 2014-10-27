@@ -2,8 +2,10 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="app_name">SecurityCenter</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">安全中心</string>
+    <string name="one_key_check">一键体检</string>
+    <string name="one_key_check_never">您的系统从未进行体检,建议立即体检</string>
+    <string name="one_key_check_has">上次体检时间 %1$s</string>
     
     <!-- 子模块名称 -->
     <string name="module_optimizer">系统优化</string>
