@@ -2,29 +2,49 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent" >
 
     <TextView
-        android:id="@+id/sd_info"
+        android:id="@+id/mem_info"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_alignParentTop="true"
         android:background="#008888"
         android:textSize="30sp" />
 
-    <ListView
-        android:id="@+id/opt_list"
+    <GridLayout
+        android:id="@+id/opt_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/sd_info"
-        />
+        android:layout_below="@id/mem_info"
+        android:columnCount="2" >
 
-    <Button
-        android:id="@+id/check_clear"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:text="@string/start_scan" />
+        <Button
+            android:id="@+id/opt_garbage"
+            android:layout_width="180dp"
+            android:layout_height="120dp"
+            android:text="@string/opt_garbage" />
+        
+        <Button
+            android:id="@+id/opt_task"
+            android:layout_width="180dp"
+            android:layout_height="120dp"
+            android:text="@string/opt_task" />
+        
+        <Button
+            android:id="@+id/opt_selfon"
+            android:layout_width="180dp"
+            android:layout_height="120dp"
+            android:text="@string/opt_self_on" />
+        
+        <Button
+            android:id="@+id/opt_set"
+            android:layout_width="180dp"
+            android:layout_height="120dp"
+            android:text="@string/opt_set" />
+        
+
+        
+    </GridLayout>
 
 </RelativeLayout>

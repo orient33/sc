@@ -27,7 +27,7 @@
             android:layout_weight="2"
             android:layout_height="wrap_content"
             android:scaleType="centerInside"
-            android:src="@android:drawable/arrow_down_float"
+            android:src="@drawable/arrow_right"
             android:contentDescription="@null"/> <!-- 右向的  箭头 -->
 
 </LinearLayout>

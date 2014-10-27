@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -15,7 +16,10 @@ import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StatFs;
@@ -45,7 +49,7 @@ public class Util {
 		}
 	}
 	
-/**获取sd卡信息*/
+	/**获取sd卡信息*/
 	@SuppressWarnings("deprecation")
 	public static long getAvailableByte() {
 		File data = Environment.getDataDirectory();
@@ -175,7 +179,35 @@ public class Util {
 		process.waitFor();
 		return isr;
 	}
+	
+	private static HashMap<String, String > pkg2Name = new HashMap<String,String>();
+	public static String getNameForPackage(PackageManager pm, String pkgName) {
+		String title = pkg2Name.get(pkgName);
+		if (title == null) {
+			try {
+				title = pm.getApplicationInfo(pkgName, 0).loadLabel(pm).toString();
+			} catch (NameNotFoundException e) {
+				title = pkgName;
+			}
+			pkg2Name.put(pkgName, title);
+		}
+		return title;
+	}
 
+	private static HashMap<String, Drawable> pkg2Drawable = new HashMap<String,Drawable>();
+	public static Drawable getDrawableForPackage(PackageManager pm,
+			String pkgName) {
+		Drawable icon = pkg2Drawable.get(pkgName);
+		if (icon == null) {
+			try {
+				icon = pm.getApplicationInfo(pkgName,0).loadIcon(pm);
+			} catch (NameNotFoundException e) {
+				icon = pm.getDefaultActivityIcon();
+			}
+			pkg2Drawable.put(pkgName, icon);
+		}
+		return icon;
+	}
 	public static void i(String msg){
 		android.util.Log.i(TAG, ""+msg);
 	}

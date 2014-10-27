@@ -68,6 +68,7 @@ class AppEntry {
 		if (mIcon == null) {
 			if (mApkFile.exists()) {
 				mIcon = mInfo.loadIcon(mLoader.mPm);
+				Util.i("ops]] icon.height="+mIcon.getIntrinsicHeight()+", "+mLabel);
 				return mIcon;
 			} else {
 				mMounted = false;
@@ -229,9 +230,9 @@ public class OpsSummary extends ListFragment implements LoaderManager.LoaderCall
             AppEntry item = getItem(position);
             
 //            PackageStats ps = ClearUtil.getPackageStats(mContext, item.getApplicationInfo().packageName);
+            ((TextView)view.findViewById(R.id.app_name)).setText(item.getLabel());
             ((ImageView)view.findViewById(R.id.app_icon)).setImageDrawable(
                     item.getIcon());
-            ((TextView)view.findViewById(R.id.app_name)).setText(item.getLabel());
 //            ((TextView)view.findViewById(R.id.op_name)).setText("cache:"+ (ps==null?"null":f(mContext,ps.cacheSize)));
 //            ((TextView)view.findViewById(R.id.op_time)).setText("code:"+ (ps==null?"null":f(mContext,ps.codeSize)) +
 //            		", data:"+(ps==null?"null":f(mContext,ps.dataSize)));
@@ -267,11 +268,11 @@ public class OpsSummary extends ListFragment implements LoaderManager.LoaderCall
 	        // Create corresponding array of entries and load their labels.
 	        List<AppEntry> entries = new ArrayList<AppEntry>(apps.size());
 	        for (ApplicationInfo ai : apps) {
-				if ((ai.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
+//				if ((ai.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
 					AppEntry entry = new AppEntry(this, ai);
 					entry.loadLabel(context);
 					entries.add(entry);
-				}
+//				}
 	        }
 	        // Sort the list.
 	        Collections.sort(entries, ALPHA_COMPARATOR);

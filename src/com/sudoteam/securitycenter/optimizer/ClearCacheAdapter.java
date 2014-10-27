@@ -190,7 +190,6 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
 		} else {
 			vh.title.setText("loading...");
 		}
-		Util.i(TAG+" getView() position = "+position);
 		return v;
 	}
 	class ViewHold{
@@ -240,13 +239,6 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
 	}
 
 	@Override
-	public void clickItem(int pos) {
-		final AppCacheInfo aci = mList.get(pos);
-		if (aci != null)
-			Util.toAppDetail(mContext, aci.info.packageName);
-	}
-
-	@Override
 	public int getCurrentCount() {
 		if (mList != null && mList.size() > 0) {
 			int count = 0;
@@ -259,6 +251,8 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
 
 	@Override
 	public int optimizeSelect(boolean all) {
+		if (mList == null)
+			return 0;
 		long before = Util.getAvailableByte();
 		long count = 0l;
 		for (AppCacheInfo aci : mList) {
@@ -270,6 +264,7 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
 		long after = Util.getAvailableByte();
 		Util.i("实际值 : " + (after - before) + ",,, 应该是 ： " + count + ",,, 相差: "
 				+ (after - before - count));
+		refresh();
 		return (int) ((after - before) / 1024 / 1024);
 	}
 }

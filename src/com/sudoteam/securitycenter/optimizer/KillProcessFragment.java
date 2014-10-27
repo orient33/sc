@@ -1,6 +1,7 @@
 package com.sudoteam.securitycenter.optimizer;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,19 +16,12 @@ import android.widget.Toast;
 
 import com.sudoteam.securitycenter.MyFragment;
 import com.sudoteam.securitycenter.R;
-import com.sudoteam.securitycenter.Util;
 
 public class KillProcessFragment extends MyFragment implements
 		View.OnClickListener, AdapterView.OnItemClickListener {
 	static final int UPDATE_CHECKBOX = 0;
 	
-	private static KillProcessFragment ins;
-	public static KillProcessFragment get(){
-		if(ins == null)
-			ins = new KillProcessFragment();
-		return ins;
-	}
-	private KillProcessFragment(){}
+	KillProcessFragment(){}
 	
 	Activity mActivity;
 	ListView mListView;
@@ -67,8 +61,17 @@ public class KillProcessFragment extends MyFragment implements
 	@Override
 	public void onResume(){
 		super.onResume();
-		mAdapter.doCheck(mHandler);
-		mAdapter.notifyDataSetChanged();
+		new AsyncTask<Object, Object, Object>(){
+			@Override
+			protected Object doInBackground(Object... params) {
+				mAdapter.doCheck(mHandler);
+				return null;
+			}
+			@Override
+			protected void onPostExecute(Object l){
+				mAdapter.notifyDataSetChanged();
+			}
+		}.execute("");
 	}
 	@Override
 	public void onClick(View v) {
@@ -91,6 +94,7 @@ public class KillProcessFragment extends MyFragment implements
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		mAdapter.clickItem(position);
+		KillProcessDialog d = new KillProcessDialog(mAdapter.getItem(position));
+		d.show(mActivity.getFragmentManager(),"KillProcessDialog");
 	}
 }

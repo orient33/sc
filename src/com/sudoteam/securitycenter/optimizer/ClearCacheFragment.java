@@ -1,7 +1,6 @@
 package com.sudoteam.securitycenter.optimizer;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,19 +15,16 @@ import android.widget.Toast;
 
 import com.sudoteam.securitycenter.MyFragment;
 import com.sudoteam.securitycenter.R;
+import com.sudoteam.securitycenter.Util;
+import com.sudoteam.securitycenter.optimizer.ClearCacheAdapter.AppCacheInfo;
 
 public class ClearCacheFragment extends MyFragment implements View.OnClickListener,
 	AdapterView.OnItemClickListener {
 	static final int UPDATE_CHECKBOX = 110;
 	static final int NO_CACHE= 0,
 			CLEAR_OK = 1;
-	private static ClearCacheFragment ins;
-	public static ClearCacheFragment get(){
-		if(ins == null)
-			ins = new ClearCacheFragment();
-		return ins;
-	}
-	private ClearCacheFragment(){}
+
+	ClearCacheFragment(){}
 	
 	Activity mActivity;
 	ListView mListView;
@@ -102,6 +98,8 @@ public class ClearCacheFragment extends MyFragment implements View.OnClickListen
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		mAdapter.clickItem(position);
+		final AppCacheInfo aci = mAdapter.getItem(position);
+		if (aci != null)
+			Util.toAppDetail(mActivity, aci.info.packageName);
 	}
 }

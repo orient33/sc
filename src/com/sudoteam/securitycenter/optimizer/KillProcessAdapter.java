@@ -8,13 +8,17 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
+import android.os.Debug;
 import android.os.Handler;
+import android.text.format.Formatter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,12 +58,21 @@ public class KillProcessAdapter extends BaseAdapter implements IScan {
 		// mWhiteList.add("com.android.smspush");
 	}
 
-	static class KillItem implements java.lang.Comparable<KillItem> {
+	class KillItem implements java.lang.Comparable<KillItem> {
 		final RunningAppProcessInfo appInfo;
 		boolean selected = true;
+		Drawable icon;
+		String title;
+		String memUse;
 
 		KillItem(RunningAppProcessInfo p) {
 			appInfo = p;
+			
+			title = Util.getNameForPackage(mPM, appInfo.processName);
+			icon = Util.getDrawableForPackage(mPM, appInfo.processName);
+			
+			Debug.MemoryInfo[] mi = mAM.getProcessMemoryInfo(new int[]{appInfo.pid});
+			memUse = Formatter.formatFileSize(mContext, mi[0].getTotalPss()*1024);
 		}
 
 		@Override
@@ -121,20 +134,23 @@ public class KillProcessAdapter extends BaseAdapter implements IScan {
 
 	@Override
 	public View getView(int position, View v, ViewGroup parent) {
-		if (v == null)
-			v = View.inflate(mContext, R.layout.kill_process_item, null);
-		TextView title = (TextView) v.findViewById(R.id.kill_item_title);
-		TextView size = (TextView) v.findViewById(R.id.kill_item_size);
-		TextView impor = (TextView) v.findViewById(R.id.kill_item_importance);
-		CheckBox cb = (CheckBox) v.findViewById(R.id.kill_item_cb);
+		ViewHold vh ;
 		final KillItem one = (KillItem) getItem(position);
+		
+		if (v == null){
+			v = View.inflate(mContext, R.layout.kill_process_item, null);
+			vh = new ViewHold(v);
+			v.setTag(vh);
+		}else{
+			vh = (ViewHold)v.getTag();
+		}
 		if (one != null) {
-			title.setText(one.appInfo.processName);
-			// size.setText(one.appInfo.processName);
-			size.setVisibility(View.GONE);
-			impor.setText(" " + one.appInfo.importance);
-			cb.setChecked(one.selected);
-			cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			vh.title.setText(one.title+"");
+			vh.impor.setText(" " + one.appInfo.importance);
+			vh.size.setText(one.memUse);
+			vh.icon.setImageDrawable(one.icon);
+			vh.cb.setChecked(one.selected);
+			vh.cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				public void onCheckedChanged(CompoundButton buttonView,
 						boolean isChecked) {
 					one.selected = isChecked;
@@ -143,14 +159,28 @@ public class KillProcessAdapter extends BaseAdapter implements IScan {
 			});
 		} else {
 			String loading = "loading...";
-			title.setText(loading);
-			size.setText(loading);
-			impor.setText(loading);
+			vh.title.setText(loading);
+			vh.size.setText(loading);
+			vh.impor.setText(loading);
 		}
 		return v;
 	}
 
-	List<KillItem> getItems() {
+	class ViewHold {
+		TextView title, size, impor;
+		CheckBox cb;
+		ImageView icon;
+
+		ViewHold(View v) {
+			title = (TextView) v.findViewById(R.id.kill_item_title);
+			size = (TextView) v.findViewById(R.id.kill_item_size);
+			impor = (TextView) v.findViewById(R.id.kill_item_importance);
+			cb = (CheckBox) v.findViewById(R.id.kill_item_cb);
+			icon = (ImageView) v.findViewById(R.id.kill_item_icon);
+		}
+	}
+
+	private List<KillItem> getItems() {
 		List<RunningAppProcessInfo> list = mAM.getRunningAppProcesses();
 		ArrayList<KillItem> data = new ArrayList<KillItem>();
 		if (list != null)
@@ -182,11 +212,6 @@ public class KillProcessAdapter extends BaseAdapter implements IScan {
 		mList = getItems();
 		Util.i("KillProcessAdapter=-- doCheck() size=" + mList.size());
 		return getCurrentCount();
-	}
-
-	@Override
-	public void clickItem(int pos) {
-		Toast.makeText(mContext, "TODO.", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
