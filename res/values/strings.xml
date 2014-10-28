@@ -48,6 +48,9 @@
 	
 	<string name="start_scan">开始扫描</string>
 	<string name="clear_all">一键清理</string>
+	<string name="need_no_clear">无需清理</string>
+	<string name="scanning">正在扫描 : </string>
+	<string name="scan_complete">扫描完成</string>
 	<string name="sd_info">可用 %1$s / 共 %2$s</string>
 	<string name="find_no_cache">没有发现系统缓存</string>
 	<string name="clear_ok">清理完成</string>

@@ -11,7 +11,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.StatFs;
-import android.os.SystemClock;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
@@ -29,17 +28,24 @@ import com.sudoteam.securitycenter.Util;
 
 public class ClearFragment extends MyFragment implements View.OnClickListener{
 
-	public static final int MSG_UPDATE_UI = 10;
+	public static final int MSG_UPDATE_UI = 10, MSG_UPDATE_PROGRESS = 11;
+	static final int names[] = {R.string.app_cache,R.string.sdcard_cache/*,R.string.kill_app*/};
+	static final int summarys[] = {R.string.app_cache_summary, R.string.sdcard_cache_summary/*,R.string.kill_app_summary*/};
 	Activity mmActivity;
-	TextView mmSD;
+	TextView mmSD, mmProgress;
 	Button mmButton;
+	String mScaningString, mScanCompleted;
+	MyAdapter mAdapter;
 	public ClearFragment() { }
 	private Handler mmHandler = new Handler(){
 		@Override
 		public void handleMessage(Message msg){
 			switch(msg.what){
 			case MSG_UPDATE_UI:
-				updateButton();
+				updateButton(msg.arg1 != 0);
+				break;
+			case MSG_UPDATE_PROGRESS:
+				updateProgress(msg.obj.toString());
 				break;
 			}
 		}
@@ -48,28 +54,29 @@ public class ClearFragment extends MyFragment implements View.OnClickListener{
 	public void onCreate(Bundle b){
 		super.onCreate(b);
 		mmActivity = getActivity();
+		mScaningString = mmActivity.getString(R.string.scanning);
+		mScanCompleted = mmActivity.getString(R.string.scan_complete);
 	}
-	static final int names[] = {R.string.app_cache,R.string.sdcard_cache/*,R.string.kill_app*/};
-	static final int summarys[] = {R.string.app_cache_summary, R.string.sdcard_cache_summary/*,R.string.kill_app_summary*/};
-	MyAdapter mAdapter;
+
 	@Override
 	public View onCreateView(LayoutInflater li, ViewGroup vg, Bundle b){
 		View v = li.inflate(R.layout.clear_fragment, null);
 		mmSD = (TextView)v.findViewById(R.id.sd_info);
+		mmProgress = (TextView)v.findViewById(R.id.opt_progress);
 		mmButton = (Button)v.findViewById(R.id.check_clear);
 		ListView mmListView = (ListView)v.findViewById(R.id.opt_list);
 		mmButton.setOnClickListener(this);//开始扫描 or 一键清理
 		mAdapter= new MyAdapter();
 		mAdapter.bind();
 		mmListView.setAdapter(mAdapter);
-		
+
+		updateButton(false);
 		setSDcardInfo(mmSD);
 		return v;
 	}
 	@Override
 	public void onResume(){
 		refreshCacheInfo();
-		updateButton();
 		mAdapter.notifyDataSetChanged();
 		super.onResume();
 	}
@@ -79,8 +86,8 @@ public class ClearFragment extends MyFragment implements View.OnClickListener{
 		super.onDestroy();
 		mAdapter.unbind();
 		mmHandler.removeMessages(MSG_UPDATE_UI);
-		
 	}
+
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()){
@@ -90,12 +97,24 @@ public class ClearFragment extends MyFragment implements View.OnClickListener{
 			break;
 		}
 	}
-	private void updateButton(){
+
+	private void updateButton(boolean scaned){
 		if(mAdapter.canClear()){
 			mmButton.setText(R.string.clear_all);
 		}else{
-			mmButton.setText(R.string.start_scan);
+			if(scaned){
+				mmButton.setText(R.string.need_no_clear);
+				mmActivity.onBackPressed();
+			}else
+				mmButton.setText(R.string.start_scan);
 		}
+	}
+	
+	private void updateProgress(String s){
+		if(TextUtils.isEmpty(s))
+			mmProgress.setText(mScanCompleted);
+		else
+			mmProgress.setText(mScaningString+s);
 	}
 
 	private void refreshCacheInfo(){
@@ -122,8 +141,8 @@ public class ClearFragment extends MyFragment implements View.OnClickListener{
 		void bind(){
 			if (list.size() > 0)
 				return;
-			Fragment ff[] = { new ClearCacheFragment(), null/*, KillProcessFragment.get()*/ };
-			IScan scans[] = { ClearCacheAdapter.get(mmActivity, mmHandler), null /*,KillProcessAdapter.get(mmActivity, mmHandler)*/};
+			Fragment ff[] = { new ClearCacheFragment(), null};
+			IScan scans[] = { ClearCacheAdapter.get(mmActivity, null), null};
 			for (int ii = 0; ii < names.length; ++ii) {
 				OneCheckItem oci = new OneCheckItem(names[ii], summarys[ii], ff[ii], scans[ii]);
 				list.add(oci);
@@ -219,6 +238,7 @@ public class ClearFragment extends MyFragment implements View.OnClickListener{
 				sizeInfo = Formatter.formatFileSize(mmActivity, rs);
 			}
 		}
+
 		public boolean canClear(){
 			return !TextUtils.isEmpty(sizeInfo);
 		}
@@ -249,10 +269,9 @@ public class ClearFragment extends MyFragment implements View.OnClickListener{
 				final OneCheckItem oci = mAdapter.getItem(ii);
 				if(oci.task == null)
 					continue;
-				SystemClock.sleep(500);
 				int rs =0;
 				if (scan )
-					rs = oci.task.doCheck(h[0]);
+					rs = oci.task.doCheck(h[0],MSG_UPDATE_PROGRESS);
 				else
 					oci.task.optimizeSelect(true);
 				Util.i("scan task , result == "+ rs);
@@ -264,9 +283,10 @@ public class ClearFragment extends MyFragment implements View.OnClickListener{
 				});
 			}
 			Util.i("scan task complete !.");
-			h[0].sendEmptyMessage(MSG_UPDATE_UI);
+			h[0].obtainMessage(MSG_UPDATE_UI, 1, 1).sendToTarget();
 			return null;
 		}
+
 		@Override
 		protected void onPostExecute(Object o){
 			v.setEnabled(true);

@@ -35,19 +35,23 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
 	private static ClearCacheAdapter ins;
 	final Context mContext;
 	final PackageManager mPM;
-	final Handler mHandler;
 	List<AppCacheInfo> mList;
+	private ISelectCallback callback;
 
-	static ClearCacheAdapter get(Context c, Handler h) {
+	static ClearCacheAdapter get(Context c, ISelectCallback cb) {
 		if (ins == null)
-			ins = new ClearCacheAdapter(c, h);
+			ins = new ClearCacheAdapter(c, cb);
 		return ins;
 	}
+	
+	public void setCallback(ISelectCallback cb){
+		callback = cb;
+	}
 
-	private ClearCacheAdapter(Context c, Handler h) {
+	private ClearCacheAdapter(Context c, ISelectCallback cb) {
 		mContext = c.getApplicationContext();
 		mPM = c.getPackageManager();
-		mHandler = h;
+		callback = cb;
 	}
 
 	public static class AppCacheInfo {
@@ -56,7 +60,7 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
 		final long id;
 		long cacheSize;
 		String label;
-		boolean mounted, selected;
+		boolean mounted, selected=true;
 		ApplicationInfo info;
 		Drawable icon;
 
@@ -122,7 +126,7 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
 	void refresh() {
 		if (mList != null)
 			mList.clear();
-		doCheck(null);
+		doCheck(null,0);
 		notifyDataSetChanged();
 	}
 	@Override
@@ -185,6 +189,9 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
 				public void onCheckedChanged(CompoundButton bv,
 						boolean isChecked) {
 					aci.selected = isChecked;
+					if(callback != null)
+						callback.selectChanged();
+					notifyDataSetChanged();
 				}
 			});
 		} else {
@@ -204,9 +211,11 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
 		}
 	}
 
-	/** 必须在 非UI线程 执行 */
+	/** 必须在 非UI线程 执行 
+	 * @param h 进度观察
+	 * @return 垃圾/缓存总大小 */
 	@Override
-	public int doCheck(Handler h) {
+	public int doCheck(Handler h, int what) {
 		final long start = System.currentTimeMillis();
 		PackageManager pm = mPM;
 		final ArrayList<AppCacheInfo> data = new ArrayList<AppCacheInfo>();
@@ -216,11 +225,16 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
 			for (ApplicationInfo ai : list) {
 				AppCacheInfo aci = new AppCacheInfo(mContext, ai, 0l);
 				pm.getPackageSizeInfo(ai.packageName, aci.pso);
-				// if(aci.cacheSize > 0)
+				if(h != null){
+					h.obtainMessage(what, aci.label).sendToTarget();
+					SystemClock.sleep(10);
+				}
 				data.add(aci);
 				++AppCacheInfo.findApp;
 			}
 		}
+		if(h != null)
+			h.obtainMessage(what, "").sendToTarget();
 		Util.i("load app info , count = " + data.size());
 		int maxLoop = 10;
 		while (AppCacheInfo.findApp > 0 && maxLoop-- > 0)
@@ -265,6 +279,6 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
 		Util.i("实际值 : " + (after - before) + ",,, 应该是 ： " + count + ",,, 相差: "
 				+ (after - before - count));
 		refresh();
-		return (int) ((after - before) / 1024 / 1024);
+		return (int)count;
 	}
 }

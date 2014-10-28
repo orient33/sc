@@ -20,7 +20,6 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sudoteam.securitycenter.R;
 import com.sudoteam.securitycenter.Util;
@@ -34,16 +33,18 @@ public class KillProcessAdapter extends BaseAdapter implements IScan {
 	List<KillItem> mList;
 	List<String> mWhiteList = new ArrayList<String>();
 	private static KillProcessAdapter ins;
+	private final ISelectCallback callback;
 
-	static KillProcessAdapter get(Context c, Handler h) {
+	static KillProcessAdapter get(Context c, Handler h,ISelectCallback cb) {
 		if (ins == null)
-			ins = new KillProcessAdapter(c, h);
+			ins = new KillProcessAdapter(c, h, cb);
 		return ins;
 	}
 
-	private KillProcessAdapter(Context c, Handler h) {
+	private KillProcessAdapter(Context c, Handler h, ISelectCallback cb) {
 		mContext = c;
 		mHandler = h;
+		callback = cb;
 		mPM = c.getPackageManager();
 		mAM = (ActivityManager) c.getSystemService(Context.ACTIVITY_SERVICE);
 		// mList = getItems();
@@ -101,7 +102,11 @@ public class KillProcessAdapter extends BaseAdapter implements IScan {
 
 	@Override
 	public KillItem getItem(int position) {
-		return mList == null ? null : mList.get(position);
+		if (mList == null)
+			return null;
+		if (mList.size() <= position)
+			return null;
+		return mList.get(position);
 	}
 
 	@Override
@@ -154,6 +159,8 @@ public class KillProcessAdapter extends BaseAdapter implements IScan {
 				public void onCheckedChanged(CompoundButton buttonView,
 						boolean isChecked) {
 					one.selected = isChecked;
+					if(callback != null)
+						callback.selectChanged();
 					notifyDataSetChanged();
 				}
 			});
@@ -206,7 +213,7 @@ public class KillProcessAdapter extends BaseAdapter implements IScan {
 	 */
 
 	@Override
-	public int doCheck(Handler h) {
+	public int doCheck(Handler h, int what) {
 		if (mList != null)
 			mList.clear();
 		mList = getItems();
@@ -242,7 +249,8 @@ public class KillProcessAdapter extends BaseAdapter implements IScan {
 				mAM.forceStopPackage(rapi.processName);
 			}
 		}
-		refresh();
+		if (!all)
+			refresh();
 		return count;
 	}
 }

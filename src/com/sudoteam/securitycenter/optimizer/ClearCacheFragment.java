@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,11 +38,11 @@ public class ClearCacheFragment extends MyFragment implements View.OnClickListen
 			switch(msg.what){
 			case NO_CACHE:
 				showToast(getString(R.string.find_no_cache));
-				finish();
+				mActivity.onBackPressed();
 				break;
 			case CLEAR_OK:
 				showToast(msg.obj.toString());
-				finish();
+				mActivity.onBackPressed();
 				break;
 			case UPDATE_CHECKBOX:
 				boolean checked = mAdapter.isSelectAll();
@@ -49,10 +50,11 @@ public class ClearCacheFragment extends MyFragment implements View.OnClickListen
 			}
 		}
 	};
-	private void finish(){
-//		getFragmentManager().beginTransaction().detach(this).commit();
-		Toast.makeText(mActivity, "how to finish a Fragment! -:(", Toast.LENGTH_SHORT).show();
-	}
+	private ISelectCallback callback = new ISelectCallback(){
+		@Override
+		public void selectChanged() {
+			mHandler.sendEmptyMessage(UPDATE_CHECKBOX);
+		}};
 
 	@Override
 	public View onCreateView(LayoutInflater li, ViewGroup vg, Bundle b){
@@ -61,18 +63,19 @@ public class ClearCacheFragment extends MyFragment implements View.OnClickListen
 		mClearAll = (Button)v.findViewById(R.id.clear_all_button);
 		mCheckboxAll = (CheckBox)v.findViewById(R.id.clear_cb);
 		mListView = (ListView)v.findViewById(R.id.clear_list);
-		mAdapter = ClearCacheAdapter.get(mActivity, mHandler);
+		mAdapter = ClearCacheAdapter.get(mActivity, callback);
+		mAdapter.setCallback(callback);
 		mListView.setAdapter(mAdapter);
 		mListView.setOnItemClickListener(this);
 		mClearAll.setOnClickListener(this);
 		mCheckboxAll.setOnClickListener(this);
 		mCheckboxAll.setFocusable(false);
-		mHandler.sendEmptyMessageDelayed(UPDATE_CHECKBOX, 200);
 		return v;
 	}
 	@Override
 	public void onResume(){
 		super.onResume();
+		mHandler.sendEmptyMessageDelayed(UPDATE_CHECKBOX, 10);
 	}
 
 	@Override
@@ -81,7 +84,7 @@ public class ClearCacheFragment extends MyFragment implements View.OnClickListen
 		case R.id.clear_all_button:
 			int c = mAdapter.optimizeSelect(mCheckboxAll.isChecked());
 			Message m = mHandler.obtainMessage(CLEAR_OK,
-					getString(R.string.clear_ok) + c+"  MB");
+					getString(R.string.clear_ok) + Formatter.formatFileSize(mActivity, c));
 			m.sendToTarget();
 			break;
 		case R.id.clear_cb:

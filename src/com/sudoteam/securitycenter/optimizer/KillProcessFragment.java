@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.sudoteam.securitycenter.MyFragment;
@@ -38,6 +39,12 @@ public class KillProcessFragment extends MyFragment implements
 			}
 		}
 	};
+	
+	private ISelectCallback callback = new ISelectCallback(){
+		@Override
+		public void selectChanged() {
+			mHandler.sendEmptyMessage(UPDATE_CHECKBOX);
+		}};
 	void finish(){
 		Toast.makeText(mActivity, "how to finish a Fragment! -:(", Toast.LENGTH_SHORT).show();
 	}
@@ -49,22 +56,23 @@ public class KillProcessFragment extends MyFragment implements
 		mClearAll = (Button)v.findViewById(R.id.clear_all_button);
 		mCheckboxAll = (CheckBox)v.findViewById(R.id.clear_cb);
 		mListView = (ListView)v.findViewById(R.id.clear_list);
-		mAdapter = KillProcessAdapter.get(mActivity, mHandler);
+		mAdapter = KillProcessAdapter.get(mActivity, mHandler,callback);
 		mListView.setAdapter(mAdapter);
 		mListView.setOnItemClickListener(this);
+		mListView.setEmptyView(new ProgressBar(mActivity));
 		mClearAll.setOnClickListener(this);
 		mCheckboxAll.setOnClickListener(this);
 		mCheckboxAll.setFocusable(false);
-		mHandler.sendEmptyMessageDelayed(UPDATE_CHECKBOX, 200);
 		return v;
 	}
 	@Override
 	public void onResume(){
 		super.onResume();
+		mHandler.sendEmptyMessageDelayed(UPDATE_CHECKBOX, 20);
 		new AsyncTask<Object, Object, Object>(){
 			@Override
 			protected Object doInBackground(Object... params) {
-				mAdapter.doCheck(mHandler);
+				mAdapter.doCheck(mHandler, 0);
 				return null;
 			}
 			@Override
@@ -75,14 +83,16 @@ public class KillProcessFragment extends MyFragment implements
 	}
 	@Override
 	public void onClick(View v) {
-		boolean now = mCheckboxAll.isChecked();
+		boolean all = mCheckboxAll.isChecked();
 		int id = v.getId();
 			switch (id) {
 			case R.id.clear_cb:		//全选框
-				mAdapter.select(now);
+				mAdapter.select(all);
 				break;
 			case R.id.clear_all_button: // 一键清理
-				mAdapter.optimizeSelect(now);
+				mAdapter.optimizeSelect(all);
+				if(all)
+					mActivity.onBackPressed();
 				break;
 		}
 	}
