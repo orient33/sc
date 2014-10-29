@@ -1,13 +1,5 @@
 package com.sudoteam.securitycenter;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.util.HashMap;
-
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.MemoryInfo;
@@ -33,35 +25,49 @@ import android.widget.ListView;
 import android.widget.TabWidget;
 import android.widget.Toast;
 
-public class Util {
-	public static String TAG = "godin";
-	
-	public static void replaceNewFragment(Activity act,int container_id, Fragment newF) {
-		if (newF == null)
-			return;
-		Fragment cur = act.getFragmentManager().findFragmentById(container_id);
-		Util.i("Activity="+act+", replaceNewFragment() cur=" + cur + ", new = " + newF);
-		if (cur != newF) {
-			FragmentTransaction ft = act.getFragmentManager().beginTransaction();
-			ft.replace(container_id, newF);
-			ft.addToBackStack(newF.toString());
-			ft.commitAllowingStateLoss();
-		}
-	}
-	
-	/**获取sd卡信息*/
-	@SuppressWarnings("deprecation")
-	public static long getAvailableByte() {
-		File data = Environment.getDataDirectory();
-		String str = data.getPath();
-		StatFs fs = new StatFs(str);
-		long size2 = fs.getBlockSize();// from API 18, use getBlockSizeLong()
-		long available = fs.getAvailableBlocks() * size2;
-		return available;
-	}
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.util.HashMap;
 
-	
-	/**获取当前可用内存大小*/
+public class Util {
+    public static String TAG = "godin";
+    private static HashMap<String, String> pkg2Name = new HashMap<String, String>();
+    private static HashMap<String, Drawable> pkg2Drawable = new HashMap<String, Drawable>();
+
+    public static void replaceNewFragment(Activity act, int container_id, Fragment newF) {
+        if (newF == null)
+            return;
+        Fragment cur = act.getFragmentManager().findFragmentById(container_id);
+        Util.i("Activity=" + act + ", replaceNewFragment() cur=" + cur + ", new = " + newF);
+        if (cur != newF) {
+            FragmentTransaction ft = act.getFragmentManager().beginTransaction();
+            ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.animator.fade_in, android.R.animator.fade_out);
+            ft.replace(container_id, newF);
+            ft.addToBackStack(newF.toString());
+            ft.commitAllowingStateLoss();
+        }
+    }
+
+    /**
+     * 获取sd卡信息
+     */
+    @SuppressWarnings("deprecation")
+    public static long getAvailableByte() {
+        File data = Environment.getDataDirectory();
+        String str = data.getPath();
+        StatFs fs = new StatFs(str);
+        long size2 = fs.getBlockSize();// from API 18, use getBlockSizeLong()
+        long available = fs.getAvailableBlocks() * size2;
+        return available;
+    }
+
+    /**
+     * 获取当前可用内存大小
+     */
     public static long getAvailMemory(Context context) {
         // 获取android当前可用内存大小
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -72,20 +78,22 @@ public class Util {
         Log.d(TAG, "可用内存---->>>" + mi.availMem / (1024 * 1024));
         return mi.availMem / (1024 * 1024);
     }
-	/** 转到设置中的应用信息详情界面 */
-	public static void toAppDetail(Context c, String pkgName){
-		Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);  
-		Uri uri = Uri.fromParts("package"/*SCHEME*/, pkgName, null);  
-		intent.setData(uri);  
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		try{
-			c.startActivity(intent);
-		}catch(ActivityNotFoundException e){
-			Toast.makeText(c, "can not find app for "+ pkgName, Toast.LENGTH_SHORT).show();
-		}
-	}
-	
-	
+
+    /**
+     * 转到设置中的应用信息详情界面
+     */
+    public static void toAppDetail(Context c, String pkgName) {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package"/*SCHEME*/, pkgName, null);
+        intent.setData(uri);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            c.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(c, "can not find app for " + pkgName, Toast.LENGTH_SHORT).show();
+        }
+    }
+
     /**
      * Prepare a custom preferences layout, moving padding to {@link ListView}
      * when outside scrollbars are requested. Usually used to display
@@ -106,116 +114,117 @@ public class Util {
             list.setPaddingRelative(effectivePaddingSide, 0, effectivePaddingSide, paddingBottom);
         }
     }
-    
-	/** 查询是否root了 */
-	public static boolean isRooted(Context c) {
-		String rooted = c.getString(R.string.rooted), un_root = c
-				.getString(R.string.root_unavalable);
-		try {
-			String result = execShell("type su"); // eg : su is tracked alias for /system/xbin/su
-			String su_path = result.substring(result.lastIndexOf(" ")); // eg : /system/xbin/su
-			result = execShell("md5  " + su_path);
-			String md5 = result.substring(0, result.indexOf(" "));
-			boolean noRoot = TextUtils.isEmpty(md5);
-			Toast.makeText(c, (noRoot ? un_root : rooted) + md5, Toast.LENGTH_LONG).show();
-			return !noRoot;
-		} catch (Exception e) {
-			e("[Util] "+e);
-		}
-		return false;
-	}
 
-	public static String execShell(String cmd){
-		String[] cmdStrings = new String[] {"sh", "-c", cmd};
-		Runtime run = Runtime.getRuntime();
-		StringBuilder sb = new StringBuilder("");
-		try {
-			Process proc = run.exec(cmdStrings);
-			InputStream in = proc.getInputStream();
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			String line="";
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
-				sb.append("\n");
-			}
-			if (proc.waitFor() != 0) {
+    /**
+     * 查询是否root了
+     */
+    public static boolean isRooted(Context c) {
+        String rooted = c.getString(R.string.rooted), un_root = c
+                .getString(R.string.root_unavalable);
+        try {
+            String result = execShell("type su"); // eg : su is tracked alias for /system/xbin/su
+            String su_path = result.substring(result.lastIndexOf(" ")); // eg : /system/xbin/su
+            result = execShell("md5  " + su_path);
+            String md5 = result.substring(0, result.indexOf(" "));
+            boolean noRoot = TextUtils.isEmpty(md5);
+            Toast.makeText(c, (noRoot ? un_root : rooted) + md5, Toast.LENGTH_LONG).show();
+            return !noRoot;
+        } catch (Exception e) {
+            e("[Util] " + e);
+        }
+        return false;
+    }
 
-			}
-		} catch (Exception e) {
-			Log.e(TAG, e.toString());
-		}
-		return sb.toString();
-	}
-	
+    public static String execShell(String cmd) {
+        String[] cmdStrings = new String[]{"sh", "-c", cmd};
+        Runtime run = Runtime.getRuntime();
+        StringBuilder sb = new StringBuilder("");
+        try {
+            Process proc = run.exec(cmdStrings);
+            InputStream in = proc.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+                sb.append("\n");
+            }
+            if (proc.waitFor() != 0) {
 
-	 boolean isRoot(){
-		 BufferedReader br;  
-        boolean flag=false;  
-        try {  
-            br = new BufferedReader(suTerminal("ls /data/"));   //目录哪都行，不一定要需要ROOT权限的  
-            if(br.readLine()!=null)
-            	flag=true;  //根据是否有返回来判断是否有root权限  
-        } catch (Exception e1) {  
-        }  
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+        return sb.toString();
+    }
+
+    public static String getNameForPackage(PackageManager pm, String pkgName) {
+        String title = pkg2Name.get(pkgName);
+        if (title == null) {
+            try {
+                title = pm.getApplicationInfo(pkgName, 0).loadLabel(pm).toString();
+            } catch (NameNotFoundException e) {
+                title = pkgName;
+            }
+            pkg2Name.put(pkgName, title);
+        }
+        return title;
+    }
+
+    public static Drawable getDrawableForPackage(PackageManager pm,
+                                                 String pkgName) {
+        Drawable icon = pkg2Drawable.get(pkgName);
+        if (icon == null) {
+            try {
+                icon = pm.getApplicationInfo(pkgName, 0).loadIcon(pm);
+            } catch (NameNotFoundException e) {
+                icon = pm.getDefaultActivityIcon();
+            }
+            pkg2Drawable.put(pkgName, icon);
+        }
+        return icon;
+    }
+
+    public static void i(String msg) {
+        android.util.Log.i(TAG, "" + msg);
+    }
+
+    public static void w(String msg) {
+        android.util.Log.w(TAG, "" + msg);
+    }
+
+    public static void e(String msg) {
+        android.util.Log.e(TAG, "" + msg);
+    }
+
+    boolean isRoot() {
+        BufferedReader br;
+        boolean flag = false;
+        try {
+            br = new BufferedReader(suTerminal("ls /data/"));   //目录哪都行，不一定要需要ROOT权限的
+            if (br.readLine() != null)
+                flag = true;  //根据是否有返回来判断是否有root权限
+        } catch (Exception e1) {
+        }
         return flag;
-	}
+    }
 
-	public InputStreamReader suTerminal(String command) throws Exception {
-		Process process = Runtime.getRuntime().exec("su");
-		// 执行到这，Superuser会跳出来，选择是否允许获取最高权限
-		OutputStream outstream = process.getOutputStream();
-		DataOutputStream DOPS = new DataOutputStream(outstream);
-		InputStream instream = process.getInputStream();
-		InputStreamReader isr = new InputStreamReader(instream);
-		String temp = command + "\n";
-		// 加回车
-		DOPS.writeBytes(temp);
-		// 执行
-		DOPS.flush();
-		// 刷新，确保都发送到outputstream
-		DOPS.writeBytes("exit\n");
-		// 退出
-		DOPS.flush();
-		process.waitFor();
-		return isr;
-	}
-	
-	private static HashMap<String, String > pkg2Name = new HashMap<String,String>();
-	public static String getNameForPackage(PackageManager pm, String pkgName) {
-		String title = pkg2Name.get(pkgName);
-		if (title == null) {
-			try {
-				title = pm.getApplicationInfo(pkgName, 0).loadLabel(pm).toString();
-			} catch (NameNotFoundException e) {
-				title = pkgName;
-			}
-			pkg2Name.put(pkgName, title);
-		}
-		return title;
-	}
-
-	private static HashMap<String, Drawable> pkg2Drawable = new HashMap<String,Drawable>();
-	public static Drawable getDrawableForPackage(PackageManager pm,
-			String pkgName) {
-		Drawable icon = pkg2Drawable.get(pkgName);
-		if (icon == null) {
-			try {
-				icon = pm.getApplicationInfo(pkgName,0).loadIcon(pm);
-			} catch (NameNotFoundException e) {
-				icon = pm.getDefaultActivityIcon();
-			}
-			pkg2Drawable.put(pkgName, icon);
-		}
-		return icon;
-	}
-	public static void i(String msg){
-		android.util.Log.i(TAG, ""+msg);
-	}
-	
-	public static void w(String msg){
-		android.util.Log.w(TAG, ""+msg);
-	}
-	public static void e(String msg){
-		android.util.Log.e(TAG, ""+msg);
-	}
+    public InputStreamReader suTerminal(String command) throws Exception {
+        Process process = Runtime.getRuntime().exec("su");
+        // 执行到这，Superuser会跳出来，选择是否允许获取最高权限
+        OutputStream outstream = process.getOutputStream();
+        DataOutputStream DOPS = new DataOutputStream(outstream);
+        InputStream instream = process.getInputStream();
+        InputStreamReader isr = new InputStreamReader(instream);
+        String temp = command + "\n";
+        // 加回车
+        DOPS.writeBytes(temp);
+        // 执行
+        DOPS.flush();
+        // 刷新，确保都发送到outputstream
+        DOPS.writeBytes("exit\n");
+        // 退出
+        DOPS.flush();
+        process.waitFor();
+        return isr;
+    }
 }

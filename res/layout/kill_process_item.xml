@@ -12,20 +12,30 @@
         android:focusable="false"
         android:layout_weight="1" />
     
-    <ImageView android:id="@+id/kill_item_icon"
+    <ImageView
+        android:id="@+id/kill_item_icon"
         android:layout_width="@android:dimen/app_icon_size"
         android:layout_height="@android:dimen/app_icon_size"
         android:scaleType="centerInside"
         android:contentDescription="@null"/>
 
-    <TextView
-        android:id="@+id/kill_item_title"
-        android:layout_width="0dp"
+    <LinearLayout
         android:layout_height="match_parent"
-        android:layout_gravity="left"
-   		android:layout_marginLeft="10dp"
-        android:layout_weight="4" />
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:orientation="vertical" >
+        <TextView
+            android:id="@+id/kill_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+   		    android:layout_marginLeft="10dp"/>
 
+        <TextView
+            android:id="@+id/kill_item_white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/kill_item_size"
         android:layout_width="0dp"
@@ -33,11 +43,5 @@
         android:layout_weight="2" 
         />
 
-    <TextView
-        android:id="@+id/kill_item_importance"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:visibility="gone" />
     
 </LinearLayout>

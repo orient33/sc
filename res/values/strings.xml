@@ -12,7 +12,6 @@
     <string name="no">否</string>
     <string name="cancel">取消</string>
     
-    
     <!-- 子模块名称 -->
     <string name="module_optimizer">系统优化</string>
     <string name="module_net">流量监控</string>
@@ -29,7 +28,8 @@
 	
 	<string name="rooted">已root</string>
 	<string name="root_unavalable">未root</string>
-	
+
+
 	<!-- 系统优化 -->
 	<string name="opt_garbage">垃圾清理</string>
 	<string name="opt_task">任务清理</string>
@@ -44,7 +44,10 @@
 	<string name="kill_app_summary">可清理进程 %1$s 个</string>
 	<string name="kill_app_ok">清理此进程</string>
 	<string name="kill_app_no">加到白名单</string>
+    <string name="already_in_white">已在白名单</string>
 	<string name="kill_dialog_summary">占用内存： %1$s</string>
+    <string name="op_success">操作成功</string>
+    <string name="op_fail">操作失败</string>
 	
 	<string name="start_scan">开始扫描</string>
 	<string name="clear_all">一键清理</string>
@@ -55,6 +58,10 @@
 	<string name="find_no_cache">没有发现系统缓存</string>
 	<string name="clear_ok">清理完成</string>
 	
+    <string name="allowed">已允许</string>
+    <string name="forbidden">已禁止</string>
+
+
 	<!-- 流量统计 -->
 	<string name="process_kernel_label">android系统</string>
 	<string name="data_usage_uninstalled_apps_users">已删除的应用和用户</string>
@@ -74,4 +81,6 @@
 	<string name="app_ops_running">"正在运行"</string>
 	<string name="app_ops_never_used">"（从未使用）"</string>
 	<string name="version_text">"版本 <xliff:g id="VERSION_NUM">%1$s</xliff:g>"</string>
+
+
 </resources>
