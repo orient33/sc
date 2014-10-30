@@ -31,7 +31,9 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:name=".Activity.SecurityApp">
+
         <activity
             android:name="com.sudoteam.securitycenter.MainActivity"
             android:label="@string/app_name" >
@@ -45,6 +47,11 @@
         <activity android:name=".netstat.NetstatActivity"></activity>
         <activity android:name=".optimizer.OptimizerActivity"></activity>
         <activity android:name=".appops.OpsActivity"></activity>
+
+        <!-- add by huayang -->
+        <activity android:name=".Activity.ScanLogActivity"/>
+        <activity android:name=".Activity.ScanVirusActivity"/>
+        <activity android:name=".Activity.SuperActivity"/>
 
     </application>
 

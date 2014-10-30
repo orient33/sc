@@ -1,0 +1,82 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scan_virus_score"
+        android:layout_centerHorizontal="true"
+        android:textSize="40sp"
+        android:layout_marginTop="20dp"/>
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/app_icon"
+        android:layout_below="@id/scan_virus_score"
+        android:background="#cccccc"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/scan_virus_score"
+        android:layout_toRightOf="@id/app_icon"
+        android:id="@+id/app_name"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/app_icon"
+        android:layout_below="@id/app_name"
+        android:layout_marginTop="10dp"
+        android:id="@+id/used_time"/>
+
+
+    <com.sudoteam.securitycenter.Views.SingleClickButton
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="@string/scan_button_text"
+        android:id="@+id/btn"/>
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/clear_button_text"
+        android:id="@+id/scan_over"
+        android:layout_toRightOf="@id/btn"/>
+
+    <com.sudoteam.securitycenter.Views.SingleClickButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="@string/update_button_text"
+        android:id="@+id/update"
+        android:layout_below="@id/btn"/>
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@id/update"
+        android:id="@+id/download"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:max="100"
+
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/log_button_text"
+        android:id="@+id/scan_log"
+        android:layout_below="@id/download"/>
+
+</RelativeLayout>

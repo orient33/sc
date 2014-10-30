@@ -83,4 +83,13 @@
 	<string name="version_text">"版本 <xliff:g id="VERSION_NUM">%1$s</xliff:g>"</string>
 
 
+    <!-- scan virus-->
+    <string name="scan_log_text_title">10-29 12:43 病毒扫描</string>
+    <string name="scan_log_result_title">扫描文件：100 </string>
+
+    <string name="scan_button_text">scan it</string>
+    <string name="clear_button_text">clear it</string>
+    <string name="update_button_text">update</string>
+    <string name="log_button_text">log</string>
+
 </resources>
