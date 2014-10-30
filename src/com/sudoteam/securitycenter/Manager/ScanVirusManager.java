@@ -124,9 +124,10 @@ public class ScanVirusManager {
                 params.setAllApps(allPkgs);
                 params.setVirus(virus);
 
-                if(i == allPkgs)
-                    params.setUsedTime(getUsedTime(stopScan-startScan));
-
+                if(i == allPkgs) {
+                    params.setUsedTime(getUsedTime(stopScan - startScan));
+                    startScan = stopScan = 0;
+                }
                 params.setIcon(info.applicationInfo.loadIcon(packageManager));
 
                 listener.onPackageScaned(params);
