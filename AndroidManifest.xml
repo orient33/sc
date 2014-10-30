@@ -43,10 +43,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <activity android:name=".netstat.NetstatActivity"></activity>
-        <activity android:name=".optimizer.OptimizerActivity"></activity>
-        <activity android:name=".appops.OpsActivity"></activity>
+        <activity android:name=".netstat.NetFirewallActivity"/>
+        <activity android:name=".netstat.NetstatActivity"/>
+        <activity android:name=".optimizer.OptimizerActivity"/>
+
 
         <!-- add by huayang -->
         <activity android:name=".Activity.ScanLogActivity"/>

@@ -63,6 +63,10 @@
 
 
 	<!-- 流量统计 -->
+    <string name="data_sum">总套餐量</string>
+    <string name="data_used">已使用量</string>
+    <string name="net_firewall_summary">防止应用后台使用流量</string>
+    <string name="net_firewall">流量防火墙</string>
 	<string name="process_kernel_label">android系统</string>
 	<string name="data_usage_uninstalled_apps_users">已删除的应用和用户</string>
 	<string name="data_usage_uninstalled_apps">已删除的应用</string>

@@ -1,21 +1,7 @@
 package com.sudoteam.securitycenter.netstat;
 
-import static android.net.NetworkPolicyManager.POLICY_REJECT_METERED_BACKGROUND;
-import static android.net.NetworkTemplate.buildTemplateMobileAll;
-import static android.net.NetworkTemplate.buildTemplateWifiWildcard;
-import static android.net.TrafficStats.UID_REMOVED;
-import static android.net.TrafficStats.UID_TETHERING;
-import static com.android.internal.util.Preconditions.checkNotNull;
-
-import java.util.ArrayList;
-import java.util.Collections;
-
 import android.app.ActivityManager;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
-import android.content.Intent;
 import android.content.Loader;
 import android.net.INetworkStatsService;
 import android.net.INetworkStatsSession;
@@ -25,7 +11,6 @@ import android.net.NetworkStats;
 import android.net.NetworkStatsHistory;
 import android.net.NetworkTemplate;
 import android.net.TrafficStats;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.INetworkManagementService;
@@ -35,7 +20,9 @@ import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemProperties;
 import android.os.UserHandle;
-import android.provider.Settings;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.LoaderManager.LoaderCallbacks;
 import android.telephony.TelephonyManager;
 import android.text.format.DateUtils;
 import android.text.format.Formatter;
@@ -60,7 +47,19 @@ import com.google.android.collect.Lists;
 import com.sudoteam.securitycenter.R;
 import com.sudoteam.securitycenter.Util;
 
-public class DataUsageList extends Fragment {
+import java.util.ArrayList;
+import java.util.Collections;
+
+import static android.net.NetworkPolicyManager.POLICY_REJECT_METERED_BACKGROUND;
+import static android.net.NetworkTemplate.buildTemplateMobileAll;
+import static android.net.NetworkTemplate.buildTemplateWifiWildcard;
+import static android.net.TrafficStats.UID_REMOVED;
+import static android.net.TrafficStats.UID_TETHERING;
+import static com.android.internal.util.Preconditions.checkNotNull;
+/**
+ * 各个应用所使用的流量的排行
+ * */
+public class DataUsageListFragment extends Fragment {
 	private static final String TAG = "[DataUsageList]";
 	
     private static final String TAG_APP_DETAILS = "appDetails";
@@ -84,11 +83,10 @@ public class DataUsageList extends Fragment {
 
 	private UidDetailProvider mUidDetailProvider;
     private NetworkTemplate mTemplate;
-//    private ChartData mChartData;
     private int mCurrentTab = TAB_WIFI;
     private int mCurrentCycle = CYCLE_MONTH;
 
-	public DataUsageList() {
+	public DataUsageListFragment() {
 	}
 
 	private AdapterView.OnItemSelectedListener l = new AdapterView.OnItemSelectedListener() {
@@ -238,7 +236,7 @@ public class DataUsageList extends Fragment {
 
         long now = System.currentTimeMillis();
         long start = mCurrentCycle == CYCLE_MONTH ? TimeUtils.getStartForMonth(now) : TimeUtils.getStartForDay(now);
-        Util.i("updateBody() start = "+ start +", end = " + now);
+        Util.i("updateBody() start = " + start + ", end = " + now);
         getLoaderManager().restartLoader(LOADER_SUMMARY,
                 SummaryForAllUidLoader.buildArgs(mTemplate, start, now), mSummaryCallbacks);
         // detail mode can change visible menus, invalidate

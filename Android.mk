@@ -5,10 +5,12 @@ LOCAL_MODULE_TAGS := optional
 
 ###################add by huayang###############################
 LOCAL_JAVA_LIBRARIES := telephony-common
-LOCAL_STATIC_JAVA_LIBRARIES := xutils
+LOCAL_STATIC_JAVA_LIBRARIES := xutils \
+    android-support-v4
 ###################add by huayang###############################
 
 LOCAL_SRC_FILES := $(call all-java-files-under, src)
+
 
 LOCAL_PACKAGE_NAME := SecurityCenter
 LOCAL_CERTIFICATE := platform

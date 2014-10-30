@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:background="#666666" 
+        android:background="#7e2920"
         android:orientation="vertical">
         
         <TextView android:id="@+id/title"
@@ -25,7 +25,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_below="@id/title"
-            android:src="@drawable/app_logo"
+            android:src="@drawable/ic_launcher"
             android:contentDescription="@null" />
         <Button android:id="@+id/one_key_check"
             android:layout_width="wrap_content"
@@ -51,7 +51,18 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="#c8c8c8"
         android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/module_antivirse"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/virus_scan"
+            style="?android:attr/buttonBarStyle"
+            android:text="@string/module_antivirse" />
 
         <Button
             android:id="@+id/module_optimizer"
@@ -60,18 +71,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:drawableTop="@drawable/ic_launcher"
+            android:drawableTop="@drawable/sys_opt"
             android:text="@string/module_optimizer" />
 
-        <Button
-            android:id="@+id/module_net"
-        	style="?android:attr/buttonBarStyle"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/ic_launcher"
-            android:text="@string/module_net" />
 
         <Button
             android:id="@+id/module_block"
@@ -80,7 +82,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:drawableTop="@drawable/ic_launcher"
+            android:drawableTop="@drawable/block"
             android:text="@string/module_block" />
     </LinearLayout>
 
@@ -88,27 +90,25 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="#c8c8c8"
         android:orientation="horizontal" >
 
+        <Button
+            android:id="@+id/module_net"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/net"
+            android:text="@string/module_net" />
         <Button
             android:id="@+id/module_save"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:drawableTop="@drawable/ic_launcher"
-        	style="?android:attr/buttonBarStyle"
+            android:drawableTop="@drawable/power"
             android:text="@string/module_save" />
-
-        <Button
-            android:id="@+id/module_antivirse"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/ic_launcher"
-        	style="?android:attr/buttonBarStyle"
-            android:text="@string/module_antivirse" />
 
         <Button
             android:id="@+id/module_mac"
@@ -116,8 +116,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:drawableTop="@drawable/ic_launcher"
-        	style="?android:attr/buttonBarStyle"
+            android:drawableTop="@drawable/permission"
             android:text="@string/module_mac" />
     </LinearLayout>
 
