@@ -1,5 +1,6 @@
 package com.sudoteam.securitycenter;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.MemoryInfo;
@@ -21,8 +22,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabWidget;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -38,6 +41,44 @@ public class Util {
     private static HashMap<String, String> pkg2Name = new HashMap<String, String>();
     private static HashMap<String, Drawable> pkg2Drawable = new HashMap<String, Drawable>();
 
+    /**
+     * 设置actionbar的自定义View
+     */
+    public static void setActionBar(final Activity act, boolean showBack, String t, View.OnClickListener clickSet) {
+        final ActionBar ab = act.getActionBar();
+        if (ab == null)
+            return;
+        ab.setDisplayShowCustomEnabled(true);
+        ab.setDisplayShowHomeEnabled(false);
+        ab.setDisplayShowTitleEnabled(false);
+        View v = View.inflate(act, R.xml.actionbar, null);
+        ImageView back = (ImageView) v.findViewById(R.id.actionbar_back);
+        ImageView set = (ImageView) v.findViewById(R.id.actionbar_setting);
+        TextView title = (TextView) v.findViewById(R.id.actionbar_title);
+        if (showBack) {
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    act.onBackPressed();
+                }
+            });
+        } else {
+            back.setVisibility(View.GONE);
+        }
+        if (clickSet == null) {
+            set.setVisibility(View.GONE);
+        } else {
+            set.setOnClickListener(clickSet);
+        }
+        if (!TextUtils.isEmpty(t)) {
+            title.setText(t);
+        }
+
+        ab.setCustomView(v);
+    }
+
+
+    /** activity中fragment的切换 */
     public static void replaceNewFragment(Activity act, int container_id, Fragment newF) {
         if (newF == null)
             return;

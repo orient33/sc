@@ -104,7 +104,7 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
     @Override
     public View getView(int position, View v, ViewGroup parent) {
         ViewHold vh;
-        final AppCacheInfo aci = (AppCacheInfo) getItem(position);
+        final AppCacheInfo aci = getItem(position);
         if (v == null) {
             v = View.inflate(mContext, R.layout.clear_cache_item, null);
             vh = new ViewHold(v);
@@ -146,7 +146,7 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
         PackageManager pm = mPM;
         final ArrayList<AppCacheInfo> data = new ArrayList<AppCacheInfo>();
         List<ApplicationInfo> list = pm.getInstalledApplications(0);
-        synchronized (AppCacheInfo.findApp) {
+        synchronized (AppCacheInfo.lock) {
             AppCacheInfo.findApp = 0;
             for (ApplicationInfo ai : list) {
                 AppCacheInfo aci = new AppCacheInfo(mContext, ai, 0l);
@@ -209,7 +209,8 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
     }
 
     public static class AppCacheInfo {
-        static Integer findApp = 0;
+        static final Object lock = new Object();
+        static int findApp = 0;
         final File apkFile;
         final long id;
         long cacheSize;
@@ -222,7 +223,7 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
             public void onGetStatsCompleted(PackageStats ps, boolean succeeded)
                     throws RemoteException {
                 cacheSize = ps.cacheSize;
-                synchronized (findApp) {
+                synchronized (lock) {
                     --findApp;
                 }
             }

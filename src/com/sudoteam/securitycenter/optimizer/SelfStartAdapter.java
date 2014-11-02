@@ -37,7 +37,7 @@ public class SelfStartAdapter extends BaseAdapter {
             int uid = ass.uid;
             int mode = !ass.allow ? AppOpsManager.MODE_ALLOWED : AppOpsManager.MODE_IGNORED;
             try {
-//                mAOM.setMode(AppOpsManager.OP_BOOT_COMPLETED, uid, ass.pkgName, mode);
+                mAOM.setMode(AppOpsManager.OP_BOOT_COMPLETED, uid, ass.pkgName, mode);
                 ass.allow = !ass.allow;
                 notifyDataSetChanged();
                 Util.i("setmode() name = " + ass.label + ", mode " + mode);
@@ -130,12 +130,12 @@ public class SelfStartAdapter extends BaseAdapter {
                         if (android.Manifest.permission.RECEIVE_BOOT_COMPLETED
                                 .equals(permission)) {
                             Drawable icon = Util.getDrawableForPackage(mPm, ai.packageName);
-//                            String label = Util.getNameForPackage(mPm, ai.packageName);
-//                            int uid = mPm.getPackageUid(ai.packageName, UserHandle.getCallingUserId());
-//                            int mode = mAppOpsManager.checkOp(AppOpsManager.OP_BOOT_COMPLETED, uid, ai.packageName);
-//                            boolean allow = mode == AppOpsManager.MODE_ALLOWED;
-//                            AppSelfStart ass = new AppSelfStart(ai.packageName, uid, label, icon, allow);
-//                            data.add(ass);
+                            String label = Util.getNameForPackage(mPm, ai.packageName);
+                            int uid = mPm.getPackageUid(ai.packageName, UserHandle.getCallingUserId());
+                            int mode = mAppOpsManager.checkOp(AppOpsManager.OP_BOOT_COMPLETED, uid, ai.packageName);
+                            boolean allow = mode == AppOpsManager.MODE_ALLOWED;
+                            AppSelfStart ass = new AppSelfStart(ai.packageName, uid, label, icon, allow);
+                            data.add(ass);
                         }
                     }
                 } catch (NameNotFoundException e) {

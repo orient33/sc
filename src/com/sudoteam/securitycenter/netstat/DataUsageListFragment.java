@@ -64,12 +64,13 @@ public class DataUsageListFragment extends Fragment {
 	
     private static final String TAG_APP_DETAILS = "appDetails";
     private static final String TEST_SUBSCRIBER_PROP = "test.subscriberid";
-    
+
+    public static final String CYCLE_KEY = "cycle";
+    public static final int CYCLE_MONTH = 0, CYCLE_DAY = 1;
 //    private static final String TAB_3G = "3g";
 //    private static final String TAB_4G = "4g";
     private static final int TAB_WIFI = 0;//"wifi";
     private static final int TAB_MOBILE = 1;//"mobile";
-    private static final int CYCLE_MONTH = 0, CYCLE_DAY = 1;
     private static final int LOADER_SUMMARY = 3;
     
 	private INetworkManagementService mNetworkService;
@@ -131,6 +132,7 @@ public class DataUsageListFragment extends Fragment {
 		} catch (RemoteException e) {
 			throw new RuntimeException(e);
 		}
+        mCurrentCycle = getArguments().getInt(CYCLE_KEY);
 		// if (!hasReadyMobileRadio(context)) // :todo
 		setHasOptionsMenu(true);
 	}

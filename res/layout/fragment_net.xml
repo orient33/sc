@@ -1,113 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_height="300dp"
         android:background="#7e2920"
-        android:orientation="vertical">
-        <Button
-            android:id="@+id/back"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"/>
-        <TextView
-            android:id="@+id/net_title"
+        android:orientation="vertical"
+        android:layout_above="@+id/align_bottom">
+
+        <ImageView
+            android:id="@+id/net_anim"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:textSize="30sp"
-            android:text="@string/module_net"/>
+            android:src="@drawable/ic_launcher"
+            android:contentDescription="@null" />
+
         <GridLayout
-            android:layout_below="@id/net_title"
+            android:layout_alignParentBottom="true"
             android:layout_margin="20dp"
-            android:layout_width="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:columnCount="2">
-            <TextView android:layout_width="180dp"
+            <TextView android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:text="@string/data_sum"/>
-            <TextView android:layout_width="180dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:text="@string/data_used"/>
             <TextView
                 android:id="@+id/data_sum"
-                android:layout_width="180dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
-                android:text="@string/data_sum"/>
+                android:text="@string/data_sum1"/>
             <TextView
                 android:id="@+id/data_used"
-                android:layout_width="180dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
-                android:text="@string/data_used"/>
+                android:text="@string/data_used1"/>
             </GridLayout>
     </RelativeLayout>
-    <LinearLayout
-        android:id="@+id/net_use1"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="#c8c8c8"
-        android:orientation="horizontal" >
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="5"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/net_firewall"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/net_firewall_summary"/>
-        </LinearLayout>
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="50dp"
-            android:src="@drawable/arrow_right"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/net_use2"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#c8c8c8"
-        android:orientation="horizontal" >
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="5"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/net_firewall"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/net_firewall_summary"/>
-            </LinearLayout>
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="50dp"
-            android:src="@drawable/arrow_right"/>
-    </LinearLayout>
-</LinearLayout>
+
+    <GridLayout
+        android:id="@+id/align_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:columnCount="2">
+
+        <Button
+            android:id="@+id/data_usage_day"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/data_usage_day"
+            android:gravity="bottom|center"
+            android:text="@string/data_usage_day" />
+
+        <Button
+            android:id="@+id/data_usage_month"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/data_usage_month"
+            android:gravity="bottom|center"
+            android:text="@string/data_usage_month" />
+        <Button
+            android:id="@+id/data_usage_set"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/data_usage_set"
+            android:gravity="bottom|center"
+            android:text="@string/data_usage_set" />
+
+        <Button
+            android:id="@+id/data_usage_night"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/data_usage_night"
+            android:gravity="bottom|center"
+            android:text="@string/data_usage_night" />
+
+    </GridLayout>
+
+</RelativeLayout>

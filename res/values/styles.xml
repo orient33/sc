@@ -16,6 +16,8 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+
+    <!-- for data_usage_summary.xml -->
     <style name="PreferenceFragmentListSinglePane" parent="@*android:style/PreferenceFragmentList">
         <item name="android:paddingStart">5dp</item>
         <item name="android:paddingEnd">5dp</item>

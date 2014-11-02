@@ -19,7 +19,7 @@ import com.sudoteam.securitycenter.Activity.*;
 public class MainActivity extends Activity {
 
     private static final int[] BUTTON_IDS = {R.id.module_optimizer, R.id.module_net, R.id.module_block,
-            R.id.module_save, R.id.module_antivirse, R.id.module_mac, R.id.one_key_check};
+            R.id.module_save, R.id.module_antivirse, R.id.module_mac};
 
     @Override
     protected void onCreate(Bundle b) {
@@ -29,29 +29,8 @@ public class MainActivity extends Activity {
         if (b == null) {
             getFragmentManager().beginTransaction().add(R.id.container, new _Frag()).commit();
         }
-//		ActionBar ab = getActionBar();
-//		if (ab != null)
-//			ab.hide();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-//			replaceNewFragment(OpsSummary.getOpsSummary());
-        } else if (id == R.id.isRoot) {
-            Util.isRooted(this);
-        }
-        return true;
+        String title = getString(R.string.app_name);
+        Util.setActionBar(this, false, title, null);
     }
 
     public static class _Frag extends MyFragment implements View.OnClickListener {
@@ -75,9 +54,7 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			final MainActivity ma = (MainActivity) getActivity();
 			int id = v.getId();
-			if(id == R.id.one_key_check){
-				Toast.makeText(ma, "hmm...", Toast.LENGTH_SHORT).show();
-			}else if (id == R.id.module_optimizer) {
+			if (id == R.id.module_optimizer) {
 				ma.startActivity(new Intent(ma, OptimizerActivity.class));
 			}else if(id == R.id.module_mac){
 //				ma.startActivity(new Intent(ma, OpsActivity.class));

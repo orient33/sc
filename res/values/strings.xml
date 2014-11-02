@@ -65,8 +65,15 @@
 	<!-- 流量统计 -->
     <string name="data_sum">总套餐量</string>
     <string name="data_used">已使用量</string>
+    <string name="data_sum1">500MB</string><!-- temp -->
+    <string name="data_used1">200MB</string><!-- temp -->
     <string name="net_firewall_summary">防止应用后台使用流量</string>
-    <string name="net_firewall">流量防火墙</string>
+    <string name="data_usage_day">日流量</string>
+    <string name="data_usage_month">月流量</string>
+    <string name="data_usage_set">流量设置</string>
+    <string name="data_usage_night">防偸跑设置</string>
+    <string name="data_stat">流量统计</string>
+    <string name="data_rank">使用排行</string>
 	<string name="process_kernel_label">android系统</string>
 	<string name="data_usage_uninstalled_apps_users">已删除的应用和用户</string>
 	<string name="data_usage_uninstalled_apps">已删除的应用</string>
