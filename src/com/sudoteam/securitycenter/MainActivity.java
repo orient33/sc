@@ -4,17 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-
+import com.sudoteam.securitycenter.Activity.ScanVirusActivity;
+import com.sudoteam.securitycenter.mac.MacActivity;
 import com.sudoteam.securitycenter.netstat.NetstatActivity;
 import com.sudoteam.securitycenter.optimizer.OptimizerActivity;
-import com.sudoteam.securitycenter.Activity.*;
 
 public class MainActivity extends Activity {
 
@@ -57,7 +55,7 @@ public class MainActivity extends Activity {
 			if (id == R.id.module_optimizer) {
 				ma.startActivity(new Intent(ma, OptimizerActivity.class));
 			}else if(id == R.id.module_mac){
-//				ma.startActivity(new Intent(ma, OpsActivity.class));
+				ma.startActivity(new Intent(ma, MacActivity.class));
 			}else if(id == R.id.module_net){
 				ma.startActivity(new Intent(ma, NetstatActivity.class));
 			}else if(id == R.id.module_antivirse){

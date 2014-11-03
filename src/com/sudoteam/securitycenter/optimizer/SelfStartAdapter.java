@@ -32,6 +32,7 @@ public class SelfStartAdapter extends BaseAdapter {
     private final View.OnClickListener lis = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+        	/*
             int index = (Integer) v.getTag();
             final AppSelfStart ass = getItem(index);
             int uid = ass.uid;
@@ -44,6 +45,7 @@ public class SelfStartAdapter extends BaseAdapter {
             } catch (Exception e) {
                 Toast.makeText(mContext, "" + e, Toast.LENGTH_SHORT).show();
             }
+            */
         }
     };
     List<AppSelfStart> mList;
@@ -129,6 +131,7 @@ public class SelfStartAdapter extends BaseAdapter {
                     for (String permission : permissions) {
                         if (android.Manifest.permission.RECEIVE_BOOT_COMPLETED
                                 .equals(permission)) {
+                        	/*
                             Drawable icon = Util.getDrawableForPackage(mPm, ai.packageName);
                             String label = Util.getNameForPackage(mPm, ai.packageName);
                             int uid = mPm.getPackageUid(ai.packageName, UserHandle.getCallingUserId());
@@ -136,6 +139,7 @@ public class SelfStartAdapter extends BaseAdapter {
                             boolean allow = mode == AppOpsManager.MODE_ALLOWED;
                             AppSelfStart ass = new AppSelfStart(ai.packageName, uid, label, icon, allow);
                             data.add(ass);
+                            */
                         }
                     }
                 } catch (NameNotFoundException e) {
