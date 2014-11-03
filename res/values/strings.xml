@@ -71,7 +71,7 @@
     <string name="data_usage_day">日流量</string>
     <string name="data_usage_month">月流量</string>
     <string name="data_usage_set">流量设置</string>
-    <string name="data_usage_night">防偸跑设置</string>
+    <string name="data_usage_night">防偷跑设置</string>
     <string name="data_stat">流量统计</string>
     <string name="data_rank">使用排行</string>
 	<string name="process_kernel_label">android系统</string>
