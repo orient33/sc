@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_pressed="true"
-        android:drawable="@drawable/block_pressed"/>
+        android:drawable="@drawable/module_sys_opt_pressed"/>
     <item android:state_pressed="false"
-        android:drawable="@drawable/block_normal"/>
+        android:drawable="@drawable/module_sys_opt_normal"/>
 </selector>

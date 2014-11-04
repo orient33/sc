@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    	 <!-- User display names for app ops codes -->
+    <!-- User display names for app ops codes -->
     <string-array name="app_ops_summaries">
         <item>coarse location</item>
         <item>fine location</item>
@@ -46,9 +46,9 @@
         <item>monitor location</item>
         <item>monitor high power location</item>
     </string-array>
-    	
-    
-       <!-- User display names for app ops codes -->
+
+
+    <!-- User display names for app ops codes -->
     <string-array name="app_ops_labels">
         <item>Location</item>
         <item>Location</item>
@@ -94,8 +94,5 @@
         <item>Location</item>
         <item>Location</item>
     </string-array>
-    
-    
-    
-    
+
 </resources>

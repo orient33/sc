@@ -13,6 +13,7 @@
             android:id="@+id/title_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"
             android:contentDescription="@null"
             android:src="@drawable/ic_launcher" />
@@ -21,9 +22,9 @@
             android:id="@+id/one_key_check_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_marginTop="50dp"
+            android:layout_below="@id/title_img"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
             android:text="@string/one_key_check_never" />
 
     </RelativeLayout>
@@ -47,7 +48,7 @@
                 android:layout_height="100dp"
                 android:paddingTop="20dp"
                 android:paddingBottom="10dp"
-                android:drawableTop="@drawable/virus_scan"
+                android:background="@drawable/module_virus_scan"
                 android:gravity="bottom|center"
                 android:text="@string/module_antivirse" />
 
@@ -58,7 +59,7 @@
                 android:layout_height="100dp"
                 android:paddingTop="20dp"
                 android:paddingBottom="10dp"
-                android:drawableTop="@drawable/sys_opt"
+                android:background="@drawable/module_sys_opt"
                 android:gravity="bottom|center"
                 android:text="@string/module_optimizer" />
 
@@ -69,7 +70,7 @@
                 android:layout_height="100dp"
                 android:paddingTop="20dp"
                 android:paddingBottom="10dp"
-                android:drawableTop="@drawable/block"
+                android:background="@drawable/module_block"
                 android:gravity="bottom|center"
                 android:text="@string/module_block" />
 
@@ -80,7 +81,7 @@
                 android:layout_height="100dp"
                 android:paddingTop="20dp"
                 android:paddingBottom="10dp"
-                android:drawableTop="@drawable/net"
+                android:background="@drawable/module_net"
                 android:gravity="bottom|center"
                 android:text="@string/module_net" />
 
@@ -91,7 +92,7 @@
                 android:layout_height="100dp"
                 android:paddingTop="20dp"
                 android:paddingBottom="10dp"
-                android:drawableTop="@drawable/power"
+                android:background="@drawable/module_power"
                 android:gravity="bottom|center"
                 android:text="@string/module_save" />
 
@@ -102,7 +103,7 @@
                 android:layout_height="100dp"
                 android:paddingTop="20dp"
                 android:paddingBottom="10dp"
-                android:drawableTop="@drawable/permission"
+                android:background="@drawable/module_permission"
                 android:gravity="bottom|center"
                 android:text="@string/module_mac" />
         </GridLayout>

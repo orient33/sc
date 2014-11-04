@@ -6,12 +6,12 @@
     <string name="one_key_check">一键体检</string>
     <string name="one_key_check_never">您的系统从未进行体检,建议立即体检</string>
     <string name="one_key_check_has">上次体检时间 %1$s</string>
-    
+
     <!-- 常用的 -->
     <string name="yes">是</string>
     <string name="no">否</string>
     <string name="cancel">取消</string>
-    
+
     <!-- 子模块名称 -->
     <string name="module_optimizer">系统优化</string>
     <string name="module_net">流量监控</string>
@@ -19,13 +19,13 @@
     <string name="module_save">省电优化</string>
     <string name="module_antivirse">病毒扫描</string>
     <string name="module_mac">权限管理</string>
-    
+
     <string name="action_settings">Settings</string>
 	<string name="netstat">流量</string>
 	<string name="isRoot">检查是否root</string>
 	<string name="clear">清理</string>
 	<string name="kill">杀死</string>
-	
+
 	<string name="rooted">已root</string>
 	<string name="root_unavalable">未root</string>
 
@@ -35,7 +35,7 @@
 	<string name="opt_task">任务清理</string>
 	<string name="opt_self_on">自启动管理</string>
 	<string name="opt_set">优化设置</string>
-	
+
 	<string name="app_cache">应用缓存</string>
 	<string name="sdcard_cache">垃圾缓存</string>
 	<string name="kill_app">进程清理</string>
@@ -48,7 +48,7 @@
 	<string name="kill_dialog_summary">占用内存： %1$s</string>
     <string name="op_success">操作成功</string>
     <string name="op_fail">操作失败</string>
-	
+
 	<string name="start_scan">开始扫描</string>
 	<string name="clear_all">一键清理</string>
 	<string name="need_no_clear">无需清理</string>
@@ -57,7 +57,7 @@
 	<string name="sd_info">可用 %1$s / 共 %2$s</string>
 	<string name="find_no_cache">没有发现系统缓存</string>
 	<string name="clear_ok">清理完成</string>
-	
+
     <string name="allowed">已允许</string>
     <string name="forbidden">已禁止</string>
 
@@ -87,7 +87,7 @@
         <item>WIFI网络</item>
         <item>数据网络</item>
     </string-array>
-    
+
 	<!-- app ops -->
 	<string name="app_ops_running">"正在运行"</string>
 	<string name="app_ops_never_used">"（从未使用）"</string>
