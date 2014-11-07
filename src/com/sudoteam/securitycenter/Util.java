@@ -41,13 +41,24 @@ public class Util {
     private static HashMap<String, String> pkg2Name = new HashMap<String, String>();
     private static HashMap<String, Drawable> pkg2Drawable = new HashMap<String, Drawable>();
 
+
+    public static int formatFileSize2MB(long size) {
+        return (int) (size / 1024 / 1024);
+    }
+
+    public static void setActionBar(final Activity act, boolean showBack, String t, int resId,View.OnClickListener clickSet){
+        View v = setActionBar(act,showBack,t,clickSet);
+        ImageView right = (ImageView)v.findViewById(R.id.actionbar_setting);
+        right.setImageResource(resId);
+    }
+
     /**
      * 设置actionbar的自定义View
      */
-    public static void setActionBar(final Activity act, boolean showBack, String t, View.OnClickListener clickSet) {
+    public static View setActionBar(final Activity act, boolean showBack, String t, View.OnClickListener clickSet) {
         final ActionBar ab = act.getActionBar();
         if (ab == null)
-            return;
+            return null;
         ab.setDisplayShowCustomEnabled(true);
         ab.setDisplayShowHomeEnabled(false);
         ab.setDisplayShowTitleEnabled(false);
@@ -73,12 +84,22 @@ public class Util {
         if (!TextUtils.isEmpty(t)) {
             title.setText(t);
         }
-
         ab.setCustomView(v);
+        return v;
+    }
+
+    public static void updateActionBarTitle(final Activity act, String title){
+        final ActionBar ab = act.getActionBar();
+        if(ab == null) return;
+        View view = ab.getCustomView();
+        TextView tv = (TextView)view.findViewById(R.id.actionbar_title);
+        tv.setText(title);
     }
 
 
-    /** activity中fragment的切换 */
+    /**
+     * activity中fragment的切换
+     */
     public static void replaceNewFragment(Activity act, int container_id, Fragment newF) {
         if (newF == null)
             return;

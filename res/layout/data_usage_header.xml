@@ -2,23 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    android:orientation="vertical">
 
-    <!-- one month or day -->
-    <Spinner
-        android:id="@+id/data_cycle"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="50dp" />
+        android:orientation="horizontal">
 
-    <View android:layout_height="10dp" android:layout_width="10dp"/>
-    <!-- mobile or WIFI -->
-    <Spinner
-        android:id="@+id/data_type"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:minHeight="50dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.sudoteam.securitycenter.netstat.DataUsageView
+            android:id="@+id/data_usage_chart"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+    </HorizontalScrollView>
 </LinearLayout>

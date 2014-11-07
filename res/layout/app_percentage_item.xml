@@ -36,6 +36,7 @@
         android:layout_marginTop="2dip"
         android:layout_rowSpan="2"
         android:focusable="false"
+        android:visibility="invisible"
        />
 
     <TextView

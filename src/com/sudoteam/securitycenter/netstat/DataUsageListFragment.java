@@ -1,8 +1,10 @@
 package com.sudoteam.securitycenter.netstat;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Loader;
+import android.graphics.Point;
 import android.net.INetworkStatsService;
 import android.net.INetworkStatsSession;
 import android.net.NetworkPolicy;
@@ -49,6 +51,7 @@ import com.sudoteam.securitycenter.Util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import static android.net.NetworkPolicyManager.POLICY_REJECT_METERED_BACKGROUND;
 import static android.net.NetworkTemplate.buildTemplateMobileAll;
@@ -61,7 +64,7 @@ import static com.android.internal.util.Preconditions.checkNotNull;
  * */
 public class DataUsageListFragment extends Fragment {
 	private static final String TAG = "[DataUsageList]";
-	
+
     private static final String TAG_APP_DETAILS = "appDetails";
     private static final String TEST_SUBSCRIBER_PROP = "test.subscriberid";
 
@@ -72,7 +75,7 @@ public class DataUsageListFragment extends Fragment {
     private static final int TAB_WIFI = 0;//"wifi";
     private static final int TAB_MOBILE = 1;//"mobile";
     private static final int LOADER_SUMMARY = 3;
-    
+
 	private INetworkManagementService mNetworkService;
 	private INetworkStatsService mStatsService;
 	private NetworkPolicyManager mPolicyManager;
@@ -81,6 +84,8 @@ public class DataUsageListFragment extends Fragment {
 
 	private ListView mListView;
 	private DataUsageAdapter mAdapter;
+    private DataUsageView mChartView;
+    private DataUsageDatabase mDB;
 
 	private UidDetailProvider mUidDetailProvider;
     private NetworkTemplate mTemplate;
@@ -90,21 +95,6 @@ public class DataUsageListFragment extends Fragment {
 	public DataUsageListFragment() {
 	}
 
-	private AdapterView.OnItemSelectedListener l = new AdapterView.OnItemSelectedListener() {
-		@Override
-		public void onItemSelected(AdapterView<?> parent, View view,int position, long id) {
-			int iid = parent.getId(); 
-			if (iid == R.id.data_cycle) 
-				mCurrentCycle = position;
-			else if (iid == R.id.data_type)
-				mCurrentTab = position;
-			updateBody();
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> parent) {
-		}
-	};
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -129,11 +119,16 @@ public class DataUsageListFragment extends Fragment {
 
 		try {
 			mStatsSession = mStatsService.openSession();
+            mDB = DataUsageDatabase.getIns(getActivity());
+            mDB.setNS(mStatsSession);
 		} catch (RemoteException e) {
 			throw new RuntimeException(e);
 		}
         mCurrentCycle = getArguments().getInt(CYCLE_KEY);
-		// if (!hasReadyMobileRadio(context)) // :todo
+        Activity activity = getActivity();
+        String title = activity.getString(mCurrentCycle == CYCLE_DAY ? R.string.data_usage_day : R.string.data_usage_month);
+        Util.updateActionBarTitle(activity, title);
+        // if (!hasReadyMobileRadio(context)) // :todo
 		setHasOptionsMenu(true);
 	}
 
@@ -153,12 +148,7 @@ public class DataUsageListFragment extends Fragment {
 		cycleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		LinearLayout head = (LinearLayout)View.inflate(context, R.layout.data_usage_header, null);
-		Spinner cycle = (Spinner)head.findViewById(R.id.data_cycle);
-		Spinner type = (Spinner)head.findViewById(R.id.data_type);
-		cycle.setAdapter(cycleAdapter);
-		type.setAdapter(typeAdapter);
-		cycle.setOnItemSelectedListener(l);
-		type.setOnItemSelectedListener(l);
+        mChartView = (DataUsageView)head.findViewById(R.id.data_usage_chart);
 
 		mListView.addHeaderView(head);
 		mListView.setItemsCanFocus(true);
@@ -230,6 +220,10 @@ public class DataUsageListFragment extends Fragment {
         if (!isAdded()) return;
 
         mListView.setVisibility(View.VISIBLE);
+        if(mCurrentCycle == CYCLE_DAY)
+            mChartView.setVisibility(View.GONE);
+        else
+            mChartView.setVisibility(View.VISIBLE);
 
         if (TAB_WIFI == mCurrentTab) // just mobile type
         	mTemplate = buildTemplateWifiWildcard();
@@ -245,6 +239,45 @@ public class DataUsageListFragment extends Fragment {
         getActivity().invalidateOptionsMenu();
     }
 
+    class DrawTask extends AsyncTask<Void, Void, List<Long>> {
+        private List<String> dates;
+        @Override
+        protected List<Long> doInBackground(Void... v) {
+            long now = System.currentTimeMillis();
+            dates = TimeUtils.getDatesOfLong(now);
+            int size = dates.size();
+            final DataUsageDatabase db = mDB;
+            final NetworkTemplate nt = mTemplate;
+            List<Long> list = new ArrayList<Long>();
+            for (int i = 0; i < size - 1; ++i)
+                list.add(db.getUsedForDate(nt, dates.get(i), true));
+            list.add(db.getUsedForDate(nt, dates.get(size - 1), false));
+            //list的值需要时递增的
+            List<Long> result = new ArrayList<Long>(list.size());
+            result.add(list.get(0));
+            long temp;
+            for (int ii = 1; ii < list.size(); ++ii) {
+                temp = result.get(ii - 1) + list.get(ii);
+                result.add(temp);
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(List<Long> list){
+            if(list.size() != dates.size())
+                throw new RuntimeException("date 和 data_usage 列表不一致!");
+            List<Point> data = new ArrayList<Point>();
+            for (int i = 0; i < list.size(); ++i) {
+                int x = Integer.parseInt(dates.get(i).substring(8));
+                int y = Util.formatFileSize2MB(list.get(i));
+                data.add(new Point(x, y));
+            }
+            mChartView.bindData(data);
+        }
+
+    }
+
     private final LoaderCallbacks<NetworkStats> mSummaryCallbacks = new LoaderCallbacks<
             NetworkStats>() {
         @Override
@@ -258,6 +291,8 @@ public class DataUsageListFragment extends Fragment {
                     POLICY_REJECT_METERED_BACKGROUND);
             Util.i("SummaryForAllUidLoader-- onLoadFinished()");
             mAdapter.bindStats(data, restrictedUids);
+            if(mCurrentCycle == CYCLE_MONTH)
+                new DrawTask().execute();
             updateEmptyVisible();
         }
 

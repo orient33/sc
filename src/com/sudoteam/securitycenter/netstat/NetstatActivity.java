@@ -39,10 +39,15 @@ public class NetstatActivity extends Activity implements View.OnClickListener {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.fragment_net, null);
-            int ids[] = {R.id.data_usage_day,R.id.data_usage_month,R.id.data_usage_set,R.id.data_usage_night};
+            int ids[] = {R.id.data_usage_day,R.id.data_usage_month,R.id.data_usage_set,R.id.data_usage_mac};
             for(int id : ids)
                 v.findViewById(id).setOnClickListener(this);
             return v;
+        }
+        @Override
+        public void onResume(){
+            super.onResume();
+            Util.updateActionBarTitle(getActivity(),title);
         }
 
         @Override
@@ -59,9 +64,12 @@ public class NetstatActivity extends Activity implements View.OnClickListener {
                     f.setArguments(bundle);
                     Util.replaceNewFragment(getActivity(), R.id.net_container, f);
                     break;
+                case R.id.data_usage_mac:
+                    Fragment mac = new NetMacFragment();
+                    Util.replaceNewFragment(getActivity(),R.id.net_container, mac);
+                    break;
                 case R.id.data_usage_set:
-                case R.id.data_usage_night:
-                    Toast.makeText(getActivity(),":TODO",0).show();
+                    new NetSettingFragment().show(getFragmentManager(),"set");
                     break;
             }
 

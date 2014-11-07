@@ -10,6 +10,7 @@
     <!-- 常用的 -->
     <string name="yes">是</string>
     <string name="no">否</string>
+    <string name="confirm">确认</string>
     <string name="cancel">取消</string>
 
     <!-- 子模块名称 -->
@@ -68,10 +69,10 @@
     <string name="data_sum1">500MB</string><!-- temp -->
     <string name="data_used1">200MB</string><!-- temp -->
     <string name="net_firewall_summary">防止应用后台使用流量</string>
-    <string name="data_usage_day">日流量</string>
-    <string name="data_usage_month">月流量</string>
-    <string name="data_usage_set">流量设置</string>
-    <string name="data_usage_night">防偷跑设置</string>
+    <string name="data_usage_day">今日流量</string>
+    <string name="data_usage_month">当月流量</string>
+    <string name="data_usage_set">套餐设置</string>
+    <string name="data_usage_mac">网络控制</string>
     <string name="data_stat">流量统计</string>
     <string name="data_rank">使用排行</string>
 	<string name="process_kernel_label">android系统</string>
@@ -87,6 +88,10 @@
         <item>WIFI网络</item>
         <item>数据网络</item>
     </string-array>
+    <string name="number_set">设置手机号码</string>
+    <string name="number_change">修改手机号码</string>
+    <string name="number_error">设置失败,号码输入有误</string>
+    <string name="input_phone_number">请输入您的手机号码</string>
 
 	<!-- app ops -->
 	<string name="app_ops_running">"正在运行"</string>

@@ -8,48 +8,60 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/net_anim"
+        <LinearLayout
+            android:id="@+id/net_anim_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_launcher" />
+            android:layout_marginTop="20dp">
+
+            <com.sudoteam.securitycenter.netstat.WaterWaveProgress
+                android:id="@+id/net_anim"
+                android:layout_width="160dp"
+                android:layout_height="160dp" />
+        </LinearLayout>
 
         <GridLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/net_anim"
+            android:layout_below="@id/net_anim_container"
             android:layout_centerHorizontal="true"
             android:layout_margin="20dp"
             android:columnCount="2">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@string/data_sum"
-                android:textSize="20sp" />
+                android:textColor="#ffe2e2e2"
+                android:textSize="12sp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@string/data_used"
-                android:textSize="20sp" />
+                android:textColor="#ffe2e2e2"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/data_sum"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@string/data_sum1"
-                android:textSize="24sp" />
+                android:textColor="#ffe2e2e2"
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/data_used"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@string/data_used1"
-                android:textSize="24sp" />
+                android:textColor="#ffe2e2e2"
+                android:textSize="25sp" />
         </GridLayout>
     </RelativeLayout>
 
@@ -66,44 +78,54 @@
             android:columnCount="2">
 
             <Button
+                android:id="@+id/data_usage_set"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="25dp"
+                android:background="@drawable/data_usage_set"
+                android:gravity="bottom|center"
+                android:text="@string/data_usage_set"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/data_usage_mac"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="25dp"
+                android:background="@drawable/data_usage_mac"
+                android:gravity="bottom|center"
+                android:text="@string/data_usage_mac"
+                android:textSize="14sp" />
+
+            <Button
                 android:id="@+id/data_usage_day"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="30dp"
                 android:background="@drawable/data_usage_day"
                 android:gravity="bottom|center"
-                android:text="@string/data_usage_day" />
+                android:text="@string/data_usage_day"
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/data_usage_month"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="25dp"
                 android:background="@drawable/data_usage_month"
                 android:gravity="bottom|center"
-                android:text="@string/data_usage_month" />
+                android:text="@string/data_usage_month"
+                android:textSize="14sp" />
 
-            <Button
-                android:id="@+id/data_usage_set"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/data_usage_set"
-                android:gravity="bottom|center"
-                android:text="@string/data_usage_set" />
 
-            <Button
-                android:id="@+id/data_usage_night"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/data_usage_mac"
-                android:gravity="bottom|center"
-                android:text="@string/data_usage_night" />
         </GridLayout>
     </RelativeLayout>
 </FrameLayout>
