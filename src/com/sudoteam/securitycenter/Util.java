@@ -46,10 +46,11 @@ public class Util {
         return (int) (size / 1024 / 1024);
     }
 
-    public static void setActionBar(final Activity act, boolean showBack, String t, int resId,View.OnClickListener clickSet){
+    public static ImageView setActionBar(final Activity act, boolean showBack, String t, int resId,View.OnClickListener clickSet){
         View v = setActionBar(act,showBack,t,clickSet);
         ImageView right = (ImageView)v.findViewById(R.id.actionbar_setting);
         right.setImageResource(resId);
+        return right;
     }
 
     /**

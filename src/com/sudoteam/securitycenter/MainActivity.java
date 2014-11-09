@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.sudoteam.securitycenter.Activity.ScanVirusActivity_v2;
 import com.sudoteam.securitycenter.Activity.AnnoyInterceptActivity;
+import com.sudoteam.securitycenter.activity.PowerManagerActivity;
 import com.sudoteam.securitycenter.netstat.NetstatActivity;
 import com.sudoteam.securitycenter.optimizer.OptimizerActivity;
 
@@ -65,7 +66,7 @@ public class MainActivity extends Activity {
 			}else if(id == R.id.module_block){
 				ma.startActivity(new Intent(ma, AnnoyInterceptActivity.class));
 			}else {
-                Toast.makeText(ma, "to be continue...", Toast.LENGTH_SHORT).show();
+				ma.startActivity(new Intent(ma, PowerManagerActivity.class));
             }
 		}
 	}

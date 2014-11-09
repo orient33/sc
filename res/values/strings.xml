@@ -12,6 +12,7 @@
     <string name="no">否</string>
     <string name="confirm">确认</string>
     <string name="cancel">取消</string>
+    <string name="setting">设置</string>
 
     <!-- 子模块名称 -->
     <string name="module_optimizer">系统加速</string>
@@ -123,6 +124,23 @@
 
     <string name="tele_block_settings">Telephony Block Settings</string>
 
-
+	<!-- 节电模块 -->
+	<string name="battery_defined_plan_mode">自定义模式</string>
+	<string name="battery_default_plan_mode">省电模式</string>
+	<string name="battery_plan_mode_edit">请输入模式名称</string>
+	<string name="air_plan_mode">飞行模式</string>
+	<string name="mobile_data">移动数据</string>
+	<string name="wifi">WIFI</string>
+	<string name="bluetooth">蓝牙</string>
+	<string name="locked_screen_timeout">灭屏时间</string>
+	<string name="brightness">屏幕亮度</string>
+	<string name="ringer">铃声</string>
+	<string name="vibrate">振动</string>
+	<string name="battery_status_discharge_summary">电池可用时间</string>
+	<string name="battery_status_charge_summary">电池充电时间</string>
+	<string name="battery_hour">时</string>
+	<string name="battery_minute">分</string>
+	<string name="in_airplane_mode">正处于飞行模式下</string>
+	<string name="add_battery_mode">添加</string>
 
 </resources>

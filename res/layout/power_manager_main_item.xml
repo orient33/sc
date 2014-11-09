@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/battery_plan_mode_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/battery_plan_mode_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/battery_default_plan_mode"
+            android:textColor="@color/battery_mode_title_color"
+            android:textSize="18sp" />
+
+        <ToggleButton
+            android:id="@+id/battery_plan_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:checked="false" />
+
+        <ImageView
+            android:id="@+id/battery_plan_mode_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/battery_plan_status"
+            android:layout_alignTop="@id/battery_plan_status"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/battery_plan_status"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/power_plan_mode_del" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/battery_mode_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/battery_plan_mode_edit"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/device_switch_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/battery_plan_mode_top_layout"
+        android:orientation="vertical" >
+
+        <View
+            android:id="@+id/divider_h"
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/battery_divider_color" />
+
+        <LinearLayout
+            android:id="@+id/device_switch_layout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" >
+
+            <TextView
+                android:id="@+id/air_plan_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/power_air_plan_mode_close"
+                android:gravity="center_horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/air_plan_mode"
+                android:textColor="@color/battery_switcher_unchecked_color"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/mobile_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/power_mobile_data_close"
+                android:gravity="center_horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/mobile_data"
+                android:textColor="@color/battery_switcher_unchecked_color"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/wifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/power_wifi_close"
+                android:gravity="center_horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/wifi"
+                android:textColor="@color/battery_switcher_unchecked_color"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/bluetooth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/power_bluetooth_close"
+                android:gravity="center_horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/bluetooth"
+                android:textColor="@color/battery_switcher_unchecked_color"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/device_switch_layout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" >
+
+            <TextView
+                android:id="@+id/locked_screen_timeout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/power_screen_timeout_close"
+                android:gravity="center_horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/locked_screen_timeout"
+                android:textColor="@color/battery_switcher_unchecked_color"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/brightness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/power_brightness_close"
+                android:gravity="center_horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/brightness"
+                android:textColor="@color/battery_switcher_unchecked_color"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/ringer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/power_ringer_close"
+                android:gravity="center_horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/ringer"
+                android:textColor="@color/battery_switcher_unchecked_color"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/vibrate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/power_vibrate_close"
+                android:gravity="center_horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/vibrate"
+                android:textColor="@color/battery_switcher_unchecked_color"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

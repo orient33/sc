@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="batteryinfo_color">#eadfdf</color>
+    <color name="battery_mode_title_color">#333333</color>
+    <color name="battery_switcher_checked_color">#c1372a</color>
+    <color name="battery_switcher_unchecked_color">#999999</color>
+    <color name="battery_divider_color">#c9c9c9</color>
+</resources>
