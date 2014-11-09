@@ -26,7 +26,7 @@ import com.sudoteam.securitycenter.datacell.BatteryModeCell;
 
 public class BatteryModeController implements OnClickListener {
 
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	private static final String TAG = "BatteryModeController";
 
 	public static final int NOTHING = 0;

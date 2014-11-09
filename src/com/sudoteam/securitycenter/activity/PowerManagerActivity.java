@@ -76,12 +76,12 @@ public class PowerManagerActivity extends Activity implements Handler.Callback {
 		setContentView(R.layout.power_manager_main);
 		registerBatteryStatusReceiver(this);
 		mContext = this;
+		addPowerManagerActionBar();
 		sAcChargeSpeed = computeChargeSpeedByDb(this, BatteryManager.BATTERY_PLUGGED_AC);
 		sUsbChargeSpeed = computeChargeSpeedByDb(this, BatteryManager.BATTERY_PLUGGED_USB);
 		sDisChargeSpeed = computeChargeSpeedByDb(this, BatteryManager.BATTERY_STATUS_DISCHARGING);
 		setUpViewsData();
 		startBatteryHelperService(this);
-		addPowerManagerActionBar(this);
 		
 	}
 	
@@ -104,6 +104,9 @@ public class PowerManagerActivity extends Activity implements Handler.Callback {
 		mBatteryModeList = (ListView) this.findViewById(R.id.battery_plan_mode);
 	
 		mBatteryModeListData = loadLocalData(this);
+		for (BatteryModeCell cell : mBatteryModeListData) {
+			log_e("-----display status:"+cell.displayStatus);
+		}
 		mAdapter = new BatteryModeAdapter(this, mBatteryModeListData);
 		mBatteryModeList.setAdapter(mAdapter);
 		
@@ -253,41 +256,43 @@ public class PowerManagerActivity extends Activity implements Handler.Callback {
 		}
 	}
 	
-	private void addPowerManagerActionBar(Context context){
+	private void addPowerManagerActionBar(){
 		String title = getString(R.string.module_save);
-		ImageView iv = Util.setActionBar(this,true,title,R.drawable.power_add_batterymode,new View.OnClickListener() {
+		Util.setActionBar(this,true,title,R.drawable.power_add_batterymode,new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				click(v);
+				onActionbarClick(v);
 			}
 		});
 		
 	}
-	private void click(View v){
-		final ImageView iv = (ImageView)v;
-		if (isCreateBatteryMode) {
-			isCreateBatteryMode = false;
-			iv.setImageResource(R.drawable.power_save_batterymode);
-			for (BatteryModeCell batteryModeInfo : mBatteryModeListData) {
-				if(batteryModeInfo.displayStatus){
-					batteryModeInfo.displayStatus = false;
-					batteryModeInfo.updateSelfToDb(mContext);
+	private void onActionbarClick(View v){
+		synchronized (PowerManagerActivity.class) {
+			final ImageView iv = (ImageView)v;
+			if (isCreateBatteryMode) {
+				isCreateBatteryMode = false;
+				iv.setImageResource(R.drawable.power_save_batterymode);
+				for (int i = 0; i < mBatteryModeListData.size(); i++) {
+					if(mBatteryModeListData.get(i).displayStatus){
+						mBatteryModeListData.get(i).displayStatus = false;
+						mBatteryModeListData.get(i).updateSelfToDb(mContext);
+					}
 				}
+				BatteryModeCell batteryModeInfo = BatteryModeCell.createNewBatteryMode(mContext);
+				mBatteryModeListData.add(batteryModeInfo);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						mBatteryModeList.setSelection(mAdapter.getCount()-1);
+					}
+				}).start();
+				mAdapter.notifyDataSetChanged();
+			}else{
+				iv.setImageResource(R.drawable.power_add_batterymode);
+				mContext.sendBroadcast(new Intent(SAVE_BATTERY_MODE));
+				isCreateBatteryMode = true;
 			}
-			BatteryModeCell batteryModeInfo = BatteryModeCell.createNewBatteryMode(mContext);
-			mBatteryModeListData.add(batteryModeInfo);
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					mBatteryModeList.setSelection(mAdapter.getCount()-1);
-				}
-			}).start();
-			mAdapter.notifyDataSetChanged();
-		}else{
-			iv.setImageResource(R.drawable.power_add_batterymode);
-			mContext.sendBroadcast(new Intent(SAVE_BATTERY_MODE));
-			isCreateBatteryMode = true;
 		}
 	
 	}

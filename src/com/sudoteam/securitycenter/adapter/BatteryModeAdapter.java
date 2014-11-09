@@ -17,7 +17,7 @@ import com.sudoteam.securitycenter.deviceutils.BatteryModeController.DataChangeL
  */
 public class BatteryModeAdapter extends AutoReuseViewAdapter {
 
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	private static final String TAG = "BatteryModeAdapter";
 
 	private ArrayList<BatteryModeCell> mListData;
@@ -44,7 +44,7 @@ public class BatteryModeAdapter extends AutoReuseViewAdapter {
     public void onBoundDataAndEventToViews(final int position, View itemView, ArrayList<View> childViews) {
     	
     	BatteryModeCell currentBatteryModeInfo = mListData.get(position);
-    	log_e("adapter  currentBatteryModeInfo position:"+position+"  "+currentBatteryModeInfo.selectStatus);
+    	log_e("adapter  currentBatteryModeInfo position:"+position+"  selectStatus"+currentBatteryModeInfo.selectStatus+"	displayStatus:"+currentBatteryModeInfo.displayStatus);
     	
     	new BatteryModeController(mContext, childViews, currentBatteryModeInfo, new DataChangeListener() {
 
@@ -61,10 +61,12 @@ public class BatteryModeAdapter extends AutoReuseViewAdapter {
 								if (scanFlag == BatteryModeController.DISPLAY_STATUS_CHANGE) {
 									if(mListData.get(i).displayStatus && i != position){
 										mListData.get(i).displayStatus = false;
+										mListData.get(i).updateSelfToDb(mContext);
 									}
 								}else if(scanFlag == BatteryModeController.TOGGLE_STATUS_CHANGE){
 									if(mListData.get(i).selectStatus && i != position){
 										mListData.get(i).selectStatus = false;
+										mListData.get(i).updateSelfToDb(mContext);
 									}
 								}
 							}

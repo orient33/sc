@@ -1,11 +1,11 @@
 {
 	"default_battery_mode":
 	[{"id":1,
-	 "mode_name":"极限省电方案",
+	 "mode_name":"省电模式",
 	 "permission":0,
 	 "select_status":false,
 	 "edit_status":false,
 	 "display_status":false,
 	 "air_plan_mode":false,"mobile_data":true,"wifi":true,"bluetooth":false,"vibrate":false,
-	 "screen_timeout_status":15,"brightness":1,"ringer_volume":1}]
+	 "screen_timeout_status":15,"brightness":1,"ringer_volume":3}]
 }
