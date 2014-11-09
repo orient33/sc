@@ -84,19 +84,6 @@
               >
         </activity>
 
-        
-        
-        <!-- activity for mac module-->
-        <activity
-            android:name="com.sudoteam.securitycenter.mac.MacActivity" android:theme="@style/StyledIndicators" >
-        </activity>
-        
-        <activity
-            android:name="com.sudoteam.securitycenter.mac.PermissionsOfApp"/>
-        
-        <activity
-            android:name="com.sudoteam.securitycenter.mac.AppsOfPermission"/>
-        
     </application>
 
 </manifest>

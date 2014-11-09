@@ -32,7 +32,6 @@ public class SelfStartAdapter extends BaseAdapter implements IScan {
     private final View.OnClickListener lis = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
             int index = (Integer) v.getTag();
             final AppSelfStart ass = getItem(index);
             int uid = ass.uid;
@@ -45,7 +44,6 @@ public class SelfStartAdapter extends BaseAdapter implements IScan {
             } catch (Exception e) {
                 Util.e("set mode error. "+e);
             }
-
         }
     };
     List<AppSelfStart> mList;
