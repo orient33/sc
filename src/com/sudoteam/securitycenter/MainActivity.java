@@ -9,7 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.sudoteam.securitycenter.Activity.ScanVirusActivity;
+import com.sudoteam.securitycenter.Activity.ScanVirusActivity_v2;
+import com.sudoteam.securitycenter.Activity.AnnoyInterceptActivity;
 import com.sudoteam.securitycenter.mac.MacActivity;
 import com.sudoteam.securitycenter.netstat.NetstatActivity;
 import com.sudoteam.securitycenter.optimizer.OptimizerActivity;
@@ -59,7 +60,9 @@ public class MainActivity extends Activity {
 			}else if(id == R.id.module_net){
 				ma.startActivity(new Intent(ma, NetstatActivity.class));
 			}else if(id == R.id.module_antivirse){
-				ma.startActivity(new Intent(ma,ScanVirusActivity.class));
+				ma.startActivity(new Intent(ma,ScanVirusActivity_v2.class));
+			}else if(id == R.id.module_block){
+				ma.startActivity(new Intent(ma, AnnoyInterceptActivity.class));
 			}else {
                 Toast.makeText(ma, "to be continue...", Toast.LENGTH_SHORT).show();
             }

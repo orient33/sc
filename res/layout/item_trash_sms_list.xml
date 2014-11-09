@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ccc"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="60dp"/>
+
+    <Button
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:id="@+id/sms_indicator"
+        android:background="@drawable/sms_indicator"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/sms_indicator"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="8dp"
+        android:textSize="15sp"
+        android:id="@+id/sms_number"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sms_time"
+        android:layout_toRightOf="@+id/sms_number"
+        android:layout_alignBottom="@id/sms_number"
+        android:textSize="13sp"
+        android:layout_marginLeft="15dp"/>
+
+    <Button
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:background="@drawable/sms_select"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:id="@+id/sms_select"/>
+
+
+    <TextView
+        android:id="@+id/sms_text"
+        android:layout_toRightOf="@id/sms_indicator"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:autoLink="all"
+        android:singleLine="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@id/sms_select"
+        android:layout_below="@id/sms_number"/>
+
+
+
+
+</RelativeLayout>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sms_block_settings"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/sms_block_settings_title"
+        android:textSize="20sp"
+        />
+
+    <View
+        android:id="@+id/sms_block_settings_title_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#ddd"
+        android:layout_below="@id/sms_block_settings_title"
+        android:layout_marginTop="5dp" />
+
+    <LinearLayout
+        android:id="@+id/sms_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/sms_block_settings_title_divider">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="@string/smart_block"
+                android:layout_centerVertical="true"
+                android:textSize="15sp" />
+
+            <Switch
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#ddd" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="@string/smart_block"
+                android:layout_centerVertical="true"
+                android:textSize="15sp" />
+
+            <Switch
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#ddd" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="@string/smart_block"
+                android:layout_centerVertical="true"
+                android:textSize="15sp" />
+
+            <Switch
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#ddd" />
+
+    </LinearLayout>
+    <!--android:text="Telephony Block Settings"-->
+
+    <TextView
+        android:layout_below="@id/sms_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tele_block_settings"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/tele_block_settings_title"
+        android:textSize="20sp"
+        />
+
+    <View
+        android:id="@+id/tele_block_settings_title_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#ddd"
+        android:layout_below="@id/tele_block_settings_title"
+        android:layout_marginTop="5dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/tele_block_settings_title_divider">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="@string/smart_block"
+                android:layout_centerVertical="true"
+                android:textSize="15sp" />
+
+            <Switch
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#ddd" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="@string/smart_block"
+                android:layout_centerVertical="true"
+                android:textSize="15sp" />
+
+            <Switch
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#ddd" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="@string/smart_block"
+                android:layout_centerVertical="true"
+                android:textSize="15sp" />
+
+            <Switch
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#ddd" />
+
+    </LinearLayout>
+
+</RelativeLayout>

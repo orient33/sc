@@ -107,5 +107,22 @@
     <string name="clear_button_text">clear it</string>
     <string name="update_button_text">update</string>
     <string name="log_button_text">log</string>
+    <string name="scan_interrupt">Scan Interrupt</string>
+    <string name="tobecontinued">To be Continued</string>
+    <string name="usedtime">used time : 55 second</string>
+    <string name="veryhealth">very health</string>
+    <string name="clearover">Clear Over</string>
+    <string name="pause">暂停</string>
+    <string name="scan_virus_title">病毒扫描</string>
+    <string name="problem">problem</string>
+    <string name="sms_block_cancel">cancel</string>
+    <string name="sms_block_clear">clear</string>
+
+    <string name="sms_block_settings">Sms Block Settings</string>
+    <string name="smart_block">Smart Block</string>
+
+    <string name="tele_block_settings">Telephony Block Settings</string>
+
+
 
 </resources>

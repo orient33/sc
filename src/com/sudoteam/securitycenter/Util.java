@@ -289,4 +289,15 @@ public class Util {
         process.waitFor();
         return isr;
     }
+
+    public static String getUsedTime(long time){
+
+        Log.i(TAG,"time is " + time);
+        long minutes = (time % (1000 * 60 * 60)) / (1000 * 60);
+        long seconds = (long)((time % (1000 * 60)) / 1000.0 + 0.5);
+
+        return minutes > 0 ? minutes + " 分 "+ seconds + " 秒" : seconds + " 秒";
+
+    }
+
 }

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.AsyncTask;
 import android.util.Log;
+import com.sudoteam.securitycenter.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,6 +78,7 @@ public class ScanVirusManager {
         int allPkgs = getInstalledPkgNumber();
         private long startScan ;
         private long stopScan ;
+        private ScanProcess params;
         @Override
         protected Void doInBackground(Void... params) {
 
@@ -105,6 +107,11 @@ public class ScanVirusManager {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+
+            stopScan = System.currentTimeMillis();
+            params.setUsedTime(Util.getUsedTime(stopScan - startScan));
+
+            listener.onPackageScaned(params);
         }
 
         @Override
@@ -118,17 +125,20 @@ public class ScanVirusManager {
 
                 String name = (String) info.applicationInfo.loadLabel(packageManager);
 
-                ScanProcess params = new ScanProcess();
+                params = new ScanProcess();
                 params.setLabel(name);
                 params.setCurrentAppIndex(i);
                 params.setAllApps(allPkgs);
                 params.setVirus(virus);
+                params.setIcon(info.applicationInfo.loadIcon(packageManager));
+
+                Log.i("huayang","i == " + i + "  all = " + allPkgs);
+                Log.i("huayang","start == " + startScan + "  stop = " + stopScan);
 
                 if(i == allPkgs) {
-                    params.setUsedTime(getUsedTime(stopScan - startScan));
-                    startScan = stopScan = 0;
+                    params.setUsedTime(Util.getUsedTime(stopScan - startScan));
+                    //startScan = stopScan = 0;
                 }
-                params.setIcon(info.applicationInfo.loadIcon(packageManager));
 
                 listener.onPackageScaned(params);
 
@@ -155,22 +165,12 @@ public class ScanVirusManager {
     public void updateVirusDB(NetworkManager.DownloadListener listener){
 
         NetworkManager.
-                getInstance(context).download("http://qianqian.baidu.com/download/ttpsetup-56013088.exe",
-                "/mnt/sdcard/a.exe",listener);
+                getInstance(context).download("http://www.2cto.com/uploadfile/Collfiles/20141011/2014101108340051.jpg",
+                "/mnt/sdcard/a.jpg",listener);
     }
 
 
-    public String getUsedTime(long time){
 
-        Log.i(TAG,"time is " + time);
-//        long days = time / (1000 * 60 * 60 * 24);
-//        long hours = (time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
-        long minutes = (time % (1000 * 60 * 60)) / (1000 * 60);
-        long seconds = (time % (1000 * 60)) / 1000;
-
-        return minutes > 0 ? minutes + " 分 "+ seconds + " 秒" : seconds + " 秒";
-
-    }
 
     /**
      * how many pkgs in number

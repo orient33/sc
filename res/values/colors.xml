@@ -1,5 +1,7 @@
 <resources>
     <color name="main_color">#7e2920</color>
     <color name="actionbar_back_btn_pressed_color">#33000000</color>
+    <color name="background_tab_pressed">#6633B5E5</color>
+    <color name="translucent_background">#45cd</color>
 
 </resources>

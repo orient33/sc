@@ -58,4 +58,18 @@
         <item name="android:textColor">@drawable/selector_tabtext</item>
     </style>
 
+
+    <!--first page dialog-->
+    <style name="Translucent_NoTitle" parent="android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">#00000000</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- background hui du-->
+        <item name="android:backgroundDimAmount">0.0</item>
+
+    </style>
+
+
 </resources>

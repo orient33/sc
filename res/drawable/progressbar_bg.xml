@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--  设置背景色图像资源  -->
+    <item android:id="@android:id/background">
+        <scale
+            android:drawable="@drawable/progrssbar_background"
+            android:scaleWidth="100%" />
+
+    </item>
+    <!--  设置第一级进度条颜色图像资源  -->
+    <item android:id="@android:id/progress">
+        <scale
+            android:scaleWidth="100%"
+            android:drawable="@drawable/progress_bg" />
+    </item>
+</layer-list>   

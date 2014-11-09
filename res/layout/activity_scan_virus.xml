@@ -1,0 +1,237 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bak">
+
+
+
+    <RelativeLayout
+        android:id="@+id/scan_page_parent_scanning"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:background="@drawable/bak"
+        android:visibility="visible">
+
+<!--        <include layout="@layout/top_navigation" />-->
+
+        <RelativeLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true">
+
+                <ProgressBar
+                    android:id="@+id/scan_progress"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
+                    android:progress="40"
+                    android:max="100"
+                    android:progressDrawable="@drawable/progressbar_bg" />
+
+                <TextView
+                    android:id="@+id/current_scaning_package_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:textColor="#fff"
+                    android:textSize="16sp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="50dp"
+                    android:singleLine="true" />
+            </RelativeLayout>
+
+
+            <Button
+                android:layout_centerInParent="true"
+                android:id="@+id/scan_mask"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@drawable/safe_scan" />
+
+
+            <Button
+                android:id="@+id/scan_app_icon"
+                android:layout_width="43dp"
+                android:layout_height="43dp"
+                android:background="#ccc"
+                android:layout_centerInParent="true" />
+
+
+            <TextView
+                android:id="@+id/scan_interrupted_note1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/scan_interrupt"
+                android:textSize="30sp"
+                android:textColor="#fff"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="80dp"
+                android:visibility="invisible"
+                />
+            <TextView
+                android:id="@+id/scan_interrupted_note2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tobecontinued"
+                android:textSize="30sp"
+                android:textColor="#fff"
+                android:layout_below="@id/scan_interrupted_note1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:visibility="invisible"
+                />
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/scan_page_parent_over"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:background="@drawable/bak"
+        android:visibility="invisible">
+
+        <RelativeLayout
+            
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true">
+
+                <TextView
+                    android:id="@+id/scan_over_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/usedtime"
+                    android:textColor="#fff"
+                    android:textSize="16sp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="50dp"
+                    android:singleLine="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+
+                >
+
+                <Button
+                    android:layout_centerVertical="true"
+                    android:id="@+id/scan_over_indicator"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/sms_over_health" />
+
+
+                <TextView
+                    android:id="@+id/scan_over_word"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="35sp"
+                    android:layout_toRightOf="@id/scan_over_indicator"
+                    android:layout_centerVertical="true"
+                    android:text="@string/veryhealth"
+                    android:textColor="#fff"
+                    android:layout_marginLeft="15dp" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/scan_page_parent_clear_over"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:background="@drawable/bak"
+        android:visibility="invisible">
+
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+
+                >
+
+                <Button
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/scan_clear_over_indicator"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/safe_scan" />
+
+                <TextView
+                    android:id="@+id/scan_clear_over_word"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="35sp"
+                    android:layout_below="@id/scan_clear_over_indicator"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/clearover"
+                    android:textColor="#fff"
+                    android:layout_marginLeft="15dp" />
+            </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="#fff"
+        android:id="@+id/scan_operation_button">
+
+        <Button
+            android:layout_width="350dp"
+            android:layout_height="45dp"
+            android:layout_centerHorizontal="true"
+            android:text="@string/pause"
+            android:textColor="#fff"
+            android:background="@drawable/button_selector" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_below="@id/scan_page_parent_scanning"
+        android:id="@+id/checked_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/scan_operation_button"
+        android:background="#ddd">
+
+        <com.sudoteam.securitycenter.Views.LineView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/item_container">
+
+        </com.sudoteam.securitycenter.Views.LineView>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <include layout="@layout/top_navigation" />
+    </RelativeLayout>
+
+</RelativeLayout>

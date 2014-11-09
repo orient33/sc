@@ -26,6 +26,15 @@
     <uses-permission android:name="android.permission.GET_APP_OPS_STATS" />
     <uses-permission android:name="android.permission.UPDATE_APP_OPS_STATS"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <!-- Sms read / write-->
+    <uses-permission android:name="android.permission.WRITE_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     
     <application
         android:allowBackup="true"
@@ -51,6 +60,29 @@
         <activity android:name=".Activity.ScanLogActivity"/>
         <activity android:name=".Activity.ScanVirusActivity"/>
         <activity android:name=".Activity.SuperActivity"/>
+        <activity android:name=".Activity.AnnoyInterceptActivity"/>
+
+        <service android:name="com.example.block.WorkService">
+            <intent-filter>
+                <action android:name="com.example.block.work"></action>
+            </intent-filter>
+        </service>
+
+        <receiver android:name=".Activity.TrashSmsActivity$TrashSmsReceiver">
+            <intent-filter>
+                <action android:name="com.example.block.intrashsms"></action>
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".Activity.ScanVirusActivity_v2"
+              >
+        </activity>
+
+        <activity
+            android:name=".Activity.AnnoyInterruptSettingsActivity"
+              >
+        </activity>
 
         
         

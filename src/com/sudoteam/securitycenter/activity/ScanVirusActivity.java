@@ -18,8 +18,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import com.sudoteam.securitycenter.Entity.ScanLog;
 import com.sudoteam.securitycenter.Entity.ScanProcess;
-import com.sudoteam.securitycenter.Manager.NetworkManager;
-import com.sudoteam.securitycenter.Manager.ScanVirusManager;
+import com.sudoteam.securitycenter.Manager.*;
 
 import com.sudoteam.securitycenter.Views.SingleClickButton;
 import com.sudoteam.securitycenter.R;
@@ -118,6 +117,13 @@ public class ScanVirusActivity extends SuperActivity implements
     public void showScanLog(View view){
 
         startActivity(new Intent(this,ScanLogActivity.class));
+
+        MessageManager mm = MessageManager.getInstance(this);
+
+        /**
+        mm.createDb();
+        mm.isTrashMsgByNum("10010");
+         */
     }
 
 

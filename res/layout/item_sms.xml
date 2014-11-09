@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:id="@+id/parent_container"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/msg_content_container"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <Button
+            android:id="@+id/msg_open_btn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="#444"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp" />
+
+        <Button
+            android:id="@+id/msg_indicator"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="#444"
+            android:layout_toRightOf="@id/msg_open_btn"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:id="@+id/msg_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+
+            android:layout_toRightOf="@id/msg_indicator"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="200dp"
+            android:singleLine="true"
+            android:layout_height="wrap_content"
+
+            android:layout_alignLeft="@id/msg_number"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/msg_number"
+            android:textColor="#777"
+            android:id="@+id/msg_content" />
+
+        <Button
+            android:id="@+id/msg_select"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="#123456"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/msg_number"
+            android:layout_marginRight="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/msg_time"
+
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_alignTop="@id/msg_content" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#aaa"
+            android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/msg_oprator_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#434234"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_below="@id/msg_content_container"
+
+        >
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_marginLeft="30dp">
+
+            <Button
+                android:id="@+id/msg_resume"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="#fff"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textColor="#fff"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_marginLeft="20dp">
+
+            <Button
+                android:id="@+id/msg_delte"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="#fff"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textColor="#fff"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
