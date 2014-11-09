@@ -63,8 +63,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".netstat.NetstatActivity" />
-        <activity android:name=".optimizer.OptimizerActivity" />
+
+        <activity android:name=".netstat.NetstatActivity"/>
+        <activity android:name=".optimizer.OptimizerActivity"/>
+
+        <!-- app ops-->
+        <activity android:name=".mac.OpsActivity" android:label="@string/module_mac"/>
+        <activity android:name=".mac.DetailActivity" />
+
 
         <!-- add by huayang -->
         <activity android:name=".Activity.ScanLogActivity" />

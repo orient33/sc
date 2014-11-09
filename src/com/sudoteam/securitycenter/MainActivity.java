@@ -4,16 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
-import com.sudoteam.securitycenter.Activity.ScanVirusActivity_v2;
 import com.sudoteam.securitycenter.Activity.AnnoyInterceptActivity;
 import com.sudoteam.securitycenter.activity.PowerManagerActivity;
+import com.sudoteam.securitycenter.Activity.ScanVirusActivity_v2;
+import com.sudoteam.securitycenter.mac.OpsActivity;
 import com.sudoteam.securitycenter.netstat.NetstatActivity;
 import com.sudoteam.securitycenter.optimizer.OptimizerActivity;
 
@@ -44,7 +41,7 @@ public class MainActivity extends Activity {
                                  Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.fragment_main, container, false);
             for (int id : BUTTON_IDS) {
-                Button btn = (Button) v.findViewById(id);
+                View btn = v.findViewById(id);
                 btn.setOnClickListener(this);
             }
             return v;
@@ -58,7 +55,7 @@ public class MainActivity extends Activity {
 			if (id == R.id.module_optimizer) {
 				ma.startActivity(new Intent(ma, OptimizerActivity.class));
 			}else if(id == R.id.module_mac){
-//				ma.startActivity(new Intent(ma, OpsActivity.class));
+				ma.startActivity(new Intent(ma, OpsActivity.class));
 			}else if(id == R.id.module_net){
 				ma.startActivity(new Intent(ma, NetstatActivity.class));
 			}else if(id == R.id.module_antivirse){
