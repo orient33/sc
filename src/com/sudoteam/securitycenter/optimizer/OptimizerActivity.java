@@ -1,6 +1,5 @@
 package com.sudoteam.securitycenter.optimizer;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,21 +16,18 @@ public class OptimizerActivity extends Activity implements View.OnClickListener 
         setContentView(R.layout.activity_main);
 
         if (s == null) {
-            getFragmentManager().beginTransaction().add(R.id.container, new OptFragment()).commit();
+            getFragmentManager().beginTransaction().add(R.id.container, new OptimizerFragment()).commit();
         }
         String title = getString(R.string.module_optimizer);
-        Util.setActionBar(this, true, title, this);
+        Util.setActionBar(this, true, title, R.drawable.optimizer_set, this);
     }
 
     @Override
     public void onClick(View v) {
-        final int id = v.getId();
-        switch (id) {
+        switch (v.getId()) {
             case R.id.actionbar_setting:
-                Toast.makeText(this,"set optimizer",0).show();
+                Toast.makeText(this, "To Be Continue..", 0).show();
                 break;
         }
     }
-
-
 }

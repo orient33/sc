@@ -8,25 +8,21 @@ import android.util.Log;
 
 import java.lang.Exception;
 import java.lang.Override;
-import com.sudoteam.securitycenter.Manager.*;
+//import com.sudoteam.securitycenter.Manager.*;
 
 public class WorkService extends Service {
 
 
     @Override
     public IBinder onBind(Intent intent) {
-        return mBinder;
+        return null;//mBinder;
     }
 
-    public ICheckSms.Stub mBinder = new ICheckSms.Stub(){
+/*    public ICheckSms.Stub mBinder = new ICheckSms.Stub(){
 
         @Override
         public boolean shouldBlockThisSmsByNumber(String number){
 
-            /**
-             * should looking up database for ensure that if
-             * the number is a bad num.
-             */
 
             if(MessageManager.getInstance(WorkService.this).isTrashMsgByNum(number)){
 
@@ -53,4 +49,5 @@ public class WorkService extends Service {
         }
 
     };
+*/
 }

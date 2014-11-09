@@ -19,7 +19,8 @@ public class TimeUtils {
     private static final SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
-     * 获取日期date的时间起始时间long 如 2014-11-11 ---> (2014-11-11 00:00:00)
+     * get start time for date eg :
+     * 2014-11-11 ---> (2014-11-11 00:00:00)
      */
     static long getLongForDate(String date) {
         try {
@@ -35,7 +36,7 @@ public class TimeUtils {
         int _hao = Integer.parseInt(hao);
         ArrayList<String> times = new ArrayList<String>();
         if (_hao < 1)
-            throw new RuntimeException("日期怎么可能小于 1 ");
+            throw new RuntimeException("impossible  date less than 1 ");
         if (_hao == 1) {
             times.add(date);
             return times;

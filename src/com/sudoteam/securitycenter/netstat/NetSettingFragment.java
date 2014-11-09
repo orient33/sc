@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.sudoteam.securitycenter.R;
 
 /**
- * 流量/套餐设置页
+ * setting for net usage. or set phone number dialog.
  */
 public class NetSettingFragment extends DialogFragment {
     private static final String NUMBER_KEY = "phone-number";

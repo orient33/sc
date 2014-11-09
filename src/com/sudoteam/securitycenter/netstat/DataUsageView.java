@@ -20,28 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 流量统计的图表, 横坐标为每个月的x号
+ * Chart view for data usage
  */
 public class DataUsageView extends View {
-    /**
-     * 主背景颜色
-     */
     private static final int BG_COLOR = 0xfffbfbfb;
-    /**
-     * 折线 以及 阴影区域的颜色
-     */
     private static final int MAIN_LINE_COLOR = 0xffd53844;
-    /**
-     * 水平线 的颜色
-     */
     private static final int HORIZONTAL_COLOR = Color.BLACK;
-    /**
-     * 垂直线的颜色
-     */
     private static final int VIRTICAL_COLOR = 0xfffca393;
-    /**
-     * 文本的颜色
-     */
     private static final int TEXT_COLOR = Color.WHITE;
 
     public DataUsageView(Context context) {
@@ -54,7 +39,7 @@ public class DataUsageView extends View {
         init(context);
     }
 
-    Paint mCurvePaint;//主曲线
+    Paint mCurvePaint;
     Paint mHorizoncalPaint, mVirtacalPaint, mTextPaint;
     Drawable mPaoPao;
 
@@ -92,22 +77,16 @@ public class DataUsageView extends View {
 
     void bindData(List<Point> list) {
         mPoints.clear();
-        int maxY = 0,maxX =0;
         for (Point du : list) {
             mPoints.add(new Point(du.x, du.y));
             Util.i("[DataUsageView]bindData() x=" + du.x + ", y=" + du.y);
-            maxY = du.y;
-            maxX = du.x;
         }
-        //:TODO for test
-        for (int i = 1; i < 6; ++i, maxY += 10)
-            mPoints.add(new Point(++maxX, maxY));
         requestLayout();
     }
 
     Rect mRect = new Rect();
-    List<Point> mPoints = new ArrayList<Point>();//数学意义上的坐标点 列表,按照x升序排列 且x为等差数列
-    List<Point> mAdjustPoints = new ArrayList<Point>();//调整后 android的坐标点
+    List<Point> mPoints = new ArrayList<Point>();
+    List<Point> mAdjustPoints = new ArrayList<Point>();
     Path mCurvePath = new Path();
     int maxY, maxX;
 
@@ -126,26 +105,28 @@ public class DataUsageView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        getDrawingRect(mRect);  //获取View的矩形范围,
+        getDrawingRect(mRect);  //get rect of View
         Util.i("onDraw()  Rect is " + mRect);
         canvas.drawColor(BG_COLOR);
         if (mPoints == null || mPoints.size() == 0)
             return;
-        adjustPoint(canvas);//调整坐标点
+        adjustPoint(canvas);
         drawCurve(canvas);
         drawGrid(canvas);//draw grid
     }
 
-    //根据数学上的坐标mPoints   计算出来android上的坐标mAdjustPoints
+    /**
+     * calculate real point on android , depend on point in Math.
+     */
     private void adjustPoint(Canvas canvas) {
         maxY = -1;
         maxX = mPoints.get(mPoints.size() - 1).x;
-        for (Point p : mPoints) {  //找出y最大值
+        for (Point p : mPoints) {  // find max y
             if (p.y > maxY)
                 maxY = p.y;
         }
-        int iy = (mRect.bottom - mRect.top) / maxY;  //单位1长度 对应的 高度
-        int ix = (mRect.right - mRect.left) / maxX;  //单位1长度 对应的宽度
+        int iy = (mRect.bottom - mRect.top) / maxY;
+        int ix = (mRect.right - mRect.left) / maxX;
 
         int x0 = mRect.left;
         int newX = 0, newY = 0;
@@ -159,17 +140,17 @@ public class DataUsageView extends View {
 
     private void drawGrid(Canvas canvas) {
         int size = mAdjustPoints.size();
-        int lineSize = 5;//画 5 条线
-        int space = maxY / lineSize; //间隔 space表示y的等差值
-        int iiy = (mRect.bottom - mRect.top) / lineSize; //间隔像素
+        int lineSize = 5;// count of horizontal line.
+        int space = maxY / lineSize; // space between each horizontal line
+        int iiy = (mRect.bottom - mRect.top) / lineSize; //px between each horizontal line
         int x0 = mRect.left, x1 = mRect.right;
         for (int i = 0; i < size; ++i) {
-            int y = mRect.bottom - (i * iiy);   //刻度
+            int y = mRect.bottom - (i * iiy);
             canvas.drawText(" " + (i * space), x0, y, mHorizoncalPaint);
-            canvas.drawLine(x0, y, x1, y, mHorizoncalPaint); //横向的虚线
+            canvas.drawLine(x0, y, x1, y, mHorizoncalPaint); // draw horizontal line
             Point p = mAdjustPoints.get(i);
-            canvas.drawLine(p.x, mRect.bottom, p.x, p.y, mVirtacalPaint);//竖向的线
-            canvas.drawCircle(p.x, p.y, 6, mVirtacalPaint); //坐标处的小圆圈
+            canvas.drawLine(p.x, mRect.bottom, p.x, p.y, mVirtacalPaint);//draw vertical line
+            canvas.drawCircle(p.x, p.y, 6, mVirtacalPaint); // draw small circle on every point
         }
 
         //draw pao pao icon

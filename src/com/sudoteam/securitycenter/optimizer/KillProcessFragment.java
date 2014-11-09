@@ -47,10 +47,6 @@ public class KillProcessFragment extends MyFragment implements
     public KillProcessFragment() {
     }
 
-    void finish() {
-        Toast.makeText(mActivity, "how to finish a Fragment! -:(", Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public View onCreateView(LayoutInflater li, ViewGroup vg, Bundle b) {
         mActivity = getActivity();
@@ -58,7 +54,7 @@ public class KillProcessFragment extends MyFragment implements
         mClearAll = (Button) v.findViewById(R.id.clear_all_button);
         mCheckboxAll = (CheckBox) v.findViewById(R.id.clear_cb);
         mListView = (ListView) v.findViewById(R.id.clear_list);
-        mAdapter = KillProcessAdapter.get(mActivity, mHandler, callback);
+        mAdapter = KillProcessAdapter.get(mActivity, callback).setHandler(mHandler);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(this);
         mListView.setEmptyView(new ProgressBar(mActivity));
@@ -91,19 +87,15 @@ public class KillProcessFragment extends MyFragment implements
         boolean all = mCheckboxAll.isChecked();
         int id = v.getId();
         switch (id) {
-            case R.id.clear_cb:        //全选框
+            case R.id.clear_cb:        //select all  checkbox
                 mAdapter.select(all);
                 break;
-            case R.id.clear_all_button: // 一键清理
+            case R.id.clear_all_button: // clear all  button
                 mAdapter.optimizeSelect(all);
                 if (all)
                     mActivity.onBackPressed();
                 break;
         }
-    }
-
-    void showToast(String msg) {
-        Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

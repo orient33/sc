@@ -51,7 +51,7 @@ public class KillProcessDetail extends Fragment {
         mName.setText(mItem.title);
         mSize.setText(mItem.memUse);
         mSwitch.setChecked(mItem.inWhite);
-//        mOpWhite mSwitch 使用一个即可
+//        mOpWhite /mSwitch
         mSwitch.setOnCheckedChangeListener(lis);
         return v;
     }

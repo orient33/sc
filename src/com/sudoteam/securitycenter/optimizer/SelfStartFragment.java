@@ -34,7 +34,7 @@ public class SelfStartFragment extends Fragment implements LoaderManager.LoaderC
                              Bundle savedInstanceState) {
         View v = View.inflate(mActivity, R.layout.self_start_fragment, null);
         ListView lv = (ListView) v.findViewById(R.id.self_start_list);
-        mAdapter = new SelfStartAdapter(mActivity);
+        mAdapter = SelfStartAdapter.get(mActivity);
         lv.setAdapter(mAdapter);
         lv.setOnItemClickListener(this);
         getLoaderManager().initLoader(11, null, this);

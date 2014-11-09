@@ -31,7 +31,7 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
     private static final String TAG = "[ClearCacheAdapter]";
 
     /**
-     * 小于此值的忽略, 即 认为无缓存
+     * do not regard as cache, if size less than MIN_CACHE
      */
     private static final int MIN_CACHE = 12288;
     private static ClearCacheAdapter ins;
@@ -135,10 +135,11 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
     }
 
     /**
-     * 必须在 非UI线程 执行
+     * should  run on non-UI thread.
      *
-     * @param h 进度观察
-     * @return 垃圾/缓存总大小
+     * @param h the Handler will update UI.
+     * @param what message id for Handler
+     * @return size information of garbage/cache
      */
     @Override
     public int doCheck(Handler h, int what) {
@@ -153,18 +154,18 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
                 pm.getPackageSizeInfo(ai.packageName, aci.pso);
                 if (h != null) {
                     h.obtainMessage(what, aci.label).sendToTarget();
-                    SystemClock.sleep(10);
+                    SystemClock.sleep(20);
                 }
                 data.add(aci);
                 ++AppCacheInfo.findApp;
             }
         }
         if (h != null)
-            h.obtainMessage(what, "").sendToTarget();
+            h.obtainMessage(what, OptimizerFragment.MSG_OVER).sendToTarget();
         Util.i("load app info , count = " + data.size());
         int maxLoop = 10;
         while (AppCacheInfo.findApp > 0 && maxLoop-- > 0)
-            // 确保回调执行
+            // ensure callback (onGetStatsCompleted) run. & wait no more than 1s
             SystemClock.sleep(100);
         for (int i = data.size() - 1; i >= 0; --i) {
             if (data.get(i).cacheSize <= MIN_CACHE)
@@ -202,8 +203,7 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
             }
         }
         long after = Util.getAvailableByte();
-        Util.i("实际值 : " + (after - before) + ",,, 应该是 ： " + count + ",,, 相差: "
-                + (after - before - count));
+        Util.i("actual : " + (after - before) + ",should be： " + count + ", diff: "+ (after - before - count));
         refresh();
         return (int) count;
     }

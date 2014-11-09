@@ -14,9 +14,6 @@ public class OptDatabase extends SQLiteOpenHelper {
 
     private static final String FILENAME = "optimizer.db";
 
-    /**
-     * 表
-     */
     private static final String TASK_WHITE_LIST = "task_white_list";
     private static final String SDCLEAN_WHITE_LIST = "sdclean_white_list";
     private static OptDatabase sIns;

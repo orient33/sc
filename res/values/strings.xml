@@ -14,7 +14,7 @@
     <string name="cancel">取消</string>
 
     <!-- 子模块名称 -->
-    <string name="module_optimizer">系统优化</string>
+    <string name="module_optimizer">系统加速</string>
     <string name="module_net">流量监控</string>
     <string name="module_block">骚扰拦截</string>
     <string name="module_save">省电优化</string>
@@ -34,14 +34,15 @@
 	<!-- 系统优化 -->
 	<string name="opt_garbage">垃圾清理</string>
 	<string name="opt_task">任务清理</string>
-	<string name="opt_self_on">自启动管理</string>
+	<string name="opt_self_on">自启动应用</string>
 	<string name="opt_set">优化设置</string>
 
 	<string name="app_cache">应用缓存</string>
 	<string name="sdcard_cache">垃圾缓存</string>
 	<string name="kill_app">进程清理</string>
-	<string name="app_cache_summary">已发现 %1$s 应用缓存</string>
-	<string name="sdcard_cache_summary">已发现 %1$s 垃圾缓存</string>
+	<string name="app_cache_summary">发现 %1$s 应用缓存</string>
+	<string name="sdcard_cache_summary">发现 %1$s 垃圾缓存</string>
+    <string name="selfon_app_summary">发现 %1$s 自启动应用</string>
 	<string name="kill_app_summary">可清理进程 %1$s 个</string>
 	<string name="kill_app_ok">清理此进程</string>
 	<string name="kill_app_no">加到白名单</string>
@@ -55,7 +56,6 @@
 	<string name="need_no_clear">无需清理</string>
 	<string name="scanning">正在扫描 : </string>
 	<string name="scan_complete">扫描完成</string>
-	<string name="sd_info">可用 %1$s / 共 %2$s</string>
 	<string name="find_no_cache">没有发现系统缓存</string>
 	<string name="clear_ok">清理完成</string>
 

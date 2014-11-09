@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 任务白名单 database一个中介
+ * white list of task/app .
  */
 
 public class KillProcessWhiteList {
@@ -51,7 +51,7 @@ public class KillProcessWhiteList {
     }
 
     /**
-     * 添加一个task到白名单
+     * return whether the app is in white list
      */
     public boolean add(String name) {
         Util.i("add task : " + name);

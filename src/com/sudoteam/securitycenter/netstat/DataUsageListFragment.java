@@ -60,7 +60,7 @@ import static android.net.TrafficStats.UID_REMOVED;
 import static android.net.TrafficStats.UID_TETHERING;
 import static com.android.internal.util.Preconditions.checkNotNull;
 /**
- * 各个应用所使用的流量的排行
+ * rank for data usage of every app
  * */
 public class DataUsageListFragment extends Fragment {
 	private static final String TAG = "[DataUsageList]";
@@ -266,7 +266,7 @@ public class DataUsageListFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Long> list){
             if(list.size() != dates.size())
-                throw new RuntimeException("date 和 data_usage 列表不一致!");
+                throw new RuntimeException("date 和 data_usage's size not equal !");
             List<Point> data = new ArrayList<Point>();
             for (int i = 0; i < list.size(); ++i) {
                 int x = Integer.parseInt(dates.get(i).substring(8));
@@ -496,7 +496,6 @@ public class DataUsageListFragment extends Fragment {
 	/**
 	 * Background task that loads {@link UidDetail}, binding to
 	 * {@link DataUsageAdapter} row item when finished.<br>
-	 * 异步加载app的图片，完成后bind给adapter来更新ui
 	 */
 	private static class UidDetailTask extends AsyncTask<Void, Void, UidDetail> {
 		private final UidDetailProvider mProvider;
@@ -519,9 +518,9 @@ public class DataUsageListFragment extends Fragment {
 
 			final UidDetail cachedDetail = provider.getUidDetail(item.key,
 					false);
-			if (cachedDetail != null) {//有cache的detail时 直接使用detail设置view
+			if (cachedDetail != null) {
 				bindView(cachedDetail, target);
-			} else {			//无cache的detail时 加载一个async task给view的tag
+			} else {
 				target.setTag(new UidDetailTask(provider, item, target)
 						.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR));
 			}

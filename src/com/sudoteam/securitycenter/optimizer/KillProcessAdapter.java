@@ -30,15 +30,14 @@ public class KillProcessAdapter extends BaseAdapter implements IScan {
     final ActivityManager mAM;
     final PackageManager mPM;
     final Context mContext;
-    final Handler mHandler;
+    Handler mHandler;
     private final ISelectCallback callback;
     List<KillItem> mList;
     private final KillProcessWhiteList mWhiteList;
     private final String mInWhite;
 
-    private KillProcessAdapter(Context c, Handler h, ISelectCallback cb) {
+    private KillProcessAdapter(Context c, ISelectCallback cb) {
         mContext = c;
-        mHandler = h;
         callback = cb;
         mPM = c.getPackageManager();
         mAM = (ActivityManager) c.getSystemService(Context.ACTIVITY_SERVICE);
@@ -56,10 +55,15 @@ public class KillProcessAdapter extends BaseAdapter implements IScan {
         // mWhiteList.add("com.android.smspush");
     }
 
-    static KillProcessAdapter get(Context c, Handler h, ISelectCallback cb) {
+    static KillProcessAdapter get(Context c, ISelectCallback cb) {
         if (ins == null)
-            ins = new KillProcessAdapter(c, h, cb);
+            ins = new KillProcessAdapter(c, cb);
         return ins;
+    }
+
+    KillProcessAdapter setHandler(Handler h) {
+        mHandler = h;
+        return this;
     }
 
     void refresh() {
@@ -168,9 +172,8 @@ public class KillProcessAdapter extends BaseAdapter implements IScan {
     }
 
     /**
-     * kill(false) 杀死所选的app kill(true)杀死全部的app
      *
-     * @return kill的进程数量
+     * @return size of running app which can be killed
      */
 
     @Override
@@ -197,8 +200,6 @@ public class KillProcessAdapter extends BaseAdapter implements IScan {
                 continue;
             if (item.inWhite) continue;
             RunningAppProcessInfo rapi = item.appInfo;
-            // 一般数值大于RunningAppProcessInfo.IMPORTANCE_SERVICE的进程都长时间没用或者空进程了
-            // 一般数值大于RunningAppProcessInfo.IMPORTANCE_VISIBLE的进程都是非可见进程，也就是在后台运行着
             if (rapi.importance > RunningAppProcessInfo.IMPORTANCE_VISIBLE) {
                 String[] pkgList = rapi.pkgList;
                 for (int j = 0; j < pkgList.length; ++j) {// pkgList 得到该进程下运行的包名
@@ -235,12 +236,12 @@ public class KillProcessAdapter extends BaseAdapter implements IScan {
 
         @Override
         public int compareTo(KillItem r) {
-            if(r.inWhite != inWhite){
-                if(r.inWhite) return -1;
+            if (r.inWhite != inWhite) {
+                if (r.inWhite) return -1;
                 else return 1;
             }
             int diff_im = r.appInfo.importance - appInfo.importance; // 按importance
-            // 降序
+            // desc
             if (diff_im != 0)
                 return diff_im;
             else {
