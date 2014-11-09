@@ -95,6 +95,8 @@
     <string name="input_phone_number">请输入您的手机号码</string>
 
 	<!-- app ops -->
+    <string name="ops_app_list">应用列表</string>
+    <string name="ops_ops_list">权限列表</string>
 	<string name="app_ops_running">"正在运行"</string>
 	<string name="app_ops_never_used">"（从未使用）"</string>
 	<string name="version_text">"版本 <xliff:g id="VERSION_NUM">%1$s</xliff:g>"</string>

@@ -41,67 +41,61 @@
             android:layout_centerHorizontal="true"
             android:columnCount="3">
 
-            <Button
+            <TextView
                 android:id="@+id/module_antivirse"
-                style="?android:attr/buttonBarStyle"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:paddingTop="20dp"
+                android:paddingTop="30dp"
                 android:paddingBottom="10dp"
                 android:background="@drawable/module_virus_scan"
                 android:gravity="bottom|center"
                 android:text="@string/module_antivirse" />
 
-            <Button
+            <TextView
                 android:id="@+id/module_optimizer"
-                style="?android:attr/buttonBarStyle"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:paddingTop="20dp"
+                android:paddingTop="30dp"
                 android:paddingBottom="10dp"
                 android:background="@drawable/module_sys_opt"
                 android:gravity="bottom|center"
                 android:text="@string/module_optimizer" />
 
-            <Button
+            <TextView
                 android:id="@+id/module_block"
-                style="?android:attr/buttonBarStyle"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:paddingTop="20dp"
+                android:paddingTop="30dp"
                 android:paddingBottom="10dp"
                 android:background="@drawable/module_block"
                 android:gravity="bottom|center"
                 android:text="@string/module_block" />
 
-            <Button
+            <TextView
                 android:id="@+id/module_net"
-                style="?android:attr/buttonBarStyle"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:paddingTop="20dp"
+                android:paddingTop="30dp"
                 android:paddingBottom="10dp"
                 android:background="@drawable/module_net"
                 android:gravity="bottom|center"
                 android:text="@string/module_net" />
 
-            <Button
+            <TextView
                 android:id="@+id/module_save"
-                style="?android:attr/buttonBarStyle"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:paddingTop="20dp"
+                android:paddingTop="30dp"
                 android:paddingBottom="10dp"
                 android:background="@drawable/module_power"
                 android:gravity="bottom|center"
                 android:text="@string/module_save" />
 
-            <Button
+            <TextView
                 android:id="@+id/module_mac"
-                style="?android:attr/buttonBarStyle"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:paddingTop="20dp"
+                android:paddingTop="30dp"
                 android:paddingBottom="10dp"
                 android:background="@drawable/module_permission"
                 android:gravity="bottom|center"

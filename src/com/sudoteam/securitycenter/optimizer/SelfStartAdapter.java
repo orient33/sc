@@ -37,7 +37,7 @@ public class SelfStartAdapter extends BaseAdapter implements IScan {
             int uid = ass.uid;
             int mode = !ass.allow ? AppOpsManager.MODE_ALLOWED : AppOpsManager.MODE_IGNORED;
             try {
-                mAOM.setMode(AppOpsManager.OP_BOOT_COMPLETED, uid, ass.pkgName, mode);
+                mAOM.setMode(50/*AppOpsManager.OP_BOOT_COMPLETED*/, uid, ass.pkgName, mode);
                 ass.allow = !ass.allow;
                 notifyDataSetChanged();
                 Util.i("setmode() name = " + ass.label + ", mode " + mode);
@@ -130,7 +130,7 @@ public class SelfStartAdapter extends BaseAdapter implements IScan {
                         Drawable icon = Util.getDrawableForPackage(pm, ai.packageName);
                         String label = Util.getNameForPackage(pm, ai.packageName);
                         int uid = pm.getPackageUid(ai.packageName, UserHandle.getCallingUserId());
-                        int mode = aom.checkOp(AppOpsManager.OP_BOOT_COMPLETED, uid, ai.packageName);
+                        int mode = aom.checkOp(50/*AppOpsManager.OP_BOOT_COMPLETED*/, uid, ai.packageName);
                         boolean allow = mode == AppOpsManager.MODE_ALLOWED;
                         AppSelfStart ass = new AppSelfStart(ai.packageName, uid, label, icon, allow);
                         data.add(ass);
