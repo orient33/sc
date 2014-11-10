@@ -23,14 +23,11 @@ import java.util.List;
  * app ops man UI.
  */
 public class OpsActivity extends FragmentActivity implements View.OnClickListener {
-    private PagerSlidingTabStrip mTabs;
-    AppOpsState mState;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ops);
-        mState = new AppOpsState(this);
         Util.setActionBar(this, true, getTitle().toString(), this);
         DisplayMetrics dm = getResources().getDisplayMetrics();
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.ops_tabs);
@@ -66,7 +63,7 @@ public class OpsActivity extends FragmentActivity implements View.OnClickListene
     }
 
     static class MyAdapter extends SlidePagerAdapter {
-        private Fragment mmFragmeng0, mmFragment1;
+        private Fragment mmFragment0, mmFragment1;
 
         public MyAdapter(FragmentManager fm, List<String> titles) {
             super(fm, titles);
@@ -77,17 +74,16 @@ public class OpsActivity extends FragmentActivity implements View.OnClickListene
 
             switch (position) {
                 case 0:
-                    if (mmFragmeng0 == null) {
-                        mmFragmeng0 = new OpsSummary();
+                    if (mmFragment0 == null) {
+                        mmFragment0 = new OpsListFragment();
                     }
-                    return mmFragmeng0;
+                    return mmFragment0;
 
                 case 1:
                     if (mmFragment1 == null) {
-                        mmFragment1 = new OpsListFragment();
+                        mmFragment1 = new AppListFragment();
                     }
                     return mmFragment1;
-
                 default:
                     return null;
             }

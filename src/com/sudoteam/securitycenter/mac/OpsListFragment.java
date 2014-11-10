@@ -3,6 +3,7 @@ package com.sudoteam.securitycenter.mac;
 import android.app.Activity;
 import android.app.AppOpsManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -10,12 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sudoteam.securitycenter.R;
 import com.sudoteam.securitycenter.Util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,68 +37,73 @@ public class OpsListFragment extends ListFragment {
         setListAdapter(mAdapter);
         final Activity act = getActivity();
         final AppOpsManager aom = (AppOpsManager) act.getSystemService(Context.APP_OPS_SERVICE);
-        AsyncTask<Void, Void, List<OneOps>> task = new AsyncTask<Void, Void, List<OneOps>>() {
+        AsyncTask<Void, Void, List<OneOp>> task = new AsyncTask<Void, Void, List<OneOp>>() {
             @Override
-            public List<OneOps> doInBackground(Void... v) {
-                int[] ops = {0};
-                List<OneOps> list = new ArrayList<OneOps>();
-
-                for (int i = 0; i < AppOpsManager._NUM_OP; ++i) {
-                    ops[0] = i;
-                    List<AppOpsManager.PackageOps> pops = aom.getPackagesForOps(ops);
-                    String name = AppOpsManager.opToName(i);
-                    int size = pops == null ? 0 : pops.size();
-                    OneOps oo = new OneOps(i, name, size);
-                    list.add(oo);
-                }
-                return list;
+            public List<OneOp> doInBackground(Void... v) {
+                return MacUtil.getOpsList(act, aom);
             }
 
             @Override
-            public void onPostExecute(List<OneOps> data) {
+            public void onPostExecute(List<OneOp> data) {
                 mAdapter.setData(data);
             }
         };
         task.execute();
     }
 
-    static class OneOps {
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        int pkg = mAdapter.getItem(position).op;
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra(DetailActivity.KEY_OP, pkg);
+        getActivity().startActivity(intent);
+    }
+
+    static class OneOp {
         final String name;
         final int op;
         final int appsCount;
+        final List<String> pkgs;
+        final List<Integer> modes;
 
-        OneOps(int op, String n, int count) {
+        OneOp(int op, String n, int count, List<String> data, List<Integer> ms) {
             this.op = op;
             name = n;
             appsCount = count;
+            pkgs = data;
+            modes = ms;
         }
     }
 
     static class AppAdapter extends BaseAdapter {
-        List<OneOps> list;
+        List<OneOp> list;
         final LayoutInflater inflater;
+
+        private String ops_use_count;
 
         AppAdapter(Context c) {
             inflater = LayoutInflater.from(c);
+            MacUtil.getLabelForOp(c, 0); // to init string...
+            ops_use_count = c.getString(R.string.ops_use_count);
         }
 
         /**
          * <must> call on UI thread
          */
-        void setData(List<OneOps> data) {
+        void setData(List<OneOp> data) {
             list = data;
-            Util.i("ops list : setData() size == "+ data.size());
+            Util.i("ops list : setData() size == " + data.size());
             notifyDataSetChanged();
         }
 
         @Override
-        public OneOps getItem(int p) {
+        public OneOp getItem(int p) {
             return list == null ? null : list.get(p);
         }
 
         @Override
         public long getItemId(int p) {
-            return 0;
+            return p;
         }
 
         @Override
@@ -106,7 +113,7 @@ public class OpsListFragment extends ListFragment {
 
         @Override
         public View getView(int position, View v, ViewGroup parent) {
-            final OneOps item = getItem(position);
+            final OneOp item = getItem(position);
             if (item == null) return v;
             final ViewHold vh;
             if (v == null) {
@@ -116,20 +123,19 @@ public class OpsListFragment extends ListFragment {
             } else {
                 vh = (ViewHold) v.getTag();
             }
-            vh.op.setText("op:" + item.op);
-            vh.name.setText(item.name);
-            vh.size.setText(" app count :" + item.appsCount);
+            vh.op.setText(MacUtil.getLabelForOp(null, item.op));
+            vh.size.setText(item.appsCount + ops_use_count);
 
             return v;
         }
     }
 
     static class ViewHold {
-        final TextView op, name, size;
+        final TextView op, size;
 
         ViewHold(View v) {
-            op = (TextView) v.findViewById(R.id.opslist_item_op);
-            name = (TextView) v.findViewById(R.id.opslist_item_name);
+            op = (TextView) v.findViewById(R.id.opslist_item_name);
+//            summary = (TextView) v.findViewById(R.id.opslist_item_summary);
             size = (TextView) v.findViewById(R.id.opslist_item_size);
         }
     }

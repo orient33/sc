@@ -1,25 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:orientation="horizontal">
+    android:columnCount="4"
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+    android:paddingBottom="8dip"
+    android:paddingTop="8dip">
 
     <ImageView
         android:id="@+id/applist_item_icon"
         android:layout_width="@android:dimen/app_icon_size"
-        android:layout_height="@android:dimen/app_icon_size" />
+        android:layout_height="@android:dimen/app_icon_size"
+        android:layout_rowSpan="2"/>
 
     <TextView
         android:id="@+id/applist_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/applist_item_icon"
         android:paddingLeft="20dp"
-        android:layout_toRightOf="@id/applist_item_icon"/>
+        android:layout_columnSpan="2"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
+    <ImageView
+        android:layout_height="50dp"
+        android:layout_width="50dp"
+        android:padding="15dp"
+        android:layout_gravity="right"
+        android:contentDescription="@null"
+        android:src="@drawable/arrow_right"
+        android:layout_rowSpan="2"/><!-- android:id="@+id/applist_item_go" -->
     <TextView
         android:id="@+id/applist_item_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="20dp"
-        android:layout_alignParentRight="true"/>
-</RelativeLayout>
+        android:layout_alignParentRight="true"
+        android:paddingLeft="20dp"
+        android:layout_columnSpan="2"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+</GridLayout>

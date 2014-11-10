@@ -97,6 +97,10 @@
 	<!-- app ops -->
     <string name="ops_app_list">应用列表</string>
     <string name="ops_ops_list">权限列表</string>
+    <string name="app_detail">应用所申请的权限列表</string>
+    <string name="ops_detail">申请本权限的应用详情</string>
+    <string name="app_has_ops">  项权限</string>
+    <string name="ops_use_count"> 个应用申请该权限</string>
 	<string name="app_ops_running">"正在运行"</string>
 	<string name="app_ops_never_used">"（从未使用）"</string>
 	<string name="version_text">"版本 <xliff:g id="VERSION_NUM">%1$s</xliff:g>"</string>

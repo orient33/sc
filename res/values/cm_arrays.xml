@@ -137,10 +137,10 @@
 
     <!-- App ops permissions -->
     <string-array name="app_ops_permissions">
-        <item>Allowed</item>
-        <item>Denied</item>
-        <item>Always ask</item>
-        <item>Error</item>
+        <item>允许</item>
+        <item>禁止</item>
+        <item>询问</item>
+        <item>异常</item>
     </string-array>
 
 </resources>
