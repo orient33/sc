@@ -138,9 +138,9 @@
     <!-- App ops permissions -->
     <string-array name="app_ops_permissions">
         <item>允许</item>
-        <item>禁止</item>
-        <item>询问</item>
+        <item>拒绝</item>
         <item>异常</item>
+        <item>询问</item>
     </string-array>
 
 </resources>

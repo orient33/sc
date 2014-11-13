@@ -126,7 +126,7 @@ public class MacUtil {
     }
 
     static void i(String s) {
-        Util.i("[AppListFragment] " + s);
+        Util.i("[MacUtil] " + s);
     }
 
     static List<OneOp> getOpsList(Context c, AppOpsManager aom) {
@@ -141,10 +141,9 @@ public class MacUtil {
                     if (op == oaop.getOp()) {
                         ++count;
                         modes.add(oaop.getMode());
+                        pkgs.add(oa.pkgName);
+                        break;
                     }
-                }
-                if (count > 0) {
-                    pkgs.add(oa.pkgName);
                 }
             }
             if (count > 0) { // filter op which no application use
