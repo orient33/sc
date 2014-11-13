@@ -122,7 +122,7 @@ public class MacUtil {
 
     static String OpEntry2String(AppOpsManager.OpEntry oe) {
         return "op=" + oe.getOp() + ", " + AppOpsManager.opToName(oe.getOp()) + ", mode=" + oe.getMode() +
-                ", time=" + oe.getTime() + ", allowCount=" + oe.getAllowedCount() + ", ignoredCount=" + oe.getIgnoredCount();
+                ", time=" + oe.getTime();
     }
 
     static void i(String s) {
