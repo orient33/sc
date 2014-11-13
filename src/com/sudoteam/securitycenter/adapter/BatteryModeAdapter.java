@@ -17,7 +17,7 @@ import com.sudoteam.securitycenter.deviceutils.BatteryModeController.DataChangeL
  */
 public class BatteryModeAdapter extends AutoReuseViewAdapter {
 
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	private static final String TAG = "BatteryModeAdapter";
 
 	private ArrayList<BatteryModeCell> mListData;

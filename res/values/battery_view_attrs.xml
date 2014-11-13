@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BatteryWaterWaveView">
+        <attr name="bwaterWaveColor" format="color" />
+        <attr name="bwaterWaveBgColor" format="color" />
+        <attr name="bprogress" format="integer" />
+        <attr name="bmaxProgress" format="integer" />
+        <attr name="bfontSize" format="dimension"/>
+        <attr name="btextColor" format="color"/>
+    </declare-styleable>
+
+</resources>

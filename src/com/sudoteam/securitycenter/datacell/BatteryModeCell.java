@@ -30,17 +30,17 @@ public class BatteryModeCell implements Serializable{
 	public static final int PERMISSION_DELETE_REFUSE = 0;
 	public static final String BATTERY_MODE_ENTITY = "power_plan_entity";
 	public static final int[] DEFAULT_SCREEN_TIME_STATUS = new int[]{15,60,300,1800};
-	public static final int[] DEFAULT_SCREEN_TIMEOUT_RES_ID = new int[]{R.drawable.power_screen_timeout_open,
-																 R.drawable.power_screen_timeout_close,
-																 R.drawable.power_screen_timeout_open,
-																 R.drawable.power_screen_timeout_close};
+	public static final int[] DEFAULT_SCREEN_TIMEOUT_RES_ID = new int[]{R.drawable.power_screen_timeout_15s,
+																		 R.drawable.power_screen_timeout_30s,
+																		 R.drawable.power_screen_timeout_5m,
+																		 R.drawable.power_screen_timeout_30m};
 	
 	public static final int[] DEFAULT_BRIGHTNESS_STATUS = new int[]{1,65,130,195,254};
-	public static final int[] DEFAULT_BRIGHTNESS_RES_ID = new int[]{R.drawable.power_brightness_open,
-																	R.drawable.power_brightness_close,
-																	R.drawable.power_brightness_open,
-																	R.drawable.power_brightness_open,
-																	R.drawable.power_brightness_close};
+	public static final int[] DEFAULT_BRIGHTNESS_RES_ID = new int[]{R.drawable.power_brightness_auto,
+																	R.drawable.power_brightness_41,
+																	R.drawable.power_brightness_42,
+																	R.drawable.power_brightness_43,
+																	R.drawable.power_brightness_44};
 	
 	@Column(column = "id")
 	@NoAutoIncrement
