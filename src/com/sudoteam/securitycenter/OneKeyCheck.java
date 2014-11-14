@@ -1,12 +1,15 @@
 package com.sudoteam.securitycenter;
 
-import android.content.Context;
-
-import com.sudoteam.securitycenter.checkitem.DeviceManagerCheck;
-import com.sudoteam.securitycenter.netstat.CheckDataUsage;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import android.content.Context;
+
+import com.sudoteam.securitycenter.checkitem.AdbCheck;
+import com.sudoteam.securitycenter.checkitem.DefaultSmsCheck;
+import com.sudoteam.securitycenter.checkitem.DeviceManagerCheck;
+import com.sudoteam.securitycenter.checkitem.NonMarketAppsCheck;
+import com.sudoteam.securitycenter.netstat.CheckDataUsage;
 
 /**
  */
@@ -43,8 +46,21 @@ public class OneKeyCheck {
         if (mCheckList.size() > 0) return;
 //        mCheckList.add();//:TODO add all ICheck, which will be check.
         CheckDataUsage cdu = new CheckDataUsage();
-        DeviceManagerCheck dmc = DeviceManagerCheck.getInstance(mContext);
+        DeviceManagerCheck dmcTask = DeviceManagerCheck.getInstance(mContext);
+        AdbCheck adbTask =  new AdbCheck();
+        NonMarketAppsCheck nonMarketTask = new NonMarketAppsCheck();
+        DefaultSmsCheck smsTask = new DefaultSmsCheck(mContext);
         mCheckList.add(cdu);
-        mCheckList.add(dmc);
+        mCheckList.add(dmcTask);
+        mCheckList.add(adbTask);
+        mCheckList.add(nonMarketTask);
+        mCheckList.add(smsTask);
     }
 }
+
+
+
+
+
+
+
