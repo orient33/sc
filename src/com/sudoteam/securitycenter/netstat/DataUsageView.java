@@ -125,6 +125,7 @@ public class DataUsageView extends View {
             if (p.y > maxY)
                 maxY = p.y;
         }
+        maxY = Math.max(10, maxY);
         int iy = (mRect.bottom - mRect.top) / maxY;
         int ix = (mRect.right - mRect.left) / maxX;
 
