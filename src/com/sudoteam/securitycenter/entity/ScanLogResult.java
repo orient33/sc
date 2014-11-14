@@ -1,4 +1,4 @@
-package com.sudoteam.securitycenter.Entity;
+package com.sudoteam.securitycenter.entity;
 
 /**
  * Created by huayang on 14-10-29.

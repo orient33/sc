@@ -1,4 +1,4 @@
-package com.sudoteam.securitycenter.Views;
+package com.sudoteam.securitycenter.views;
 
 import android.view.View;
 

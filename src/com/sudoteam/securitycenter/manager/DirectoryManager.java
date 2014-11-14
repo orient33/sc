@@ -1,4 +1,4 @@
-package com.sudoteam.securitycenter.Manager;
+package com.sudoteam.securitycenter.manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -61,7 +61,6 @@ public class DirectoryManager {
         savePathToSp(subDirectory,sub);
         return mInstance;
     }
-
 
 
     public void savePathToSp(String index,String path){

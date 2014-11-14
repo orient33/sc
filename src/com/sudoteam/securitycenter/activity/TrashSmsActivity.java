@@ -1,6 +1,7 @@
-package com.sudoteam.securitycenter.Activity;
+package com.sudoteam.securitycenter.activity;
 
 import android.app.Activity;
+
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
@@ -20,7 +21,7 @@ import android.telephony.TelephonyManager;
 import android.widget.TextView;
 import com.sudoteam.securitycenter.R;
 
-import com.sudoteam.securitycenter.Manager.MessageManager;
+import com.sudoteam.securitycenter.manager.MessageManager;
 
 import java.lang.Override;
 import android.os.Handler;

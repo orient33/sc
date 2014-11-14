@@ -135,10 +135,10 @@
     <string name="sms_block_cancel">cancel</string>
     <string name="sms_block_clear">clear</string>
 
-    <string name="sms_block_settings">Sms Block Settings</string>
-    <string name="smart_block">Smart Block</string>
+    <string name="sms_block_settings">短信拦截设置</string>
+    <string name="smart_block">智能拦截</string>
 
-    <string name="tele_block_settings">Telephony Block Settings</string>
+    <string name="tele_block_settings">电话拦截设置</string>
 
 	<!-- 节电模块 -->
 	<string name="battery_defined_plan_mode">自定义模式</string>
@@ -177,6 +177,9 @@
 	<string name="non_market_check_pass">安装未知应用来源开关检测通过</string>
 	<string name="non_market_check_warning">发现安装未知来源应用开关打开</string>
 	
+
+    <string name="one_key_check_text">一键体检</string>
+    <string name="one_key_check_test_string">you have</string>
 
 </resources>
 

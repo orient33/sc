@@ -1,10 +1,11 @@
-package com.sudoteam.securitycenter.Views;
+package com.sudoteam.securitycenter.views;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,13 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.sudoteam.securitycenter.Entity.*;
+import android.widget.RelativeLayout.LayoutParams;
+
+import com.sudoteam.securitycenter.entity.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +35,17 @@ public class LineView extends LinearLayout {
 
     private View problemView ;
     /**
-     * use map to store it ! and get by tag ,tag is key
+     * datas
      */
     private List<ItemData> datas = new ArrayList<ItemData>();
+    
+    private List<View> views = new ArrayList<View>();
 
     private Context context;
 
     private float itemHeightInPixels;
+    
+    private OnItemClickListener listener;
 
     public LineView(Context context) {
         super(context);
@@ -57,6 +65,7 @@ public class LineView extends LinearLayout {
 
     private void init(Context context){
         this.context = context;
+        
     }
 
 
@@ -90,12 +99,16 @@ public class LineView extends LinearLayout {
      * @param data
      * @return
      */
-    public LineView addItemData(ItemData data){
+    public void addItemData(ItemData data){
 
-        datas.add(data);
-
-        return this;
+        datas.add(data); 
     }
+    
+    public void addItemView(View view){
+    	
+    	views.add(view);
+    }
+    
 
     private int upLineHeight,
                 downLineHeight,
@@ -118,25 +131,56 @@ public class LineView extends LinearLayout {
         this.itemHeightInPixels = ViewUtils.getContentViewHeight(context,mainItemHeight);
         return this;
     }
-
-
+    
     public LineView addViewByAnimation(ItemData iData){
+    	addViewByAnimation(iData,R.layout.single_item_with_icon);
+    	return this;
+    }
 
+
+    public LineView addViewByAnimation(ItemData iData,int layoutId){
+    	
         View view = iData.getView();
         AnimateViewHolder holder = new AnimateViewHolder();
-
+        ScanVirusContentViewHolder cHolder = new ScanVirusContentViewHolder();
+        OneKeyCheckViewHolder oHolder = new OneKeyCheckViewHolder();
+        
+    	addItemData(iData);
+    	addItemView(view);
+        
         holder.upLine = (Button) view.findViewById(R.id.up_line);
         holder.downLine = (Button) view.findViewById(R.id.down_line);
         holder.indicatorContainer = (LinearLayout) view.findViewById(R.id.indicator_container);
-        holder.contentContainer = (RelativeLayout) view.findViewById(R.id.content_container);
         holder.downLineHeight = (Button) view.findViewById(R.id.down_line_height);
         holder.indicator = (Button) view.findViewById(R.id.incicator);
+        
+        if(holder.contentContainer == null)
+        	holder.contentContainer = (RelativeLayout) view.findViewById(R.id.content_container);
+        
         holder.problemList = (LinearLayout)view.findViewById(R.id.app_problem_list);
-
+        
+        View contentView = ViewUtils.getView(context, layoutId);// 	        
+        
+        cHolder.appIcon = (ImageView)contentView.findViewById(R.id.app_icon);
+        if(cHolder.appIcon != null)
+        	cHolder.appIcon.setImageDrawable(iData.getIcon());
+        
         /**set name*/
-        TextView appName = (TextView) holder.contentContainer.findViewById(R.id.app_name);
-        appName.setText(iData.getTitle());
-
+        cHolder.appName = (TextView) contentView.findViewById(R.id.app_name);
+        
+        if(cHolder.appName != null)
+        	cHolder.appName.setText(iData.getTitle());
+        
+        /**
+         * 
+         */
+        oHolder.checkText = (TextView)contentView.findViewById(R.id.one_key_check_item_text);
+        if(oHolder.checkText != null)
+        	oHolder.checkText.setText(iData.getTitle());
+        
+        
+        holder.contentContainer.addView(contentView); 
+       
         if(iData.isTheLastOne()){
             holder.downLine.setVisibility(INVISIBLE);
         }
@@ -146,8 +190,8 @@ public class LineView extends LinearLayout {
         View problemView = getProblemView();
 
         if(problemView != null)
-            holder.problemList.addView(problemView);
-
+        	holder.problemList.addView(problemView);
+        
         holder.problemList.measure(
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
@@ -198,7 +242,8 @@ public class LineView extends LinearLayout {
         AnimateViewWrapper wrapper = new AnimateViewWrapper(holder.contentContainer);
 
         //PropertyValuesHolder w = PropertyValuesHolder.ofInt("width",(int)ViewUtils.getContentViewHeight(context,250));
-        PropertyValuesHolder h = PropertyValuesHolder.ofInt("height",(int) (int)ViewUtils.getContentViewHeight(context,mainItemHeight));
+        PropertyValuesHolder h = PropertyValuesHolder.
+        		ofInt("height",(int)ViewUtils.getContentViewHeight(context,mainItemHeight));
 
         ObjectAnimator contentAnim = ObjectAnimator
                 .ofPropertyValuesHolder(wrapper,/*w,*/h);
@@ -208,7 +253,7 @@ public class LineView extends LinearLayout {
         contentAnim.setInterpolator(adi);
         contentAnim.setDuration(300);
         contentAnim.start();
-
+        
         return this;
     }
 
@@ -217,7 +262,7 @@ public class LineView extends LinearLayout {
     public boolean onTouchEvent(MotionEvent event) {
 
         float y = event.getY();
-
+        
         Log.i("Tag","itemHeightInPixels = " + itemHeightInPixels);
         switch (event.getAction()) {
             case MotionEvent.ACTION_UP :
@@ -228,12 +273,17 @@ public class LineView extends LinearLayout {
                 int position = 0;
                 if(itemHeightInPixels > 0)
                     /**position from 0 to end*/
-                    position = (int) (y / itemHeightInPixels);
+                    position = (int) (y / itemHeightInPixels - 0.275f);
 
 
                 Log.i("Tag",", event y = " + y);
                 Log.i("Tag","the position is : " + position);
+                
+                if(listener != null)
+                	listener.onItemClick(views.get(position), datas.get(position), position);
+                
                 break;
+                
         }
 
         Log.i("Tag","super.onTouchEvent(event) = " + super.onTouchEvent(event));
@@ -243,8 +293,12 @@ public class LineView extends LinearLayout {
          */
         return true/*super.onTouchEvent(event)*/;
     }
-
-    interface OnItemClickListener {
+    
+    public void setOnItemClickedListener(OnItemClickListener listener){
+    	this.listener = listener;
+    }
+    
+    public static interface OnItemClickListener {
 
         public void onItemClick(View view,Object data ,int position);
     }
@@ -252,9 +306,25 @@ public class LineView extends LinearLayout {
 
     public final class AnimateViewHolder {
 
-        Button upLine,downLine,downLineHeight,indicator;
-        LinearLayout indicatorContainer,problemList;
-        RelativeLayout contentContainer;
+        Button upLine,
+               downLine,
+               downLineHeight,
+               indicator;
 
+        LinearLayout indicatorContainer;
+        RelativeLayout contentContainer;
+        LinearLayout problemList;
+    }
+    
+    
+    public final class ScanVirusContentViewHolder {
+    	
+        ImageView appIcon;
+        TextView appName;
+        TextView appProblem;
+    }
+    
+    public final class OneKeyCheckViewHolder {
+    	TextView checkText;
     }
 }

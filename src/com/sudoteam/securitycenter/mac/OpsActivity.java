@@ -11,10 +11,10 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
 
-import com.sudoteam.securitycenter.Adapter.SlidePagerAdapter;
+import com.sudoteam.securitycenter.adapter.SlidePagerAdapter;
 import com.sudoteam.securitycenter.R;
 import com.sudoteam.securitycenter.Util;
-import com.sudoteam.securitycenter.Views.PagerSlidingTabStrip;
+import com.sudoteam.securitycenter.views.PagerSlidingTabStrip;
 
 import java.util.ArrayList;
 import java.util.List;

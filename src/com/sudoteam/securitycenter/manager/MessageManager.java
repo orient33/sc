@@ -1,4 +1,4 @@
-package com.sudoteam.securitycenter.Manager;
+package com.sudoteam.securitycenter.manager;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,7 +11,7 @@ import android.util.Log;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
-import com.sudoteam.securitycenter.Entity.*;
+import com.sudoteam.securitycenter.entity.*;
 import com.lidroid.xutils.db.sqlite.Selector;
 
 import java.lang.Deprecated;

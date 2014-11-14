@@ -1,4 +1,4 @@
-package com.sudoteam.securitycenter.Adapter;
+package com.sudoteam.securitycenter.adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -19,7 +19,7 @@ import java.lang.String;
 import java.util.List;
 import java.text.SimpleDateFormat;
 
-import com.sudoteam.securitycenter.Entity.TrashSms;
+import com.sudoteam.securitycenter.entity.TrashSms;
 
 public class TrashSmsAdapter extends BaseAdapter {
 

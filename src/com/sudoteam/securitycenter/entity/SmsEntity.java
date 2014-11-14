@@ -1,4 +1,4 @@
-package com.example.huayang.test;
+package com.sudoteam.securitycenter.entity;
 
 /**
  * Created by huayang on 14-11-3.

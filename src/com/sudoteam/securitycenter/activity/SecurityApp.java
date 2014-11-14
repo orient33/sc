@@ -1,9 +1,9 @@
-package com.sudoteam.securitycenter.Activity;
+package com.sudoteam.securitycenter.activity;
 
 import android.app.Application;
 import android.os.Environment;
 
-import com.sudoteam.securitycenter.Manager.DirectoryManager;
+import com.sudoteam.securitycenter.manager.DirectoryManager;
 
 /**
  * Created by huayang on 14-10-29.
@@ -14,7 +14,7 @@ public class SecurityApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        String root = Environment.getExternalStorageDirectory() + "/" + "SSS";
+        String root = Environment.getExternalStorageDirectory() + "/" + "SecurityCenter";
 
         DirectoryManager.getInstance(this).setRootDirectory(root)
                 .setSubDirectory("trash")
@@ -22,9 +22,7 @@ public class SecurityApp extends Application {
                 .setSubDirectory("block")
                 .setSubDirectory("battary")
                 .setSubDirectory("virus")
-                .setSubDirectory("permission")
-                .setSubDirectory("permission/all")
-                .setSubDirectory("test/aa");
+                .setSubDirectory("permission");
 
     }
 }

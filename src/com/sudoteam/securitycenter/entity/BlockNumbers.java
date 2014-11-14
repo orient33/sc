@@ -1,5 +1,5 @@
 
-package com.sudoteam.securitycenter.Entity;
+package com.sudoteam.securitycenter.entity;
 
 import java.lang.String;
 import com.lidroid.xutils.db.annotation.Table;

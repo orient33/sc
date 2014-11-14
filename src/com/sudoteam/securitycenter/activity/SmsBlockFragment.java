@@ -1,4 +1,4 @@
-package com.sudoteam.securitycenter.Activity;
+package com.sudoteam.securitycenter.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,9 +13,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.sudoteam.securitycenter.R;
-import com.sudoteam.securitycenter.Adapter.TrashSmsAdapter;
-import com.sudoteam.securitycenter.Views.BlurDialog;
-import com.sudoteam.securitycenter.Entity.*;
+import com.sudoteam.securitycenter.adapter.TrashSmsAdapter;
+import com.sudoteam.securitycenter.views.BlurDialog;
+import com.sudoteam.securitycenter.entity.*;
+import com.sudoteam.securitycenter.utils.ViewUtils;
+
+import java.lang.Override;
 import java.util.ArrayList;
 import java.util.List;
 import android.util.Log;
@@ -24,7 +27,7 @@ import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.db.sqlite.Selector;
 
-public class SmsBlockFragment extends Fragment {
+public class SmsBlockFragment extends Fragment implements View.OnClickListener{
 
     private ListView smsList;
 
@@ -35,6 +38,8 @@ public class SmsBlockFragment extends Fragment {
     private ListView smsTextList;
     private ImageView image;
     private Handler handler ;
+
+    private Button smsBlockClear;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,6 +60,8 @@ public class SmsBlockFragment extends Fragment {
         smsList = (ListView)view.findViewById(R.id.trash_sms_list);
         loadTrashSms();
 
+        smsBlockClear = (Button)view.findViewById(R.id.sms_block_clear);
+        smsBlockClear.setOnClickListener(this);
     }
 
 
@@ -85,6 +92,31 @@ public class SmsBlockFragment extends Fragment {
         smsList.setAdapter(adapter);
     }
 
+    @Override
+    public void onClick(View view) {
 
+        if(view.getId() == R.id.sms_block_clear){
+
+            BlurDialog dialog = new BlurDialog(getActivity()) {
+                @Override
+                protected View onDataBind(View layoutView) {
+
+                    View view = ViewUtils.getView(getActivity(),R.layout.test_view);
+                    Button b = (Button) view.findViewById(R.id.testbutton);
+                    b.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Toast.makeText(getActivity(),"buttonclicked",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+                    return view;
+                }
+            };
+
+            dialog.createDialog();
+        }
+    }
 }
 

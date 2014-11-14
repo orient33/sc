@@ -4,18 +4,21 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
+    <!-- for taking place of height -->
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        />
     <ImageView
         android:id="@+id/app_icon"
         android:layout_width="43dp"
         android:layout_height="43dp"
-        android:background="#ccc"
         android:layout_centerVertical="true" />
 
     <TextView
         android:id="@+id/app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_toRightOf="@id/app_icon"
         android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"

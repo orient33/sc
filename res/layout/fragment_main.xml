@@ -1,105 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_color">
+    android:background="@color/main_color" >
 
     <RelativeLayout
+        android:id="@+id/one_key_check_title_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|top">
+        android:layout_centerHorizontal="true" >
 
-        <ImageView
+        <RelativeLayout
             android:id="@+id/title_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
             android:layout_centerHorizontal="true"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_launcher" />
+            android:layout_marginTop="20dp"
+            android:background="@drawable/one_key_check_bg" >
+
+            <TextView
+                android:id="@+id/one_key_check_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/one_key_check_text"
+                android:textColor="@color/white"
+                android:textSize="35sp" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/one_key_check_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
             android:layout_below="@id/title_img"
             android:layout_centerHorizontal="true"
-            android:text="@string/one_key_check_never" />
-
+            android:layout_marginTop="20dp"
+            android:text="@string/one_key_check_never"
+            android:textColor="@color/white" />
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/menu_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
-        android:background="@drawable/arc">
+        android:background="@drawable/arc"
+        android:layout_below="@id/one_key_check_title_parent"
+        android:layout_marginTop="10dp"
+        >
 
         <GridLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:columnCount="3">
+            android:columnCount="3" >
 
             <TextView
                 android:id="@+id/module_antivirse"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:paddingTop="30dp"
-                android:paddingBottom="10dp"
                 android:background="@drawable/module_virus_scan"
                 android:gravity="bottom|center"
+                android:paddingBottom="10dp"
+                android:paddingTop="30dp"
                 android:text="@string/module_antivirse" />
 
             <TextView
                 android:id="@+id/module_optimizer"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:paddingTop="30dp"
-                android:paddingBottom="10dp"
                 android:background="@drawable/module_sys_opt"
                 android:gravity="bottom|center"
+                android:paddingBottom="10dp"
+                android:paddingTop="30dp"
                 android:text="@string/module_optimizer" />
 
             <TextView
                 android:id="@+id/module_block"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:paddingTop="30dp"
-                android:paddingBottom="10dp"
                 android:background="@drawable/module_block"
                 android:gravity="bottom|center"
+                android:paddingBottom="10dp"
+                android:paddingTop="30dp"
                 android:text="@string/module_block" />
 
             <TextView
                 android:id="@+id/module_net"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:paddingTop="30dp"
-                android:paddingBottom="10dp"
                 android:background="@drawable/module_net"
                 android:gravity="bottom|center"
+                android:paddingBottom="10dp"
+                android:paddingTop="30dp"
                 android:text="@string/module_net" />
 
             <TextView
                 android:id="@+id/module_save"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:paddingTop="30dp"
-                android:paddingBottom="10dp"
                 android:background="@drawable/module_power"
                 android:gravity="bottom|center"
+                android:paddingBottom="10dp"
+                android:paddingTop="30dp"
                 android:text="@string/module_save" />
 
             <TextView
                 android:id="@+id/module_mac"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:paddingTop="30dp"
-                android:paddingBottom="10dp"
                 android:background="@drawable/module_permission"
                 android:gravity="bottom|center"
+                android:paddingBottom="10dp"
+                android:paddingTop="30dp"
                 android:text="@string/module_mac" />
         </GridLayout>
     </RelativeLayout>
-</FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/check_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/arc"
+        android:visibility="invisible" 
+        android:layout_below="@id/one_key_check_title_parent"
+        android:layout_marginTop="10dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <ScrollView
+            android:id="@+id/one_key_checked_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="200dp"
+             >
+
+            <com.sudoteam.securitycenter.views.LineView
+                android:id="@+id/one_key_item_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+</RelativeLayout>
