@@ -1,4 +1,4 @@
-package com.sudoteam.securitycenter.checkItem;
+package com.sudoteam.securitycenter.checkitem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +24,8 @@ public class DeviceManagerCheck implements ICheck,IFix{
 	
 	private static DeviceManagerCheck sInstance;
 	
-	private final DevicePolicyManager mDPM;
+	private DevicePolicyManager mDPM;
 	private CheckResult mCheckResult; 
-	
 	
 	private DeviceManagerCheck(Context context){
 		mDPM = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);

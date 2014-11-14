@@ -2,7 +2,7 @@ package com.sudoteam.securitycenter;
 
 import android.content.Context;
 
-import com.sudoteam.securitycenter.checkItem.DeviceManagerCheck;
+import com.sudoteam.securitycenter.checkitem.DeviceManagerCheck;
 import com.sudoteam.securitycenter.netstat.CheckDataUsage;
 
 import java.util.ArrayList;
