@@ -1,5 +1,6 @@
-package com.sudoteam.securitycenter.Entity;
+package com.sudoteam.securitycenter.entity;
 
+import android.graphics.drawable.Drawable;
 import android.view.View;
 
 /**
@@ -16,6 +17,16 @@ public class ItemData {
     private boolean anim;
 
     private View view;
+
+    private Drawable icon;
+
+    public Drawable getIcon() {
+        return icon;
+    }
+
+    public void setIcon(Drawable icon) {
+        this.icon = icon;
+    }
 
     public View getView() {
         return view;

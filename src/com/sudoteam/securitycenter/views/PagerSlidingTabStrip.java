@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sudoteam.securitycenter.Views;
+package com.sudoteam.securitycenter.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;

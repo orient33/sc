@@ -1,4 +1,4 @@
-package com.sudoteam.securitycenter.Activity;
+package com.sudoteam.securitycenter.activity;
 
 import android.app.Activity;
 import android.os.Bundle;

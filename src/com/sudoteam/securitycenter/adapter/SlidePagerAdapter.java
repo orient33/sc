@@ -1,4 +1,4 @@
-package com.sudoteam.securitycenter.Adapter;
+package com.sudoteam.securitycenter.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,12 +23,12 @@ public class SlidePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return titles.get(position);
+        return titles == null ? "" : titles.get(position);
     }
 
     @Override
     public int getCount() {
-        return titles.size();
+        return titles == null ? 0 :titles.size();
     }
 
     @Override

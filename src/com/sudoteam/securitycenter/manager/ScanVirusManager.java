@@ -1,6 +1,7 @@
-package com.sudoteam.securitycenter.Manager;
+package com.sudoteam.securitycenter.manager;
 
 import android.content.Context;
+
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sudoteam.securitycenter.Entity.ScanProcess;
+import com.sudoteam.securitycenter.entity.ScanProcess;
 
 /**
  * Created by huayang on 14-10-28.
@@ -32,6 +33,7 @@ public class ScanVirusManager {
     private ScanPackageListener listener;
     private static PackageManager packageManager;
 
+    private boolean pause = false;
 
     public interface ScanPackageListener {
 
@@ -63,6 +65,14 @@ public class ScanVirusManager {
         return  mInstance;
     }
 
+    public void stopScan(){
+        this.pause = true;
+    }
+
+    public void startScan(){
+        this.pause = false;
+    }
+
     /**
      *
      */
@@ -75,20 +85,29 @@ public class ScanVirusManager {
 
     public class ScanTask extends AsyncTask<Void,Object,Void>{
 
-        int allPkgs = getInstalledPkgNumber();
+        int allPkgs = getUserInstalledPkgNumber();
         private long startScan ;
         private long stopScan ;
         private ScanProcess params;
+
+
         @Override
         protected Void doInBackground(Void... params) {
 
 
-            List<PackageInfo> infos = getInstalledPackagesInfo();
+            List<PackageInfo> infos = getUserInstalledPackagesInfo();
             boolean virus = false;
 
             startScan = System.currentTimeMillis();
 
             for(int i=1; i<=allPkgs; i++){
+
+                Log.i("Tag","pause = " + pause);
+
+                /**
+                 * stop and wait for starting again
+                 */
+                while(pause);
 
                 virus = isVirus();
                 /***just for test **/
@@ -137,7 +156,7 @@ public class ScanVirusManager {
 
                 if(i == allPkgs) {
                     params.setUsedTime(Util.getUsedTime(stopScan - startScan));
-                    //startScan = stopScan = 0;
+                    return;
                 }
 
                 listener.onPackageScaned(params);
@@ -154,7 +173,7 @@ public class ScanVirusManager {
     public boolean isVirus(){
 
         try {
-            Thread.sleep(20);
+            Thread.sleep(300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -170,7 +189,14 @@ public class ScanVirusManager {
     }
 
 
+    /**
+     * user installed pkgs in number
+     * @return
+     */
+    public int getUserInstalledPkgNumber(){
 
+        return getUserInstalledPackagesInfo().size();
+    }
 
     /**
      * how many pkgs in number

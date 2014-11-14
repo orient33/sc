@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sudoteam.securitycenter"
-    android:sharedUserId="android.uid.system"
+	android:sharedUserId="android.uid.system"
     android:versionCode="1"
     android:versionName="1.0" >
-
+    <!---->
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="19" />
@@ -37,6 +37,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <!-- 节电模块 -->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
  >
@@ -49,7 +53,7 @@
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
 
     <application
-        android:name=".Activity.SecurityApp"
+        android:name=".activity.SecurityApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -73,10 +77,10 @@
 
 
         <!-- add by huayang -->
-        <activity android:name=".Activity.ScanLogActivity" />
-        <activity android:name=".Activity.ScanVirusActivity" />
-        <activity android:name=".Activity.SuperActivity" />
-        <activity android:name=".Activity.AnnoyInterceptActivity" />
+        <activity android:name=".activity.ScanLogActivity" />
+        <activity android:name=".activity.ScanVirusActivity" />
+        <activity android:name=".activity.SuperActivity" />
+        <activity android:name=".activity.AnnoyInterceptActivity" />
 
         <service android:name="com.example.block.WorkService" >
             <intent-filter>
@@ -85,17 +89,21 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".Activity.TrashSmsActivity$TrashSmsReceiver" >
+        <receiver android:name=".activity.TrashSmsActivity$TrashSmsReceiver" >
             <intent-filter>
                 <action android:name="com.example.block.intrashsms" >
                 </action>
             </intent-filter>
         </receiver>
 
-        <activity android:name=".Activity.ScanVirusActivity_v2" >
+        <activity android:name=".activity.AnnoyInterruptSettingsActivity" >
         </activity>
-        <activity android:name=".Activity.AnnoyInterruptSettingsActivity" >
-        </activity>
+
+        <receiver android:name=".receiver.PhoneStateReceiver">
+            <intent-filter android:priority="1000" >
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
 
         <!-- 节电管理模块 start -->
         <activity android:name=".activity.PowerManagerActivity" >

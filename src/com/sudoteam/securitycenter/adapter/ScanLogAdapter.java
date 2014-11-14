@@ -1,4 +1,4 @@
-package com.sudoteam.securitycenter.Adapter;
+package com.sudoteam.securitycenter.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import com.sudoteam.securitycenter.Entity.ScanLogResult;
+import com.sudoteam.securitycenter.entity.ScanLogResult;
 
 import com.sudoteam.securitycenter.R;
 /**
@@ -28,12 +28,12 @@ public class ScanLogAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return datas.size();
+        return datas == null ? 0 : datas.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return datas.get(position);
+        return datas == null ? null : datas.get(position);
     }
 
     @Override

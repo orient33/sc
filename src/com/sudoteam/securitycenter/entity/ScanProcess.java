@@ -1,4 +1,4 @@
-package com.sudoteam.securitycenter.Entity;
+package com.sudoteam.securitycenter.entity;
 
 import android.graphics.drawable.Drawable;
 

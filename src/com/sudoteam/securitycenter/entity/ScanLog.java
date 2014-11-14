@@ -1,4 +1,4 @@
-package com.sudoteam.securitycenter.Entity;
+package com.sudoteam.securitycenter.entity;
 
 import com.lidroid.xutils.db.annotation.Finder;
 import com.lidroid.xutils.db.annotation.Table;

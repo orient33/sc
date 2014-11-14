@@ -1,4 +1,4 @@
-package com.sudoteam.securitycenter.Activity;
+package com.sudoteam.securitycenter.activity;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -12,13 +12,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sudoteam.securitycenter.Adapter.*;
-import com.sudoteam.securitycenter.Entity.ScanLog;
-import com.sudoteam.securitycenter.Entity.ScanLogResult;
+import com.sudoteam.securitycenter.adapter.*;
+import com.sudoteam.securitycenter.entity.ScanLog;
+import com.sudoteam.securitycenter.entity.ScanLogResult;
 import com.sudoteam.securitycenter.R;
+import com.sudoteam.securitycenter.constant.ScanVirus;
 import com.sudoteam.securitycenter.Util;
-import com.sudoteam.securitycenter.Views.*;
-import com.sudoteam.securitycenter.Activity.*;
+import com.sudoteam.securitycenter.views.*;
+import com.sudoteam.securitycenter.activity.*;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -39,10 +40,7 @@ public class ScanLogActivity extends SuperActivity {
 
     private DbUtils dbUtils ;
 
-    ScanLogAdapter adapter ;
-
-
-
+    private ScanLogAdapter adapter ;
 
 
     @Override
@@ -56,7 +54,6 @@ public class ScanLogActivity extends SuperActivity {
         logs = (ListView) findViewById(R.id.scan_log_list);
         adapter = new ScanLogAdapter(this,getScanLogResult());
         logs.setAdapter(adapter);
-
 
     }
 
@@ -100,7 +97,7 @@ public class ScanLogActivity extends SuperActivity {
         List<ScanLog> logs = new ArrayList<ScanLog>();
         try {
 
-            dbUtils = DbUtils.create(this, ScanVirusActivity.DB);
+            dbUtils = DbUtils.create(this, ScanVirus.SCAN_LOG_DB);
             logs = dbUtils.findAll(Selector.from(ScanLog.class).orderBy("id"));
         } catch (DbException e) {
             e.printStackTrace();

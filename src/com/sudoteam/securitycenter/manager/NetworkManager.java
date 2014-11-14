@@ -1,4 +1,4 @@
-package com.sudoteam.securitycenter.Manager;
+package com.sudoteam.securitycenter.manager;
 
 import android.content.Context;
 import android.util.Log;

@@ -135,10 +135,10 @@
     <string name="sms_block_cancel">cancel</string>
     <string name="sms_block_clear">clear</string>
 
-    <string name="sms_block_settings">Sms Block Settings</string>
-    <string name="smart_block">Smart Block</string>
+    <string name="sms_block_settings">短信拦截设置</string>
+    <string name="smart_block">智能拦截</string>
 
-    <string name="tele_block_settings">Telephony Block Settings</string>
+    <string name="tele_block_settings">电话拦截设置</string>
 
 	<!-- 节电模块 -->
 	<string name="battery_defined_plan_mode">自定义模式</string>
@@ -158,5 +158,8 @@
 	<string name="battery_minute">分</string>
 	<string name="in_airplane_mode">正处于飞行模式下</string>
 	<string name="add_battery_mode">添加</string>
+
+    <string name="one_key_check_text">一键体检</string>
+    <string name="one_key_check_test_string">you have</string>
 
 </resources>

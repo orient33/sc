@@ -1,5 +1,5 @@
 
-package com.sudoteam.securitycenter.Activity;
+package com.sudoteam.securitycenter.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,21 +7,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
-import com.sudoteam.securitycenter.Adapter.*;
-import com.sudoteam.securitycenter.Entity.BlockNumbers;
+import com.sudoteam.securitycenter.adapter.*;
+import com.sudoteam.securitycenter.entity.BlockNumbers;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
-import com.sudoteam.securitycenter.Entity.*;
+import com.sudoteam.securitycenter.entity.*;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.sudoteam.securitycenter.R;
 
-import com.sudoteam.securitycenter.Adapter.*;
-import com.sudoteam.securitycenter.Entity.ScanLog;
-import com.sudoteam.securitycenter.Entity.ScanLogResult;
+import com.sudoteam.securitycenter.adapter.*;
+import com.sudoteam.securitycenter.entity.ScanLog;
+import com.sudoteam.securitycenter.entity.ScanLogResult;
 import com.sudoteam.securitycenter.Util;
-import com.sudoteam.securitycenter.Views.*;
-import com.sudoteam.securitycenter.Activity.*;
+import com.sudoteam.securitycenter.views.*;
+import com.sudoteam.securitycenter.activity.*;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -53,15 +53,11 @@ public class AnnoyInterceptActivity extends FragmentActivity implements View.OnC
 
     private TeleBlockFragment contactsFragment;
 
-    /**
-     * PagerSlidingTabStrip的实例
-     */
     private PagerSlidingTabStrip tabs;
 
-    /**
-     * 获取当前屏幕的密度
-     */
     private DisplayMetrics dm;
+
+    private BlockPagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +75,9 @@ public class AnnoyInterceptActivity extends FragmentActivity implements View.OnC
         names.add("短信拦截");
         names.add("电话拦截");
 
-        pager.setAdapter(new BlockPagerAdapter(getSupportFragmentManager(),names));
+        pagerAdapter = new BlockPagerAdapter(getSupportFragmentManager(),names);
+        pager.setAdapter(pagerAdapter);
+
         tabs.setViewPager(pager);
         setTabsValue();
 
@@ -98,7 +96,7 @@ public class AnnoyInterceptActivity extends FragmentActivity implements View.OnC
     }
 
     /**
-     * 对PagerSlidingTabStrip的属性赋值。
+     * PagerSlidingTabStrip's property
      */
     private void setTabsValue() {
 
@@ -152,22 +150,6 @@ public class AnnoyInterceptActivity extends FragmentActivity implements View.OnC
 
         }
     }
-
-
-
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        setContentView(R.layout.activity_annoy_intercept);
-//
-////        smsList = (ListView)findViewById(R.id.trash_sms_list);
-////
-////
-////        loadTrashSms();
-//    }
-    
 
     
 }

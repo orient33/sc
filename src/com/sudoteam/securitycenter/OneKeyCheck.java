@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.SystemClock;
 
 import com.sudoteam.securitycenter.checkitem.AdbCheck;
 import com.sudoteam.securitycenter.checkitem.DefaultSmsCheck;
@@ -17,10 +19,12 @@ import com.sudoteam.securitycenter.optimizer.CheckOptimizer;
 public class OneKeyCheck {
 
     private final Context mContext;
+    private final Handler mHandler;
     private final ArrayList<ICheck> mCheckList;
 
-    public OneKeyCheck(Context c) {
+    public OneKeyCheck(Context c, Handler h) {
         mContext = c;
+        mHandler = h;
         mCheckList = new ArrayList<ICheck>();
     }
 
@@ -30,6 +34,8 @@ public class OneKeyCheck {
         for (ICheck ic : mCheckList) {
             CheckResult cr = ic.doCheck(mContext);
             list.add(cr);
+            mHandler.obtainMessage(0, cr).sendToTarget();
+            SystemClock.sleep(500);
             Util.i("" + cr);
 //        :TODO notify listview / adapter data changed.
         }

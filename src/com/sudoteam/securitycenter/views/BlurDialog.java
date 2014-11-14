@@ -1,4 +1,4 @@
-package com.sudoteam.securitycenter.Views;
+package com.sudoteam.securitycenter.views;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -26,8 +26,8 @@ import com.sudoteam.securitycenter.R;
 import com.sudoteam.securitycenter.utils.*;
 /**
  * Created by huayang on 14-11-6.
- *
  */
+
 public class BlurDialog extends Dialog {
 
     private Activity context;
@@ -291,27 +291,5 @@ public class BlurDialog extends Dialog {
 
 
     }
-
-
-//    public static Bitmap fastblur(Context context, Bitmap sentBitmap, int radius) {
-//
-//
-//        Bitmap bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);
-//
-//        final RenderScript rs = RenderScript.create(context);
-//        final Allocation input = Allocation.createFromBitmap(rs, sentBitmap, Allocation.MipmapControl.MIPMAP_NONE,
-//                Allocation.USAGE_SCRIPT);
-//        final Allocation output = Allocation.createTyped(rs, input.getType());
-//        final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
-//        script.setRadius(radius /* e.g. 3.f */);
-//        script.setInput(input);
-//        script.forEach(output);
-//        output.copyTo(bitmap);
-//        return bitmap;
-//
-//
-//    }
-
-
 
 }
