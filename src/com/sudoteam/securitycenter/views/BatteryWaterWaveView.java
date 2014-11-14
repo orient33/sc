@@ -122,9 +122,9 @@ public class BatteryWaterWaveView extends View {
 		mTextStatusPaint.setStyle(Paint.Style.FILL);
 		mTextStatusPaint.setTextSize(mFontSize);
 		
-		mTextSummaryPaint = new Paint(mTextStatusPaint);
+//		mTextSummaryPaint = new Paint(mTextStatusPaint);
 //		mTextSummaryPaint.setTextSize(textSize);
-		mTextTimePaint = new Paint(mTextStatusPaint);
+//		mTextTimePaint = new Paint(mTextStatusPaint);
 		
 
 		mBatteryDisChargeBg = BitmapFactory.decodeResource(getResources(), R.drawable.power_battery_discharge);

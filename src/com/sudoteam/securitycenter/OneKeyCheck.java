@@ -2,6 +2,7 @@ package com.sudoteam.securitycenter;
 
 import android.content.Context;
 
+import com.sudoteam.securitycenter.checkItem.DeviceManagerCheck;
 import com.sudoteam.securitycenter.netstat.CheckDataUsage;
 
 import java.util.ArrayList;
@@ -42,6 +43,8 @@ public class OneKeyCheck {
         if (mCheckList.size() > 0) return;
 //        mCheckList.add();//:TODO add all ICheck, which will be check.
         CheckDataUsage cdu = new CheckDataUsage();
+        DeviceManagerCheck dmc = DeviceManagerCheck.getInstance(mContext);
         mCheckList.add(cdu);
+        mCheckList.add(dmc);
     }
 }
