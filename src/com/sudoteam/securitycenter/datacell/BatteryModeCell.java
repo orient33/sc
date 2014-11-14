@@ -187,7 +187,7 @@ public class BatteryModeCell implements Serializable{
     
     @Override
     public String toString() {
-    	return "PowerPlanCell{" +
+    	return "BatteryModeCell{" +
                 "id=" + id +
                 ", modeName='" + modeName + '\'' +
                 ", permission=" + permission +

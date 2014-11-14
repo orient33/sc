@@ -27,7 +27,7 @@ public class DeviceBaseController {
     
     public static boolean isWifiOn(Context context){
     	WifiManager wifiManager = ServiceHelper.getWifiManager(context);
-    	return wifiManager.getWifiState() == WifiManager.WIFI_AP_STATE_ENABLED ? true : false;
+    	return wifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLED ? true : false;
     }
     
     /**
@@ -41,17 +41,19 @@ public class DeviceBaseController {
             Toast.makeText(context,R.string.in_airplane_mode, Toast.LENGTH_SHORT).show();
             return false;
         }
-        
         WifiManager wifiManager = ServiceHelper.getWifiManager(context);
         // Disable tethering if enabling Wifi
-        int wifiState = wifiManager.getWifiState();
-        if (enabled && ((wifiState == WifiManager.WIFI_STATE_ENABLING) ||(wifiState == WifiManager.WIFI_STATE_ENABLED))) {
-        	wifiManager.setWifiEnabled(false);
+        if(enabled){
+        	int wifiState = wifiManager.getWifiState();
+        	if(wifiState == WifiManager.WIFI_STATE_ENABLED){
+        		return true;
+        	}else if(wifiState == WifiManager.WIFI_STATE_ENABLING){
+        		wifiManager.setWifiEnabled(false);
+        	}
         }
-
         if (!wifiManager.setWifiEnabled(enabled)) {
             // Error
-            if (DEBUG) Log.e(TAG,"setWifiSwitcher error");
+            log_e("setWifiSwitcher error");
             return false;
         }
         return true;
@@ -117,7 +119,6 @@ public class DeviceBaseController {
     public static boolean setAirPlanModeEnabled(Context context,boolean enabled) {
         // Change the system setting
         boolean bool = Settings.Global.putInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, enabled ? 1 : 0);
-        log_e("setAirPlanModeEnabled bool:"+bool);
         // Post the intent
         Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
         intent.putExtra("state", enabled);

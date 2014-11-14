@@ -47,6 +47,11 @@ public class BatteryWaterWaveView extends View {
 	private int mHour;
 	private int mMinute;
 	
+	private String mBatteryChargingStatusTxt ;
+	private String mBatteryDisChargeStatusTxt ;
+	private String mHourTxt ;
+	private String mMinuteTxt ;
+	
 	private Point mCenterPoint;
 	//浪峰个数
 	float  crestCount = 1.5f;
@@ -108,7 +113,12 @@ public class BatteryWaterWaveView extends View {
 		mMaxProgress = attrInit.getMaxProgress();
 	    mFontSize = attrInit.getFontSize();
 	    mTextColor = attrInit.getTextColor();
-
+	    
+	    mBatteryChargingStatusTxt = context.getResources().getString(R.string.battery_charging_status_txt);
+	    mBatteryDisChargeStatusTxt = context.getResources().getString(R.string.battery_discharge_status_txt);
+	    mHourTxt = context.getResources().getString(R.string.hour_txt);
+	    mMinuteTxt = context.getResources().getString(R.string.minute_txt);
+	    
 		mPaintWater = new Paint();
 		mPaintWater.setStrokeWidth(1.0F);
 		mPaintWater.setColor(mWaterColor);
@@ -152,7 +162,7 @@ public class BatteryWaterWaveView extends View {
 		
 		mCenterPoint.x = viewWidth / 2;
 		mCenterPoint.y = viewHeight / 2;
-		mAmplitude = waveMaxWidth / 30f;//振幅计算
+		mAmplitude = waveMaxWidth / 25f;//振幅计算
 		
 		// 如果没有执行波浪动画，或者也没有指定容器宽高，就画个简单的矩形
 		if ((waveMaxWidth == 0) || (waveMaxHeight == 0) || isInEditMode()) {
@@ -221,19 +231,15 @@ public class BatteryWaterWaveView extends View {
 		}
 		
 		if (mIsCharging) {
-			String batteryStatusTxt = "电池充电时间";
-			float statusTxtWidth = mTextStatusPaint.measureText(batteryStatusTxt, 0,batteryStatusTxt.length());
-			canvas.drawText(batteryStatusTxt, mCenterPoint.x - statusTxtWidth / 2,mCenterPoint.y * 1.5f - mFontSize / 2, mTextStatusPaint);
+			float statusTxtWidth = mTextStatusPaint.measureText(mBatteryChargingStatusTxt, 0,mBatteryChargingStatusTxt.length());
+			canvas.drawText(mBatteryChargingStatusTxt, mCenterPoint.x - statusTxtWidth / 2,mCenterPoint.y * 1.5f - mFontSize / 2, mTextStatusPaint);
 		}else{
-			String batteryStatusTxt = "电池可用时间";
-			float statusTxtWidth = mTextStatusPaint.measureText(batteryStatusTxt, 0,batteryStatusTxt.length());
-			canvas.drawText(batteryStatusTxt, mCenterPoint.x - statusTxtWidth / 2,mCenterPoint.y * 1.5f - mFontSize / 2, mTextStatusPaint);
+			float statusTxtWidth = mTextStatusPaint.measureText(mBatteryDisChargeStatusTxt, 0,mBatteryDisChargeStatusTxt.length());
+			canvas.drawText(mBatteryDisChargeStatusTxt, mCenterPoint.x - statusTxtWidth / 2,mCenterPoint.y * 1.5f - mFontSize / 2, mTextStatusPaint);
 		}
-		
-		String batterySummaryTxt = mHour+"时"+mMinute+"分";
+		String batterySummaryTxt = mHour+mHourTxt+mMinute+mMinuteTxt;
 		float summaryTxtWidth = mTextStatusPaint.measureText(batterySummaryTxt, 0,batterySummaryTxt.length());
 		canvas.drawText(batterySummaryTxt, mCenterPoint.x - summaryTxtWidth / 2,mCenterPoint.y * 1.5f - mFontSize*2 , mTextStatusPaint);
-		
 	}
 	
 	public void setBatteryCharging(boolean isCharging){

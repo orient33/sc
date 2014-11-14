@@ -370,6 +370,7 @@ public class BatteryModeController implements OnClickListener {
 			if(originalBatteryMode != null){
 				originalBatteryMode.excute(mContext);
 			}
+			log_e("toggleStatusChange excute default");
 		}
 	}
 
