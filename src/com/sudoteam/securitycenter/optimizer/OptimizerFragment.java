@@ -30,7 +30,7 @@ import java.util.List;
 public class OptimizerFragment extends MyFragment implements View.OnClickListener {
 
     public static final int MSG_UPDATE_UI = 10, MSG_UPDATE_PROGRESS = 11;
-    public static final String MSG_OVER ="msg-complete";
+    public static final String MSG_OVER = "msg-complete";
     private static final int iconIds[] = {R.drawable.opt_garbage, R.drawable.opt_selfon, R.drawable.opt_running_app};
     private static final int names[] = {R.string.app_cache, R.string.opt_self_on, R.string.kill_app};
     private static final int summarys[] = {R.string.app_cache_summary, R.string.selfon_app_summary, R.string.kill_app_summary};
@@ -219,7 +219,8 @@ public class OptimizerFragment extends MyFragment implements View.OnClickListene
                 icon.setImageResource(iconId);
                 name.setText(nameId);
             }
-            void setEnable(boolean enable){
+
+            void setEnable(boolean enable) {
                 name.setEnabled(enable);
                 summary.setEnabled(enable);
                 icon.setEnabled(enable);
@@ -317,7 +318,7 @@ public class OptimizerFragment extends MyFragment implements View.OnClickListene
                 if (scan) {
                     rs = oci.task.doCheck(h[0], MSG_UPDATE_PROGRESS);
                     oci.scaned = true;
-                }else
+                } else
                     oci.task.optimizeSelect(true);
                 Util.i("task " + ii + " result == " + rs);
                 oci.useResult(rs);
@@ -336,6 +337,8 @@ public class OptimizerFragment extends MyFragment implements View.OnClickListene
         protected void onPostExecute(Object o) {
             if (v != null)
                 v.setEnabled(true);
+            if (!scan)   //set last time to optimize
+                CheckOptimizer.setLastTimeForOptimize(getActivity());
         }
     }
 }

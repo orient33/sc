@@ -24,7 +24,6 @@ public class CheckDataUsage implements ICheck {
         final String title1 = context.getString(R.string.data_sum),
                 title2 = context.getString(R.string.data_used);
         cr.name = title1 + "/" + title2;
-        NetUtils.i("One-Key-Check  start check : " + cr.name);
         long all = NetUtils.getDataAllSize(context);
         if (all < 0) { // not set data-all-size.
             cr.content = context.getString(R.string.not_set_data_all);
@@ -38,13 +37,13 @@ public class CheckDataUsage implements ICheck {
                     return false; // return true if fixed. may be startActivityForResult() is better.
                 }
             };
-        }else{
+        } else {
             long used = getUsedDataSize(context);
-            NetUtils.i("all size : "+ Formatter.formatFileSize(context,all)+", used: "+Formatter.formatFileSize(context,used));
-            if(used >= all){    //
+            NetUtils.i("all size : " + Formatter.formatFileSize(context, all) + ", used: " + Formatter.formatFileSize(context, used));
+            if (used >= all) {    //
                 cr.type = CheckResult.TYPE_CANNO_FIX;
                 cr.content = context.getString(R.string.data_usage_above_all);
-            }else {
+            } else {
                 cr.type = CheckResult.TYPE_PASSED;
                 cr.content = context.getString(R.string.seted_data_all);
             }

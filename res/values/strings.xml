@@ -59,6 +59,12 @@
 	<string name="scan_complete">扫描完成</string>
 	<string name="find_no_cache">没有发现系统缓存</string>
 	<string name="clear_ok">清理完成</string>
+    <string name="clear_just_now">刚刚优化过系统</string>
+    <string name="clear_sevel_hour">%1$s 个小时前优化过</string>
+    <string name="clear_sevel_day">您已经%1$s天没优化过了</string>
+    <string name="clear_sevel_week">您已经%1$s周没优化过了</string>
+    <string name="clear_sevel_month">您已经%1$s个月没优化过了</string>
+    <string name="clear_never">您从未优化过系统</string>
 
     <string name="allowed">已允许</string>
     <string name="forbidden">已禁止</string>

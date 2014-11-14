@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.sudoteam.securitycenter.checkitem.DeviceManagerCheck;
 import com.sudoteam.securitycenter.netstat.CheckDataUsage;
+import com.sudoteam.securitycenter.optimizer.CheckOptimizer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class OneKeyCheck {
         for (ICheck ic : mCheckList) {
             CheckResult cr = ic.doCheck(mContext);
             list.add(cr);
-            Util.i(""+cr);
+            Util.i("" + cr);
 //        :TODO notify listview / adapter data changed.
         }
         return list;
@@ -46,5 +47,6 @@ public class OneKeyCheck {
         DeviceManagerCheck dmc = DeviceManagerCheck.getInstance(mContext);
         mCheckList.add(cdu);
         mCheckList.add(dmc);
+        mCheckList.add(new CheckOptimizer());
     }
 }
