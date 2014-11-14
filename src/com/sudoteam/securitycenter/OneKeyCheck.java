@@ -10,6 +10,7 @@ import com.sudoteam.securitycenter.checkitem.DefaultSmsCheck;
 import com.sudoteam.securitycenter.checkitem.DeviceManagerCheck;
 import com.sudoteam.securitycenter.checkitem.NonMarketAppsCheck;
 import com.sudoteam.securitycenter.netstat.CheckDataUsage;
+import com.sudoteam.securitycenter.optimizer.CheckOptimizer;
 
 /**
  */
@@ -29,7 +30,7 @@ public class OneKeyCheck {
         for (ICheck ic : mCheckList) {
             CheckResult cr = ic.doCheck(mContext);
             list.add(cr);
-            Util.i(""+cr);
+            Util.i("" + cr);
 //        :TODO notify listview / adapter data changed.
         }
         return list;
@@ -55,6 +56,7 @@ public class OneKeyCheck {
         mCheckList.add(adbTask);
         mCheckList.add(nonMarketTask);
         mCheckList.add(smsTask);
+        mCheckList.add(new CheckOptimizer());
     }
 }
 
