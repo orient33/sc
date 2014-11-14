@@ -239,7 +239,7 @@ public class PowerManagerActivity extends Activity implements Handler.Callback {
 			int hour = ConvertHelper.second2Hour(batteryTime);
 			int minute = ConvertHelper.second2Minute(batteryTime);
 			log_e("batteryStatus:" + batteryStatus + " hour:" + hour
-					+ " minute" + minute);
+					+ " minute:" + minute);
 			updateBatteryStatusUi(batteryStatus, batteryInfo.batteryLevel,
 					hour, minute);
 		}

@@ -31,7 +31,7 @@ public class BatteryModeCell implements Serializable{
 	public static final String BATTERY_MODE_ENTITY = "power_plan_entity";
 	public static final int[] DEFAULT_SCREEN_TIME_STATUS = new int[]{15,60,300,1800};
 	public static final int[] DEFAULT_SCREEN_TIMEOUT_RES_ID = new int[]{R.drawable.power_screen_timeout_15s,
-																		 R.drawable.power_screen_timeout_30s,
+																		 R.drawable.power_screen_timeout_1m,
 																		 R.drawable.power_screen_timeout_5m,
 																		 R.drawable.power_screen_timeout_30m};
 	

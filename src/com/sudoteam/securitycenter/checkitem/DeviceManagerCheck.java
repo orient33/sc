@@ -11,6 +11,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 import com.sudoteam.securitycenter.CheckResult;
+import com.sudoteam.securitycenter.R;
 import com.sudoteam.securitycenter.CheckResult.IFix;
 import com.sudoteam.securitycenter.ICheck;
 
@@ -29,7 +30,7 @@ public class DeviceManagerCheck implements ICheck, IFix {
 
     private DeviceManagerCheck(Context context) {
         mDPM = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
-        initCheckResult();
+        initCheckResult(context);
     }
 
     public static DeviceManagerCheck getInstance(Context context) {
@@ -57,7 +58,7 @@ public class DeviceManagerCheck implements ICheck, IFix {
         for (int i = 0; i < pkgNames.size(); i++) {
             for (ComponentName cn : cur) {
                 if (cn.getPackageName().equals(pkgNames.get(i))) {
-                    mCheckResult.content = "设备管理器检查到非系统应用使用";
+                    mCheckResult.content = context.getResources().getString(R.string.device_manager_check_warning);
                     mCheckResult.type = CheckResult.TYPE_MANUAL;
                     return mCheckResult;
                 }
@@ -73,10 +74,10 @@ public class DeviceManagerCheck implements ICheck, IFix {
         return true;
     }
 
-    private void initCheckResult() {
+    private void initCheckResult(Context context) {
         mCheckResult = new CheckResult();
-        mCheckResult.name = "设备管理器检查";
-        mCheckResult.content = "设备管理器通过";
+        mCheckResult.name = context.getResources().getString(R.string.device_manager_check_name);
+        mCheckResult.content = context.getResources().getString(R.string.device_manager_check_pass);
         mCheckResult.type = CheckResult.TYPE_PASSED;
         mCheckResult.callback = this;
     }

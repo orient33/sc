@@ -48,8 +48,8 @@ public class OneKeyCheck {
 //        mCheckList.add();//:TODO add all ICheck, which will be check.
         CheckDataUsage cdu = new CheckDataUsage();
         DeviceManagerCheck dmcTask = DeviceManagerCheck.getInstance(mContext);
-        AdbCheck adbTask =  new AdbCheck();
-        NonMarketAppsCheck nonMarketTask = new NonMarketAppsCheck();
+        AdbCheck adbTask =  new AdbCheck(mContext);
+        NonMarketAppsCheck nonMarketTask = new NonMarketAppsCheck(mContext);
         DefaultSmsCheck smsTask = new DefaultSmsCheck(mContext);
         mCheckList.add(cdu);
         mCheckList.add(dmcTask);

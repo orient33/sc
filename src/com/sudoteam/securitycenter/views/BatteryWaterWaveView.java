@@ -24,8 +24,6 @@ import android.view.View;
 import com.sudoteam.securitycenter.R;
 
 /**
- * @author Administrator
- * 
  */
 public class BatteryWaterWaveView extends View {
 	
@@ -244,7 +242,7 @@ public class BatteryWaterWaveView extends View {
 	}
 	
 	/**
-	 * 设置当前进度
+	 * set current battery  progress
 	 */
 	public void setBatteryLevel(int progress) {
 		progress = progress > 100 ? 100 : progress < 0 ? 0 : progress;

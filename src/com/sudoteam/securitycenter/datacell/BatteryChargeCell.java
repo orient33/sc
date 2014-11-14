@@ -29,7 +29,7 @@ public class BatteryChargeCell implements Serializable{
 	@Column(column = "chargeSpeed")
 	public int chargeSpeed;
 	@Column(column = "chargeStatus")
-	public int chargeStatus;
+	public int chargeStatus;//充电方式
 
 	public void insertSelfToDb(Context context) {
 		PowerManagerDbHelper<BatteryChargeCell> batteryDbMgr = new PowerManagerDbHelper<BatteryChargeCell>(

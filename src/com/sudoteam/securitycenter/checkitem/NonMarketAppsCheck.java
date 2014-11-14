@@ -6,6 +6,7 @@ import android.os.UserManager;
 import android.provider.Settings;
 
 import com.sudoteam.securitycenter.CheckResult;
+import com.sudoteam.securitycenter.R;
 import com.sudoteam.securitycenter.CheckResult.IFix;
 import com.sudoteam.securitycenter.ICheck;
 
@@ -13,14 +14,14 @@ public class NonMarketAppsCheck implements ICheck, IFix {
 
 	private CheckResult mCheckResult;
 
-	public NonMarketAppsCheck() {
-		initCheckResult();
+	public NonMarketAppsCheck(Context context) {
+		initCheckResult(context);
 	}
 
 	@Override
 	public CheckResult doCheck(Context context) {
 		if (getNonMarketAppsEnabled(context)) {
-			mCheckResult.content = "发现App未知来源打开";
+			mCheckResult.content = context.getResources().getString(R.string.non_market_check_warning);
 			mCheckResult.type = CheckResult.TYPE_MANUAL;
 			return mCheckResult;
 		}
@@ -35,10 +36,10 @@ public class NonMarketAppsCheck implements ICheck, IFix {
 		return true;
 	}
 
-	private void initCheckResult() {
+	private void initCheckResult(Context context) {
 		mCheckResult = new CheckResult();
-		mCheckResult.name = "App未知来源检测检查";
-		mCheckResult.content = "App未知来源检测检查通过";
+		mCheckResult.name = context.getResources().getString(R.string.non_market_check_name);
+		mCheckResult.content = context.getResources().getString(R.string.non_market_check_pass);
 		mCheckResult.type = CheckResult.TYPE_PASSED;
 		mCheckResult.callback = this;
 	}

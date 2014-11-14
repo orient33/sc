@@ -158,5 +158,33 @@
 	<string name="battery_minute">分</string>
 	<string name="in_airplane_mode">正处于飞行模式下</string>
 	<string name="add_battery_mode">添加</string>
+	
+	<!-- one-key-check other -->
+	<string name="adb_check_name">USB调试检查</string>
+	<string name="adb_check_pass">USB调试检查通过</string>
+	<string name="adb_check_warning">发现USB调试打开</string>
+	<string name="default_sms_check_name">默认短信应用检查</string>
+	<string name="default_sms_check_pass">默认短信应用检查通过</string>
+	<string name="default_sms_check_warning">默认短信应用不是可信任来源</string>
+	<string name="device_manager_check_name">设备管理器使用检查</string>
+	<string name="device_manager_check_pass">设备管理器检查使用通过</string>
+	<string name="device_manager_check_warning">检查到非系统应用使用设备管理器</string>
+	<string name="non_market_check_name">安装未知应用来源开关检测</string>
+	<string name="non_market_check_pass">安装未知应用来源开关检测通过</string>
+	<string name="non_market_check_warning">发现安装未知来源应用开关打开</string>
+	
 
 </resources>
+
+
+
+
+
+
+
+
+
+
+
+
+

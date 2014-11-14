@@ -14,6 +14,7 @@ import android.util.Log;
 
 import com.android.internal.telephony.SmsApplication;
 import com.sudoteam.securitycenter.CheckResult;
+import com.sudoteam.securitycenter.R;
 import com.sudoteam.securitycenter.CheckResult.IFix;
 import com.sudoteam.securitycenter.ICheck;
 
@@ -30,7 +31,7 @@ public class DefaultSmsCheck implements ICheck,IFix{
 	public DefaultSmsCheck(Context context){
 		mTm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		mRelySmsList = loadRelySms(context);
-		initCheckResult();
+		initCheckResult(context);
 	}
 	
 	@Override
@@ -47,7 +48,7 @@ public class DefaultSmsCheck implements ICheck,IFix{
 					}
 				}
 				if(!found){
-					mCheckResult.content = "默认短信应用不是可信任来源";
+					mCheckResult.content = context.getResources().getString(R.string.default_sms_check_warning);
 					mCheckResult.type = CheckResult.TYPE_MANUAL;
 				}
 			}
@@ -67,10 +68,10 @@ public class DefaultSmsCheck implements ICheck,IFix{
         return (mTm.getPhoneType() != TelephonyManager.PHONE_TYPE_NONE);
     }
     
-    private void initCheckResult(){
+    private void initCheckResult(Context context){
 		mCheckResult = new CheckResult();
-		mCheckResult.name = "短信应用检查";
-		mCheckResult.content = "短信应用检查通过";
+		mCheckResult.name = context.getResources().getString(R.string.default_sms_check_name);
+		mCheckResult.content = context.getResources().getString(R.string.default_sms_check_pass);
 		mCheckResult.type = CheckResult.TYPE_PASSED;
 		mCheckResult.callback = this;
 	}
