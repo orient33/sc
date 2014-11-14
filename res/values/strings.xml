@@ -93,6 +93,10 @@
     <string name="number_change">修改手机号码</string>
     <string name="number_error">设置失败,号码输入有误</string>
     <string name="input_phone_number">请输入您的手机号码</string>
+    <string name="not_set_data_all">流量套餐未设置</string>
+    <string name="seted_data_all">流量套餐未设置</string>
+    <string name="data_usage_above_all">流量使用已超过套餐值</string>
+
 
 	<!-- app ops -->
     <string name="ops_app_list">应用列表</string>

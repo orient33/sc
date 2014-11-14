@@ -1,14 +1,20 @@
 package com.sudoteam.securitycenter.netstat;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.INetworkStatsSession;
+import android.net.NetworkStats;
+import android.net.NetworkTemplate;
+import android.os.RemoteException;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 /***/
-public class TimeUtils {
+public class NetUtils {
 
     public static final int ONE_DAY = 24 * 3600 * 1000;
 
@@ -71,6 +77,28 @@ public class TimeUtils {
         } catch (ParseException e) {
             e("Date parse Error." + e.toString());
             return now - ONE_DAY;
+        }
+    }
+
+    public static final String KEY_DATA_ALL = "data-all";
+
+    public static long getDataAllSize(Context c) {
+        SharedPreferences sp = c.getSharedPreferences(c.getPackageName(), 0);
+        return sp.getLong(KEY_DATA_ALL, -1);
+    }
+
+    //get used size  current month.
+    public static long getCurrentUsage(Context c) {
+
+        return 0;
+    }
+
+    public static long getNS(INetworkStatsSession ns, NetworkTemplate nt, long start, long end) {
+        try {
+            NetworkStats stats = ns.getSummaryForNetwork(nt, start, end);
+            return stats.getTotalBytes();
+        } catch (RemoteException e) {
+            return -11;
         }
     }
 

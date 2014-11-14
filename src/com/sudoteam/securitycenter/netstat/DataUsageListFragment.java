@@ -41,7 +41,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -231,7 +230,7 @@ public class DataUsageListFragment extends Fragment {
         	mTemplate = buildTemplateMobileAll(getActiveSubscriberId(getActivity()));
 
         long now = System.currentTimeMillis();
-        long start = mCurrentCycle == CYCLE_MONTH ? TimeUtils.getStartForMonth(now) : TimeUtils.getStartForDay(now);
+        long start = mCurrentCycle == CYCLE_MONTH ? NetUtils.getStartForMonth(now) : NetUtils.getStartForDay(now);
         Util.i("updateBody() start = " + start + ", end = " + now);
         getLoaderManager().restartLoader(LOADER_SUMMARY,
                 SummaryForAllUidLoader.buildArgs(mTemplate, start, now), mSummaryCallbacks);
@@ -244,7 +243,7 @@ public class DataUsageListFragment extends Fragment {
         @Override
         protected List<Long> doInBackground(Void... v) {
             long now = System.currentTimeMillis();
-            dates = TimeUtils.getDatesOfLong(now);
+            dates = NetUtils.getDatesOfLong(now);
             int size = dates.size();
             final DataUsageDatabase db = mDB;
             final NetworkTemplate nt = mTemplate;

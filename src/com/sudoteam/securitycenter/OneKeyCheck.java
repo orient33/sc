@@ -2,6 +2,8 @@ package com.sudoteam.securitycenter;
 
 import android.content.Context;
 
+import com.sudoteam.securitycenter.netstat.CheckDataUsage;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class OneKeyCheck {
         for (ICheck ic : mCheckList) {
             CheckResult cr = ic.doCheck(mContext);
             list.add(cr);
+            Util.i(""+cr);
 //        :TODO notify listview / adapter data changed.
         }
         return list;
@@ -36,7 +39,9 @@ public class OneKeyCheck {
     }
 
     private void ensureCheckList() {
-//        if (mCheckList.size() > 0) return;
+        if (mCheckList.size() > 0) return;
 //        mCheckList.add();//:TODO add all ICheck, which will be check.
+        CheckDataUsage cdu = new CheckDataUsage();
+        mCheckList.add(cdu);
     }
 }

@@ -85,7 +85,9 @@ public class DataUsageDatabase extends SQLiteOpenHelper {
             mCached.put(date, result);
             return result;
         }
-        result = getNS(mINetworkStatsSession, nt, date);// 3 query. if failed form cache & DB
+        long start = NetUtils.getLongForDate(date);// get start time
+        long end = start + NetUtils.ONE_DAY;
+        result = NetUtils.getNS(mINetworkStatsSession, nt, start,end);// 3 query. if failed form cache & DB
         if (result >= 0 && needCache) {   // cache result to DB & cache, except today
             insert(date, result);
             mCached.put(date, result);
@@ -93,15 +95,5 @@ public class DataUsageDatabase extends SQLiteOpenHelper {
         return result;
     }
 
-    private static long getNS(INetworkStatsSession ns, NetworkTemplate nt, String date) {
-        long start = TimeUtils.getLongForDate(date);// get start time
-        long end = start + TimeUtils.ONE_DAY;
-        try {
-            NetworkStats stats = ns.getSummaryForNetwork(nt, start, end);
-            return stats.getTotalBytes();
-        } catch (RemoteException e) {
-            return -11;
-        }
-    }
 
 }

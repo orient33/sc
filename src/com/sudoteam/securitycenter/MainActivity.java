@@ -29,6 +29,13 @@ public class MainActivity extends Activity {
         }
         String title = getString(R.string.app_name);
         Util.setActionBar(this, false, title, null);
+        final OneKeyCheck okc = new OneKeyCheck(this);
+        new Thread(){
+            @Override
+            public void run(){
+                okc.checkAll();
+            }
+        }.start();
     }
 
     public static class _Frag extends MyFragment implements View.OnClickListener {
