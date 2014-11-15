@@ -160,7 +160,7 @@
 	<string name="in_airplane_mode">正处于飞行模式下</string>
 	<string name="add_battery_mode">添加</string>
 	<string name="battery_charging_status_txt">电池充电时间</string>
-	<string name="battery_discharge_status_txt">电池充电时间</string>
+	<string name="battery_discharge_status_txt">电池可用时间</string>
 	<string name="hour_txt">时</string>
 	<string name="minute_txt">分</string>
 	

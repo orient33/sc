@@ -47,7 +47,6 @@ public class MainActivity extends Activity {
         
          exit = AnimationUtils.loadAnimation(this, R.anim.dialog_exit_anim);
          enter = AnimationUtils.loadAnimation(this,R.anim.dialog_enter_anim);
-        
 //        final OneKeyCheck okc = new OneKeyCheck(this);
 //        new Thread(){
 //            @Override
@@ -117,7 +116,6 @@ public class MainActivity extends Activity {
 			}else if(id == R.id.module_save){
 				ma.startActivity(new Intent(ma, PowerManagerActivity.class));
             }else if(id == R.id.title_img){
-
                 prepareForOneKeyCheck();
                 doCheck();
             }

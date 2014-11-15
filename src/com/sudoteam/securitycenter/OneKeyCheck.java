@@ -37,6 +37,7 @@ public class OneKeyCheck {
             SystemClock.sleep(500);
             Util.i("" + cr);
         }
+        
         return list;
     }
 

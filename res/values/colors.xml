@@ -4,5 +4,6 @@
     <color name="background_tab_pressed">#6633B5E5</color>
     <color name="translucent_background">#45cd</color>
     <color name="white">#fff</color>
+    <color name="light_grey">#ccc</color>
 
 </resources>
