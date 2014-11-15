@@ -1,8 +1,5 @@
 package com.sudoteam.securitycenter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -13,6 +10,9 @@ import com.sudoteam.securitycenter.checkitem.DeviceManagerCheck;
 import com.sudoteam.securitycenter.checkitem.NonMarketAppsCheck;
 import com.sudoteam.securitycenter.netstat.CheckDataUsage;
 import com.sudoteam.securitycenter.optimizer.CheckOptimizer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  */
@@ -39,6 +39,7 @@ public class OneKeyCheck {
             Util.i("" + cr);
 //        :TODO notify listview / adapter data changed.
         }
+        
         return list;
     }
 
@@ -51,10 +52,9 @@ public class OneKeyCheck {
 
     private void ensureCheckList() {
         if (mCheckList.size() > 0) return;
-//        mCheckList.add();//:TODO add all ICheck, which will be check.
         CheckDataUsage cdu = new CheckDataUsage();
         DeviceManagerCheck dmcTask = DeviceManagerCheck.getInstance(mContext);
-        AdbCheck adbTask =  new AdbCheck(mContext);
+        AdbCheck adbTask = new AdbCheck(mContext);
         NonMarketAppsCheck nonMarketTask = new NonMarketAppsCheck(mContext);
         DefaultSmsCheck smsTask = new DefaultSmsCheck(mContext);
         mCheckList.add(cdu);
