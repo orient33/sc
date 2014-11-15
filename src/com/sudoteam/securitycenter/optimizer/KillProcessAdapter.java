@@ -180,6 +180,8 @@ public class KillProcessAdapter extends BaseAdapter implements IScan {
     public int doCheck(Handler h, int what) {
         if (mList != null)
             mList.clear();
+        String des = mContext.getResources().getString(R.string.kill_app_des);
+        h.obtainMessage(OptimizerFragment.MSG_UPDATE_PROGRESS, des).sendToTarget();
         mList = getItems();
         Util.i("KillProcessAdapter=-- doCheck() size=" + mList.size());
         return getCurrentCount();

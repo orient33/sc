@@ -42,7 +42,7 @@ public class SelfStartAdapter extends BaseAdapter implements IScan {
                 notifyDataSetChanged();
                 Util.i("setmode() name = " + ass.label + ", mode " + mode);
             } catch (Exception e) {
-                Util.e("set mode error. "+e);
+                Util.e("set mode error. " + e);
             }
         }
     };
@@ -199,6 +199,8 @@ public class SelfStartAdapter extends BaseAdapter implements IScan {
     }
 
     public int doCheck(Handler h, int what) {
+        String des = mContext.getResources().getString(R.string.opt_self_on);
+        h.obtainMessage(OptimizerFragment.MSG_UPDATE_PROGRESS, des).sendToTarget();
         List<AppSelfStart> list = getSelfStartApp(mAOM, mPm);
         int size = 0;
         for (AppSelfStart ass : list) {

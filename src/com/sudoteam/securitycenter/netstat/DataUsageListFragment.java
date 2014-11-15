@@ -265,7 +265,7 @@ public class DataUsageListFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Long> list){
             if(list.size() != dates.size())
-                throw new RuntimeException("date 和 data_usage's size not equal !");
+                throw new RuntimeException("date & data_usage's size not equal !");
             List<Point> data = new ArrayList<Point>();
             for (int i = 0; i < list.size(); ++i) {
                 int x = Integer.parseInt(dates.get(i).substring(8));

@@ -178,48 +178,7 @@ public class Util {
         }
     }
 
-    /**
-     * 查询是否root了
-     */
-    public static boolean isRooted(Context c) {
-        String rooted = c.getString(R.string.rooted), un_root = c
-                .getString(R.string.root_unavalable);
-        try {
-            String result = execShell("type su"); // eg : su is tracked alias for /system/xbin/su
-            String su_path = result.substring(result.lastIndexOf(" ")); // eg : /system/xbin/su
-            result = execShell("md5  " + su_path);
-            String md5 = result.substring(0, result.indexOf(" "));
-            boolean noRoot = TextUtils.isEmpty(md5);
-            Toast.makeText(c, (noRoot ? un_root : rooted) + md5, Toast.LENGTH_LONG).show();
-            return !noRoot;
-        } catch (Exception e) {
-            e("[Util] " + e);
-        }
-        return false;
-    }
-
-    public static String execShell(String cmd) {
-        String[] cmdStrings = new String[]{"sh", "-c", cmd};
-        Runtime run = Runtime.getRuntime();
-        StringBuilder sb = new StringBuilder("");
-        try {
-            Process proc = run.exec(cmdStrings);
-            InputStream in = proc.getInputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-                sb.append("\n");
-            }
-            if (proc.waitFor() != 0) {
-
-            }
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
-        return sb.toString();
-    }
-
+ 
     public static String getNameForPackage(PackageManager pm, String pkgName) {
         String title = pkg2Name.get(pkgName);
         if (title == null) {
