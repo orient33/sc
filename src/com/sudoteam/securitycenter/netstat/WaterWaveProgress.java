@@ -56,7 +56,7 @@ public class WaterWaveProgress extends View {
     private static class MyHandler extends Handler {
         private WeakReference<WaterWaveProgress> mWeakRef = null;
 
-        private int refreshPeriod = 100;
+        private int refreshPeriod = 500;
 
         public MyHandler(WaterWaveProgress host) {
             mWeakRef = new WeakReference<WaterWaveProgress>(host);

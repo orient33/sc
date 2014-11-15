@@ -60,6 +60,7 @@ public class DataUsageView extends View {
         mHorizoncalPaint.setPathEffect(effect);
         mHorizoncalPaint.setColor(HORIZONTAL_COLOR);
         mHorizoncalPaint.setAlpha(0x50);
+        mHorizoncalPaint.setTextAlign(Paint.Align.RIGHT);
         mHorizoncalPaint.setTextSize(30);
 
         mVirtacalPaint = new Paint();
@@ -88,7 +89,7 @@ public class DataUsageView extends View {
     List<Point> mPoints = new ArrayList<Point>();
     List<Point> mAdjustPoints = new ArrayList<Point>();
     Path mCurvePath = new Path();
-    int maxY, maxX;
+    int maxY, maxX, padTop, padRight, padBottom, padLeft;
 
     @Override
     protected void onMeasure(int w, int h) {// w=-2147483648, h=1073742724
@@ -125,33 +126,46 @@ public class DataUsageView extends View {
             if (p.y > maxY)
                 maxY = p.y;
         }
-        maxY = Math.max(10, maxY);
-        int iy = (mRect.bottom - mRect.top) / maxY;
-        int ix = (mRect.right - mRect.left) / maxX;
+        maxY = maxY < 10 ? 10 : maxY;
+        padLeft = getPaddingLeft();
+        padTop = getPaddingTop();
+        padRight = getPaddingRight();
+        padBottom = getPaddingBottom();
+        int iy = (mRect.bottom - mRect.top - padTop - padBottom) / maxY;
+        int ix = (mRect.right - mRect.left - padLeft - padRight) / maxX;
 
         int x0 = mRect.left;
         int newX = 0, newY = 0;
         mAdjustPoints.clear();
         for (Point p : mPoints) {
-            newX = mRect.left + (p.x - x0) * ix;
-            newY = mRect.bottom - (p.y * iy);
+            newX = mRect.left + padLeft + (p.x - x0) * ix;
+            newY = mRect.bottom - padBottom - (p.y * iy);
             mAdjustPoints.add(new Point(newX, newY));
         }
     }
 
     private void drawGrid(Canvas canvas) {
-        int size = mAdjustPoints.size();
         int lineSize = 5;// count of horizontal line.
-        int space = maxY / lineSize; // space between each horizontal line
-        int iiy = (mRect.bottom - mRect.top) / lineSize; //px between each horizontal line
-        int x0 = mRect.left, x1 = mRect.right;
-        for (int i = 0; i < size; ++i) {
-            int y = mRect.bottom - (i * iiy);
-            canvas.drawText(" " + (i * space), x0, y, mHorizoncalPaint);
+        double yspace = maxY*1.0 / lineSize; // space between each horizontal line
+        int iiy = (mRect.bottom - mRect.top - padTop - padBottom) / lineSize; //px between each horizontal line
+        int x0 = mRect.left + padLeft, x1 = mRect.right - padRight;
+        mHorizoncalPaint.setTextAlign(Paint.Align.RIGHT);
+        for(int i = 0 ; i < lineSize; ++i){ // draw horizontal line. or Y 
+            int y = mRect.bottom - padBottom - (i * iiy);
+            canvas.drawText(String.format("%.1f", (i * yspace)), x0, y, mHorizoncalPaint); // draw y
             canvas.drawLine(x0, y, x1, y, mHorizoncalPaint); // draw horizontal line
-            Point p = mAdjustPoints.get(i);
-            canvas.drawLine(p.x, mRect.bottom, p.x, p.y, mVirtacalPaint);//draw vertical line
-            canvas.drawCircle(p.x, p.y, 6, mVirtacalPaint); // draw small circle on every point
+        }
+        canvas.drawLine(x0, mRect.bottom - padBottom, x0, mRect.top + padTop, mHorizoncalPaint);
+
+        int size = mAdjustPoints.size();
+        Paint.FontMetricsInt fm = mHorizoncalPaint.getFontMetricsInt();
+        final int bottomSpace = fm.descent - fm.ascent;//fm.bottom - fm.top;
+        mHorizoncalPaint.setTextAlign(Paint.Align.CENTER);
+        for (int i = 0; i < size; ++i) {
+            Point p = mPoints.get(i), ap = mAdjustPoints.get(i);
+            canvas.drawText(p.x + "", ap.x, mRect.bottom - padBottom + bottomSpace, mHorizoncalPaint);
+            canvas.drawLine(ap.x, mRect.bottom - padBottom, ap.x, ap.y, mVirtacalPaint);//draw vertical line
+            canvas.drawCircle(ap.x, ap.y, 3, mVirtacalPaint); // draw small circle on every point
         }
 
         //draw pao pao icon
@@ -160,23 +174,23 @@ public class DataUsageView extends View {
         int y = mAdjustPoints.get(size - 2).y;
         canvas.drawBitmap(((BitmapDrawable) mPaoPao).getBitmap(), x - ww / 2, y - hh, mVirtacalPaint);
 
-        Paint.FontMetricsInt fm = mTextPaint.getFontMetricsInt();
+        fm = mTextPaint.getFontMetricsInt();
         int base = y - hh + (hh - fm.bottom + fm.top) / 2 - fm.top;
         canvas.drawText(mPoints.get(size - 2).y + "M", x, base, mTextPaint);
     }
 
     private void drawCurve(Canvas canvas) {
         buildLinePath(mCurvePath);
-        mCurvePath.lineTo(mRect.right, mRect.bottom);
-        mCurvePath.lineTo(mRect.left, mRect.bottom);
-        mCurvePath.lineTo(mRect.left, mAdjustPoints.get(0).y);
+        mCurvePath.lineTo(mRect.right - padRight, mRect.bottom - padBottom);
+        mCurvePath.lineTo(mRect.left + padLeft, mRect.bottom - padBottom);
+        mCurvePath.lineTo(mRect.left + padLeft, mAdjustPoints.get(0).y);
         mCurvePath.close();
         canvas.drawPath(mCurvePath, mCurvePaint);
     }
 
     private void buildLinePath(Path path) {
         path.reset();
-        path.moveTo(mRect.left, mRect.bottom);
+        path.moveTo(mRect.left + padLeft, mRect.bottom - padBottom);
         for (Point p : mAdjustPoints) {
             path.lineTo(p.x, p.y);
         }
