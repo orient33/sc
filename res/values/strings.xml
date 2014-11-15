@@ -28,8 +28,8 @@
 	<string name="clear">清理</string>
 	<string name="kill">杀死</string>
 
-	<string name="rooted">已root</string>
-	<string name="root_unavalable">未root</string>
+	<string name="check_rooted">设备已root</string>
+	<string name="check_unroot">设备未root</string>
 
 
 	<!-- 系统优化 -->
@@ -41,6 +41,7 @@
 	<string name="app_cache">应用缓存</string>
 	<string name="sdcard_cache">垃圾缓存</string>
 	<string name="kill_app">进程清理</string>
+    <string name="kill_app_des">可清理进程</string>
 	<string name="app_cache_summary">发现 %1$s 应用缓存</string>
 	<string name="sdcard_cache_summary">发现 %1$s 垃圾缓存</string>
     <string name="selfon_app_summary">发现 %1$s 自启动应用</string>

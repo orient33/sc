@@ -160,8 +160,7 @@ public class ClearCacheAdapter extends BaseAdapter implements IScan {
                 ++AppCacheInfo.findApp;
             }
         }
-        if (h != null)
-            h.obtainMessage(what, OptimizerFragment.MSG_OVER).sendToTarget();
+
         Util.i("load app info , count = " + data.size());
         int maxLoop = 10;
         while (AppCacheInfo.findApp > 0 && maxLoop-- > 0)

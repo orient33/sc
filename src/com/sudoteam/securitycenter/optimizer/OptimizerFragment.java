@@ -329,6 +329,8 @@ public class OptimizerFragment extends MyFragment implements View.OnClickListene
                 });
                 SystemClock.sleep(1000);
             }
+            if(scan)
+                h[0].obtainMessage(MSG_UPDATE_PROGRESS, OptimizerFragment.MSG_OVER).sendToTarget();
             Util.i("task complete !.");
             return null;
         }

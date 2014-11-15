@@ -22,7 +22,6 @@ import com.sudoteam.securitycenter.R;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * app list.
  */
@@ -39,7 +38,8 @@ public class AppListFragment extends ListFragment {
         mAdapter = new AppAdapter(getActivity());
         setListAdapter(mAdapter);
         final Activity act = getActivity();
-        final AppOpsManager aom = (AppOpsManager) act.getSystemService(Context.APP_OPS_SERVICE);
+        final AppOpsManager aom = (AppOpsManager) act
+                .getSystemService(Context.APP_OPS_SERVICE);
         AsyncTask<Void, Void, List<OneApp>> task = new AsyncTask<Void, Void, List<OneApp>>() {
             @Override
             public List<OneApp> doInBackground(Void... v) {
@@ -62,7 +62,6 @@ public class AppListFragment extends ListFragment {
         getActivity().startActivity(intent);
     }
 
-
     static class OneApp {
         final Drawable icon;
         final String name, pkgName;
@@ -78,14 +77,16 @@ public class AppListFragment extends ListFragment {
             opsCount = list == null ? 0 : list.size();
             ops = list;
         }
-        List<OpEntry> getOps(){
-            if(ops == null)
+
+        List<OpEntry> getOps() {
+            if (ops == null)
                 ops = new ArrayList<OpEntry>();
             return ops;
         }
 
         boolean addOp(OpEntry oe) {
-            if (hasOp(oe)) return false;
+            if (hasOp(oe))
+                return false;
             if (ops == null)
                 ops = new ArrayList<OpEntry>();
             ops.add(oe);
@@ -142,7 +143,8 @@ public class AppListFragment extends ListFragment {
         @Override
         public View getView(int position, View v, ViewGroup parent) {
             final OneApp item = getItem(position);
-            if (item == null) return v;
+            if (item == null)
+                return v;
             final ViewHold vh;
             if (v == null) {
                 v = inflater.inflate(R.layout.ops_applist, null);
