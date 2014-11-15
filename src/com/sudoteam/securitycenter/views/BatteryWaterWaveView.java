@@ -29,7 +29,7 @@ import com.sudoteam.securitycenter.R;
 public class BatteryWaterWaveView extends View {
 	
 	private static final boolean DEBUG = true;
-	private static final String TAG = "WaterWaveView";
+	private static final String TAG = "BatteryWaterWaveView";
 	
 	private Paint mPaintWater = null;
 	private Paint mTextStatusPaint = null;
@@ -59,7 +59,7 @@ public class BatteryWaterWaveView extends View {
 	/** 产生波浪效果的因子 */
 	private long mWaveFactor = 0L;
 	/** 正在执行波浪动画 */
-	private boolean isWaving = false;
+	private boolean isWaving = true;
 	/** wave amplitude*/
 	private float mAmplitude = 30.0F; // 20F
 	/** wave speed */
@@ -68,7 +68,7 @@ public class BatteryWaterWaveView extends View {
 	private int mWaterAlpha = 100; // 255
 
 	private MyHandler mHandler = null;
-	private static class MyHandler extends Handler {
+	private class MyHandler extends Handler {
 		private WeakReference<BatteryWaterWaveView> mWeakRef = null;
 		private int refreshPeriod = 100;
 
@@ -80,7 +80,9 @@ public class BatteryWaterWaveView extends View {
 			super.handleMessage(msg);
 			if (mWeakRef.get() != null) {
 				mWeakRef.get().invalidate();
-				sendEmptyMessageDelayed(0, refreshPeriod);
+                if (isWaving) {
+                    sendEmptyMessageDelayed(0, refreshPeriod);
+                }
 			}
 		}
 	}
@@ -149,15 +151,15 @@ public class BatteryWaterWaveView extends View {
 	}
 	
 	public void animateWave() {
-		if (!isWaving) {
+        isWaving = true;
+		if (isWaving) {
 			mWaveFactor = 0L;
-			isWaving = true;
 			mHandler.sendEmptyMessage(0);
 		}
 	}
 	
 	public void stopAnimateWaving(){
-		isWaving = true;
+		isWaving = false;
 	}
 	
 	@SuppressLint({ "DrawAllocation", "NewApi" })
@@ -272,8 +274,8 @@ public class BatteryWaterWaveView extends View {
 		invalidate();
 	}
 	
-	public void setBatteryMinute(int mimute){
-		mMinute = mimute;
+	public void setBatteryMinute(int minute){
+		mMinute = minute;
 		invalidate();
 	}
 

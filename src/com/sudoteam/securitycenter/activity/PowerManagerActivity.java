@@ -46,7 +46,7 @@ public class PowerManagerActivity extends Activity implements Handler.Callback {
 	private static final String TAG = "PowerManagerActivity";
 
 	public static final String SAVE_BATTERY_MODE = "powermanageractivity.save.batterymode";
-    private static final int APPENF_SURPLUS_TIME_S = 180;
+    private static final int APPEND_SURPLUS_TIME_S = 180;
 
 	private static int sAcChargeSpeed = 0;
 	private static int sUsbChargeSpeed = 0;
@@ -228,7 +228,7 @@ public class PowerManagerActivity extends Activity implements Handler.Callback {
 								.getDefaultUsbChargeSurplusTime();
 					}
 				}
-                batteryTime += APPENF_SURPLUS_TIME_S;
+                batteryTime += APPEND_SURPLUS_TIME_S;
 			} else {
 //				if (sDisChargeSpeed > 0) {
 //					batteryTime = (int) ((batteryInfo.batteryLevel * sDisChargeSpeed));
