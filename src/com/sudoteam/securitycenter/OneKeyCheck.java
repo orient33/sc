@@ -39,6 +39,7 @@ public class OneKeyCheck {
             Util.i("" + cr);
 //        :TODO notify listview / adapter data changed.
         }
+        
         return list;
     }
 
