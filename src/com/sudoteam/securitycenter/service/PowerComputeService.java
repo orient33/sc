@@ -66,7 +66,8 @@ public class PowerComputeService extends IntentService {
 				long subTimeMs = sBatteryChargeInfo.endTime
 						- sBatteryChargeInfo.startTime;
 				int subTimeSec = (int) subTimeMs / 1000;
-				if (subTimeSec > 0) {
+				if ((batteryPlugged == BatteryManager.BATTERY_PLUGGED_AC && subTimeSec > 60)
+                     || (batteryPlugged == BatteryManager.BATTERY_PLUGGED_USB && subTimeSec > 80)) {
 					sBatteryChargeInfo.id = BatteryChargeCell
 							.createUniqueId();
 					sBatteryChargeInfo.chargeSpeed = subTimeSec / subLevel;
@@ -77,11 +78,11 @@ public class PowerComputeService extends IntentService {
 					if (batteryPlugged == BatteryManager.BATTERY_PLUGGED_USB && sUsbChargingCount < DB_MAX_COUNT) {
 						sBatteryChargeInfo.insertSelfToDb(getApplicationContext());
 					}
-					// 重置充电信息
-					revertBatteryChargeInfo(sBatteryChargeInfo,
-							batteryPlugged, batteryLevel);
 				}
-			} else {
+                // 重置充电信息
+                revertBatteryChargeInfo(sBatteryChargeInfo,
+                        batteryPlugged, batteryLevel);
+            } else {
 				// 电量无变化
 				log_e("battery no change batteryLevel:" + batteryLevel);
 			}

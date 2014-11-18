@@ -247,12 +247,14 @@ public class BatteryWaterWaveView extends View {
 			float statusTxtWidth = mTextStatusPaint.measureText(mBatteryDisChargeStatusTxt, 0,mBatteryDisChargeStatusTxt.length());
 			canvas.drawText(mBatteryDisChargeStatusTxt, mCenterPoint.x - statusTxtWidth / 2,mCenterPoint.y * 1.6f - mFontSize / 2, mTextStatusPaint);
 		}
-        float timeTxtWidth = mTextTimePaint.measureText(String.valueOf(mHour), 0,String.valueOf(mHour).length());
+        float timeHourTxtWidth = mTextTimePaint.measureText(String.valueOf(mHour), 0,String.valueOf(mHour).length());
+        float timeMinuteTxtWidth = mTextTimePaint.measureText(String.valueOf(mMinute), 0,String.valueOf(mMinute).length());
         float timeDescTxtWidth = mTextTimeDescPaint.measureText(mHourTxt, 0,mHourTxt.length());
-		canvas.drawText(String.valueOf(mHour), mCenterPoint.x - (timeDescTxtWidth+timeTxtWidth+8),mCenterPoint.y * 1.6f - mFontSize*2 , mTextTimePaint);
+
+		canvas.drawText(String.valueOf(mHour), mCenterPoint.x - timeHourTxtWidth-timeDescTxtWidth,mCenterPoint.y * 1.6f - mFontSize*2 , mTextTimePaint);
 		canvas.drawText(mHourTxt, mCenterPoint.x - timeDescTxtWidth,mCenterPoint.y * 1.6f - mFontSize*2 , mTextTimeDescPaint);
-		canvas.drawText(String.valueOf(mMinute), mCenterPoint.x+8 ,mCenterPoint.y * 1.6f - mFontSize*2 , mTextTimePaint);
-		canvas.drawText(mMinuteTxt, mCenterPoint.x + timeTxtWidth+16,mCenterPoint.y * 1.6f - mFontSize*2 , mTextTimeDescPaint);
+		canvas.drawText(String.valueOf(mMinute), mCenterPoint.x ,mCenterPoint.y * 1.6f - mFontSize*2 , mTextTimePaint);
+		canvas.drawText(mMinuteTxt, mCenterPoint.x + timeMinuteTxtWidth,mCenterPoint.y * 1.6f - mFontSize*2 , mTextTimeDescPaint);
 	}
 	
 	public void setBatteryCharging(boolean isCharging){
