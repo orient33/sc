@@ -63,6 +63,8 @@ public class Util {
         ab.setDisplayShowCustomEnabled(true);
         ab.setDisplayShowHomeEnabled(false);
         ab.setDisplayShowTitleEnabled(false);
+        ab.setDisplayUseLogoEnabled(false);
+        ab.setDisplayHomeAsUpEnabled(false);
         View v = View.inflate(act, R.xml.actionbar, null);
         ImageView back = (ImageView) v.findViewById(R.id.actionbar_back);
         ImageView set = (ImageView) v.findViewById(R.id.actionbar_setting);
@@ -85,7 +87,9 @@ public class Util {
         if (!TextUtils.isEmpty(t)) {
             title.setText(t);
         }
-        ab.setCustomView(v);
+        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(-1, -1);
+        lp.setMargins(-60, 0, 0, 0);
+        ab.setCustomView(v, lp);
         return v;
     }
 

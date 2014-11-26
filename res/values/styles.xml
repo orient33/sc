@@ -15,7 +15,7 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <!-- 使actionbar的分割线消失 -->
+        <!-- 使actionbar的分割线消失, not work  on android 5.0 -->
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
