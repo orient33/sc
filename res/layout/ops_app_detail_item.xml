@@ -13,6 +13,16 @@
         android:singleLine="true"
         android:textAlignment="viewStart"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+        android:id="@+id/ops_app_detail_ops"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/ops_app_detail_op_name"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceSmall" 
+        />
 
     <Spinner
         android:id="@+id/ops_app_detail_sp"

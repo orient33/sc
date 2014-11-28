@@ -74,6 +74,7 @@ public class AppDetail extends Fragment {
         OpAdapter(Context c, List<OpMode> data) {
             mmLi = LayoutInflater.from(c);
             MacUtil.getLabelForOp(c, 0);// to init string..
+            MacUtil.getDescriptForOp(c, 0);
             MacUtil.getLabelForMode(c, 0);
             Collections.sort(data);
             mmOps = data;
@@ -108,8 +109,18 @@ public class AppDetail extends Fragment {
             final OpMode oe = getItem(p);
             // note: this view must create every time, see AppOpsDetails.java in Settings.apk
             v = mmLi.inflate(R.layout.ops_app_detail_item, null);
+            final String label = MacUtil.getLabelForOp(null, oe.getOp());
             TextView name = (TextView) v.findViewById(R.id.ops_app_detail_op_name);
-            name.setText(MacUtil.getLabelForOp(null, oe.getOp()));
+            name.setText(label);
+            TextView summ = (TextView) v.findViewById(R.id.ops_app_detail_ops);
+            StringBuilder sb = new StringBuilder();
+            for (Integer code : oe.opList) {
+                sb.append(MacUtil.getDescriptForOp(null, code) +",");
+            }
+            sb.deleteCharAt(sb.length()-1);
+            final String summary = sb.toString();
+            if (!summary.equals(label))
+                summ.setText(summary);
             Switch sw = (Switch) v.findViewById(R.id.ops_app_detail_sw);
             Spinner sp = (Spinner) v.findViewById(R.id.ops_app_detail_sp);
             sw.setVisibility(View.INVISIBLE);
@@ -136,7 +147,7 @@ public class AppDetail extends Fragment {
                 public void onNothingSelected(AdapterView<?> parent) {
                 }
             });
-            sw.setChecked( mode == AppOpsManager.MODE_ALLOWED);
+            sw.setChecked(mode == AppOpsManager.MODE_ALLOWED);
             sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

@@ -19,8 +19,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sudoteam.securitycenter.R;
+import com.sudoteam.securitycenter.Util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -67,12 +69,18 @@ public class AppListFragment extends ListFragment {
 
     static class OpMode implements Comparable<OpMode> {
         private int op, mode;
+        final List<Integer> opList = new ArrayList<Integer>();
 
         OpMode(int o, int m) {
             op = o;
             mode = m;
+            opList.add(o);
         }
 
+        void addOneOp(int op){
+            opList.add(op);
+        }
+        
         public void changeMode(int m) {
             if (mode != m)
                 mode = m;
@@ -139,22 +147,31 @@ public class AppListFragment extends ListFragment {
         }
 
         void buildOpSwitch() {
+            Collections.sort(ops);
             if (opSwitches.size() > 0)
                 return;
             for (OpMode oe : ops) {
-                int op_switch = AppOpsManager.opToSwitch(oe.getOp());
-                boolean has = false;
+                final int op_switch = AppOpsManager.opToSwitch(oe.getOp());
+                boolean first = true;
                 for (OpMode oe2 : opSwitches) {
                     if (op_switch == AppOpsManager.opToSwitch(oe2.getOp())) {
-                        has = true;
+                        oe2.addOneOp(oe.op);
+                        first = false;
                         break;
                     }
                 }
-                if (!has)
+                if (first)
                     opSwitches.add(new OpMode(op_switch, oe.getMode()));
             }
             MacUtil.i("buildOpSwitch  over. ops.size=" + ops.size() + ",, switches.size = "
                     + opSwitches.size());
+            //DEBUG
+//            for(OpMode om : opSwitches){
+//                String s=" ,  summary op: ";
+//                for(int iii : om.opList)
+//                    s+= iii+", ";
+//                Util.i(name+ ", op :"+om.op +s);
+//            }
         }
 
         private boolean hasOp(int opid) {

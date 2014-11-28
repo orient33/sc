@@ -25,6 +25,15 @@ public class MacUtil {
     // title is coarse, eg : for op 0, 1, title is same -- Location, but summary is coarse location,fine location.
     // so use summary as a op's title/name.
     private static ArrayList<String> OPS_TITLE = new ArrayList<String>(AppOpsManager._NUM_OP);
+    private static ArrayList<String> OPS_SUM = new ArrayList<String>(AppOpsManager._NUM_OP);
+    static String getDescriptForOp(Context c, int op){
+        if(OPS_SUM.size() == 0){
+            String summary[] = c.getResources().getStringArray(R.array.app_ops_summaries_cm);
+            for (String s : summary)
+                OPS_SUM.add(s);
+        }
+        return OPS_SUM.get(op);
+    }
     static String getLabelForOp(Context c, int op) {
         if (OPS_TITLE.size() == 0) {
             String summary[] = c.getResources().getStringArray(R.array.app_ops_labels_cm);
