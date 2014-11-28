@@ -34,8 +34,8 @@ public class OpsActivity extends FragmentActivity implements View.OnClickListene
         ViewPager vp = (ViewPager) findViewById(R.id.ops_pagers);
         String t1 = getString(R.string.ops_app_list), t0 = getString(R.string.ops_ops_list);
         ArrayList<String> titles = new ArrayList<String>(2);
-        titles.add(t0);
         titles.add(t1);
+        titles.add(t0);
         vp.setAdapter(new MyAdapter(getSupportFragmentManager(), titles));
         // from AnnoyInterceptActivity hmm...
         tabs.setViewPager(vp);
@@ -75,13 +75,13 @@ public class OpsActivity extends FragmentActivity implements View.OnClickListene
             switch (position) {
                 case 0:
                     if (mmFragment0 == null) {
-                        mmFragment0 = new OpsListFragment();
+                        mmFragment0 = new AppListFragment();
                     }
                     return mmFragment0;
 
                 case 1:
                     if (mmFragment1 == null) {
-                        mmFragment1 = new AppListFragment();
+                        mmFragment1 = new OpsListFragment();
                     }
                     return mmFragment1;
                 default:
