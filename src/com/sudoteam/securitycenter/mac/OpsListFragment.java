@@ -53,9 +53,9 @@ public class OpsListFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        int pkg = mAdapter.getItem(position).op;
+        int op = mAdapter.getItem(position).op;
         Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.putExtra(DetailActivity.KEY_OP, pkg);
+        intent.putExtra(DetailActivity.KEY_OP, op);
         getActivity().startActivity(intent);
     }
 
@@ -64,14 +64,12 @@ public class OpsListFragment extends ListFragment {
         final int op;
         final int appsCount;
         final List<String> pkgs;
-        final List<Integer> modes;
 
-        OneOp(int op, String n, int count, List<String> data, List<Integer> ms) {
+        OneOp(int op, String n, int count, List<String> data) {
             this.op = op;
             name = n;
             appsCount = count;
             pkgs = data;
-            modes = ms;
         }
     }
 

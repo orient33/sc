@@ -126,10 +126,9 @@ public class SelfStartAdapter extends BaseAdapter implements IScan {
                 for (String permission : permissions) {
                     if (android.Manifest.permission.RECEIVE_BOOT_COMPLETED
                             .equals(permission)) {
-
                         Drawable icon = Util.getDrawableForPackage(pm, ai.packageName);
                         String label = Util.getNameForPackage(pm, ai.packageName);
-                        int uid = pm.getPackageUid(ai.packageName, UserHandle.getCallingUserId());
+                        int uid = Util.getUidForPkg(pm, ai.packageName);
                         int mode = aom.checkOp(53/*AppOpsManager.OP_BOOT_COMPLETED*/, uid, ai.packageName);
                         boolean allow = mode == AppOpsManager.MODE_ALLOWED;
                         AppSelfStart ass = new AppSelfStart(ai.packageName, uid, label, icon, allow);

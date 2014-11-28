@@ -92,7 +92,7 @@ public class NetMacFragment extends ListFragment {
                         if (Manifest.permission.INTERNET.equals(permission)) {
                             Drawable icon = Util.getDrawableForPackage(pm, ai.packageName);
                             String label = Util.getNameForPackage(pm, ai.packageName);
-                            int uid = pm.getPackageUid(ai.packageName, UserHandle.getCallingUserId());
+                            int uid = Util.getUidForPkg(pm, ai.packageName);
                             Item ass = new Item(ai.packageName, label, uid, icon);
                             list.add(ass);
                         }

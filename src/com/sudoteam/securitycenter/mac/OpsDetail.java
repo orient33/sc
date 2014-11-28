@@ -1,22 +1,24 @@
+
 package com.sudoteam.securitycenter.mac;
 
+import static com.sudoteam.securitycenter.mac.MacUtil.modeToPosition;
+import static com.sudoteam.securitycenter.mac.MacUtil.positionToMode;
+
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.AppOpsManager;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.UserHandle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.sudoteam.securitycenter.R;
@@ -28,9 +30,9 @@ import java.util.List;
 /**
  * detail information about one application's ops.
  */
-public class OpsDetail extends Fragment implements AdapterView.OnItemClickListener {
-    static String KEY = "ops-key";
+public class OpsDetail extends Fragment {
     int mOp;
+    boolean mIsStrict;
 
     public OpsDetail() {
     }
@@ -47,14 +49,14 @@ public class OpsDetail extends Fragment implements AdapterView.OnItemClickListen
         super.onAttach(act);
         mAct = act;
         mAom = (AppOpsManager) act.getSystemService(Context.APP_OPS_SERVICE);
-        mOp = getArguments().getInt(KEY);
+        mOp = getArguments().getInt(DetailActivity.KEY_OP);
         mPm = act.getPackageManager();
-//        mOneOp = getArguments().get
+        mIsStrict = AppOpsManager.isStrictOp(mOp);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup c,
-                             Bundle b) {
+            Bundle b) {
         View root = inflater.inflate(R.layout.ops_op_detail, null);
         TextView name = (TextView) root.findViewById(R.id.ops_op_detail_name);
         mListView = (ListView) root.findViewById(R.id.ops_op_detail_list);
@@ -62,42 +64,10 @@ public class OpsDetail extends Fragment implements AdapterView.OnItemClickListen
         name.setText(mOneOp.name);
         mAdapter = new OpAdapter(mAct, mOneOp);
         mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(this);
         return root;
     }
 
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mTemp = mAdapter.getItem(position).pkg;
-        new SetModeDialog().show(getFragmentManager(), "tag");
-    }
-
-    String mTemp = "";
-
-    class SetModeDialog extends DialogFragment {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder//.setTitle(R.string.pick_color)
-                    .setItems(R.array.app_ops_permissions, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // 0 allow, 1 deny, 2 ask, 3 error ：TODO
-                            int uid = 0;
-                            try {
-                                uid = mPm.getPackageUid(mTemp, UserHandle.getCallingUserId());
-                            } catch (PackageManager.NameNotFoundException e) {
-                                return;
-                            }
-                            mAom.setMode(mOp, uid, mTemp, which);
-                            mAdapter.modifyOneOp(mTemp, which);
-                            mAdapter.notifyDataSetChanged();
-                        }
-                    });
-            return builder.create();
-        }
-    }
-
-    static class OpAdapter extends BaseAdapter {
+    class OpAdapter extends BaseAdapter {
         final List<MyAppEntry> mmPkgs;
         final LayoutInflater mmLi;
         final PackageManager mmPm;
@@ -107,7 +77,7 @@ public class OpsDetail extends Fragment implements AdapterView.OnItemClickListen
             mmPm = c.getPackageManager();
             MacUtil.getLabelForOp(c, 0);// to init string..
             MacUtil.getLabelForMode(c, 0);
-            mmPkgs = MyAppEntry.getFromPkgs(data);
+            mmPkgs = MyAppEntry.getFromPkgs(data, mAom, mOp, mmPm);
         }
 
         void modifyOneOp(String op, int mode) {
@@ -136,13 +106,50 @@ public class OpsDetail extends Fragment implements AdapterView.OnItemClickListen
 
         @Override
         public View getView(int p, View v, ViewGroup par) {
-            MyAppEntry oe = getItem(p);
-            if (v == null)
-                v = mmLi.inflate(R.layout.ops_op_detail_item, null);
+            final MyAppEntry oe = getItem(p);
+            // if (v == null)
+            v = mmLi.inflate(R.layout.ops_op_detail_item, null);
             TextView name = (TextView) v.findViewById(R.id.ops_op_detail_op_name);
-            TextView mode = (TextView) v.findViewById(R.id.ops_op_detail_op_mode);
             name.setText(Util.getNameForPackage(mmPm, oe.pkg));
-            mode.setText(MacUtil.getLabelForMode(null, oe.mode));
+            Spinner sp = (Spinner) v.findViewById(R.id.ops_op_detail_sp);
+            Switch sw = (Switch) v.findViewById(R.id.ops_op_detail_sw);
+            final int mode = oe.mode;
+            final int uid = Util.getUidForPkg(mmPm, oe.pkg);
+
+            sp.setSelection(modeToPosition(mode));
+            sp.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+                boolean firstMode = true;
+
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position,
+                        long id) {
+                    if (firstMode) {
+                        firstMode = false;
+                        return;
+                    }
+                    MacUtil.setMyMode(mOp, uid, oe.pkg, positionToMode(position), mAom);
+                    modifyOneOp(oe.pkg, positionToMode(position));
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+            sw.setChecked(mode == AppOpsManager.MODE_ALLOWED);
+            sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    int mmode = isChecked ? AppOpsManager.MODE_ALLOWED
+                            : AppOpsManager.MODE_IGNORED;
+                    MacUtil.setMyMode(mOp, uid, oe.pkg, mmode, mAom);
+                    modifyOneOp(oe.pkg, mmode);
+                }
+            });
+            if (mIsStrict) {
+                sp.setVisibility(View.VISIBLE);
+            } else {
+                sw.setVisibility(View.VISIBLE);
+            }
             return v;
         }
     }
@@ -156,10 +163,15 @@ public class OpsDetail extends Fragment implements AdapterView.OnItemClickListen
             mode = m;
         }
 
-        static List<MyAppEntry> getFromPkgs(OpsListFragment.OneOp oo) {
+        static List<MyAppEntry> getFromPkgs(OpsListFragment.OneOp oo, AppOpsManager aom, int op,
+                PackageManager pm) {
             List<MyAppEntry> list = new ArrayList<MyAppEntry>();
-            for (int i = 0; i < oo.modes.size(); ++i) {
-                MyAppEntry mae = new MyAppEntry(oo.pkgs.get(i), oo.modes.get(i));
+            int mode;
+            String pkg = "";
+            for (int i = 0; i < oo.pkgs.size(); ++i) {
+                pkg = oo.pkgs.get(i);
+                mode = aom.checkOp(op, Util.getUidForPkg(pm, pkg), pkg);
+                MyAppEntry mae = new MyAppEntry(pkg, mode);
                 list.add(mae);
             }
             return list;

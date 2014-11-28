@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dip">
+    android:padding="10dip" >
 
     <TextView
         android:id="@+id/ops_app_detail_op_name"
@@ -14,19 +14,19 @@
         android:textAlignment="viewStart"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/ops_app_detail_op_mode"
+    <Spinner
+        android:id="@+id/ops_app_detail_sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-    <!--<ImageView-->
-    <!--android:id="@+id/ops_app_detail_icon"-->
-    <!--android:layout_width="@android:dimen/app_icon_size"-->
-    <!--android:layout_height="@android:dimen/app_icon_size"-->
-    <!--android:layout_marginEnd="8dip"-->
-    <!--android:contentDescription="@null"-->
-    <!--android:scaleType="centerInside" />-->
+        android:layout_gravity="center_vertical"
+        android:entries="@array/app_ops_permissions" />
 
+    <Switch
+        android:id="@+id/ops_app_detail_sw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="center_vertical"/>
 
 </RelativeLayout>

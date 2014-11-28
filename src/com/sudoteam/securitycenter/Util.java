@@ -16,6 +16,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StatFs;
+import android.os.UserHandle;
 import android.preference.PreferenceFrameLayout;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -264,4 +265,17 @@ public class Util {
 
     }
 
+
+    private static HashMap<String, Integer> pkg2Uid = new HashMap<String, Integer>();
+    public static int getUidForPkg(PackageManager pm, String pkg){
+        int uid = 99999;
+        Integer u = pkg2Uid.get(pkg);
+        if(u != null)
+            return u;
+        try{
+            uid = pm.getPackageUid(pkg, UserHandle.getCallingUserId());
+            pkg2Uid.put(pkg, uid);
+        }catch(PackageManager.NameNotFoundException e){}
+        return uid;
+    }
 }

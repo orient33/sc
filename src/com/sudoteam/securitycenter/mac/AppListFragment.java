@@ -1,3 +1,4 @@
+
 package com.sudoteam.securitycenter.mac;
 
 import android.app.Activity;
@@ -57,9 +58,46 @@ public class AppListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         String pkg = mAdapter.getItem(position).pkgName;
+        int uid = mAdapter.getItem(position).uid;
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra(DetailActivity.KEY_PKG, pkg);
+        intent.putExtra(DetailActivity.KEY_UID, uid);
         getActivity().startActivity(intent);
+    }
+
+    static class OpMode implements Comparable<OpMode> {
+        private int op, mode;
+
+        OpMode(int o, int m) {
+            op = o;
+            mode = m;
+        }
+
+        public void changeMode(int m) {
+            if (mode != m)
+                mode = m;
+        }
+
+        public int getOp() {
+            return op;
+        }
+
+        public int getMode() {
+            return mode;
+        }
+
+        @Override
+        public int compareTo(OpMode another) {
+            boolean strict = AppOpsManager.isStrictOp(op), strict2 = AppOpsManager
+                    .isStrictOp(another.op);
+            if (strict != strict2) {
+                if (strict)
+                    return -1;
+                else
+                    return 1;
+            }
+            return op - another.op;
+        }
     }
 
     static class OneApp {
@@ -67,7 +105,8 @@ public class AppListFragment extends ListFragment {
         final String name, pkgName;
         final int uid;
         private int opsCount;
-        private List<OpEntry> ops;
+        private final List<OpMode> ops;
+        private final List<OpMode> opSwitches = new ArrayList<OpMode>();
 
         OneApp(int u, String n, String p, Drawable i, List<OpEntry> list) {
             uid = u;
@@ -75,31 +114,55 @@ public class AppListFragment extends ListFragment {
             pkgName = p;
             icon = i;
             opsCount = list == null ? 0 : list.size();
-            ops = list;
+            ops = new ArrayList<OpMode>();
+            if (list != null)
+                for (OpEntry oe : list)
+                    ops.add(new OpMode(oe.getOp(), oe.getMode()));
+
         }
 
-        List<OpEntry> getOps() {
-            if (ops == null)
-                ops = new ArrayList<OpEntry>();
+        List<OpMode> getOpsSwitches() {
+            return opSwitches;
+        }
+
+        List<OpMode> getOps() {
             return ops;
         }
 
-        boolean addOp(OpEntry oe) {
-            if (hasOp(oe))
+        boolean addOp(int op, int mode) {
+            if (hasOp(op))
                 return false;
-            if (ops == null)
-                ops = new ArrayList<OpEntry>();
-            ops.add(oe);
+            ops.add(new OpMode(op, mode));
             ++opsCount;
+
             return true;
         }
 
-        boolean hasOp(OpEntry oe) {
+        void buildOpSwitch() {
+            if (opSwitches.size() > 0)
+                return;
+            for (OpMode oe : ops) {
+                int op_switch = AppOpsManager.opToSwitch(oe.getOp());
+                boolean has = false;
+                for (OpMode oe2 : opSwitches) {
+                    if (op_switch == AppOpsManager.opToSwitch(oe2.getOp())) {
+                        has = true;
+                        break;
+                    }
+                }
+                if (!has)
+                    opSwitches.add(new OpMode(op_switch, oe.getMode()));
+            }
+            MacUtil.i("buildOpSwitch  over. ops.size=" + ops.size() + ",, switches.size = "
+                    + opSwitches.size());
+        }
+
+        private boolean hasOp(int opid) {
             if (ops == null || ops.size() == 0)
                 return false;
-            for (OpEntry op : ops) {
-                if (op.getOp() == oe.getOp()) {
-                    MacUtil.i(" !  !  ! duplicate  op :" + oe.getOp());
+            for (OpMode op : ops) {
+                if (op.getOp() == opid) {
+                    // MacUtil.i(" !  !  ! duplicate  op :" + opid);
                     return true;
                 }
             }

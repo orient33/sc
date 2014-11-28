@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import com.sudoteam.securitycenter.R;
 import com.sudoteam.securitycenter.Util;
 import com.sudoteam.securitycenter.mac.AppListFragment.OneApp;
+import com.sudoteam.securitycenter.mac.AppListFragment.OpMode;
 import com.sudoteam.securitycenter.mac.OpsListFragment.OneOp;
 
 import java.util.ArrayList;
@@ -18,19 +19,19 @@ import java.util.List;
 /**
  */
 public class MacUtil {
-    private static List<String> OPS_SUMMARY = new ArrayList<String>(AppOpsManager._NUM_OP);
+    private  static final boolean DEBUG = false;
     private static List<String> MODE_LABEL = new ArrayList<String>();
 
     // title is coarse, eg : for op 0, 1, title is same -- Location, but summary is coarse location,fine location.
     // so use summary as a op's title/name.
-    //        private ArrayList<String> OPS_TITLE = new ArrayList<String>(AppOpsManager._NUM_OP);
+    private static ArrayList<String> OPS_TITLE = new ArrayList<String>(AppOpsManager._NUM_OP);
     static String getLabelForOp(Context c, int op) {
-        if (OPS_SUMMARY.size() == 0) {
-            String summary[] = c.getResources().getStringArray(R.array.app_ops_summaries_cm);
+        if (OPS_TITLE.size() == 0) {
+            String summary[] = c.getResources().getStringArray(R.array.app_ops_labels_cm);
             for (String s : summary)
-                OPS_SUMMARY.add(s);
+                OPS_TITLE.add(s);
         }
-        return OPS_SUMMARY.get(op);
+        return OPS_TITLE.get(op);
     }
 
     static String getLabelForMode(Context c, int mode) {
@@ -67,14 +68,14 @@ public class MacUtil {
             Drawable icon = Util.getDrawableForPackage(pm, ai.packageName);
             String name = Util.getNameForPackage(pm, ai.packageName);
 
+            i("title : " + name + ", packageName : " + ai.packageName);
             // 1 get this application's ops from AppOpsManager.getOpsForPackage(uid,packageName,null);
             i("1 get ops -------from AppOpsManager-----------------------");
             List<AppOpsManager.PackageOps> ll = aom.getOpsForPackage(ai.uid, ai.packageName, null);
-            if (ll != null) {   // this block just for debug.
+            if (ll != null && DEBUG) {   // this block just for debug.
                 if (ll.size() != 1)
                     throw new RuntimeException("one app has more than 1 package name???");
                 AppOpsManager.PackageOps po = ll.get(0);
-                i("title : " + name + ", packageName : " + po.getPackageName());
                 for (AppOpsManager.OpEntry oe : po.getOps()) {
                     i("OpEntry : " + OpEntry2String(oe));
                 }
@@ -99,14 +100,14 @@ public class MacUtil {
                         if (!perms.get(k).equals(pi.requestedPermissions[i]))
                             continue;
                         int op = permOps.get(k);    // get this op code.
-                        AppOpsManager.OpEntry oe = new AppOpsManager.OpEntry(op, 0, 0, 0, 0);
                         //add op to the app
-                        if (oa.addOp(oe))
-                            i(" add op :" + OpEntry2String(oe));
+                        if (oa.addOp(op, aom.checkOpNoThrow(op, ai.uid, ai.packageName)))
+                            ;//i(" add op :" + AppOpsManager.opToName(op));
                     }
                 }
             }
-            i("**********************************************************");
+            i("**************************************************************************");
+            oa.buildOpSwitch();
             list.add(oa);
         }
         return list;
@@ -126,6 +127,7 @@ public class MacUtil {
     }
 
     static void i(String s) {
+        if(DEBUG)
         Util.i("[MacUtil] " + s);
     }
 
@@ -135,19 +137,19 @@ public class MacUtil {
         for (int op = 0, count; op < AppOpsManager._NUM_OP; ++op) {
             count = 0;
             final ArrayList<String> pkgs = new ArrayList<String>();
-            final ArrayList<Integer> modes = new ArrayList<Integer>();
+//            final ArrayList<Integer> modes = new ArrayList<Integer>();
             for (OneApp oa : apps) {
-                for (AppOpsManager.OpEntry oaop : oa.getOps()) {
+                for (OpMode oaop : oa.getOpsSwitches()) {
                     if (op == oaop.getOp()) {
                         ++count;
-                        modes.add(oaop.getMode());
+//                        modes.add(oaop.getMode());
                         pkgs.add(oa.pkgName);
                         break;
                     }
                 }
             }
             if (count > 0) { // filter op which no application use
-                OneOp oo = new OneOp(op, getLabelForOp(null, op), count, pkgs, modes);
+                OneOp oo = new OneOp(op, getLabelForOp(null, op), count, pkgs);
                 list.add(oo);
             }
         }
@@ -161,5 +163,48 @@ public class MacUtil {
                 return oo;
         }
         return null;
+    }
+    
+    static void setMyMode(int code, int uid, String packageName, int mode,AppOpsManager aom){
+        int now = aom.checkOp(code, uid, packageName);
+        if(now == mode){
+            Util.i("setMyMode " + packageName +",  but mode  is ALREADY  "+mode);
+            return;
+        }
+        Util.i("setMyMode " + packageName +", mode ="+mode +" OK! ");
+        aom.setMode(code, uid, packageName, mode);
+    }
+    
+    private static final int MODE_ALLOWED = 0;
+    private static final int MODE_IGNORED = 1;
+    private static final int MODE_ASK = 2;
+
+
+    static int modeToPosition(int mode) {
+        switch (mode) {
+            case AppOpsManager.MODE_ALLOWED:
+                return MODE_ALLOWED;
+            case AppOpsManager.MODE_IGNORED:
+                return MODE_IGNORED;
+            case AppOpsManager.MODE_ASK:
+                return MODE_ASK;
+        }
+        ;
+
+        return MODE_IGNORED;
+    }
+
+    static int positionToMode(int position) {
+        switch (position) {
+            case MODE_ALLOWED:
+                return AppOpsManager.MODE_ALLOWED;
+            case MODE_IGNORED:
+                return AppOpsManager.MODE_IGNORED;
+            case MODE_ASK:
+                return AppOpsManager.MODE_ASK;
+        }
+        ;
+
+        return AppOpsManager.MODE_IGNORED;
     }
 }

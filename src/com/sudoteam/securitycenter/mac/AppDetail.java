@@ -1,36 +1,39 @@
+
 package com.sudoteam.securitycenter.mac;
 
+import static com.sudoteam.securitycenter.mac.MacUtil.modeToPosition;
+import static com.sudoteam.securitycenter.mac.MacUtil.positionToMode;
+
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.AppOpsManager;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.sudoteam.securitycenter.R;
-import com.sudoteam.securitycenter.Util;
 import com.sudoteam.securitycenter.mac.AppListFragment.OneApp;
+import com.sudoteam.securitycenter.mac.AppListFragment.OpMode;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * detail information about one application's ops.
  */
-public class AppDetail extends Fragment implements ListView.OnItemClickListener {
-    static String KEY = "pkg-key";
+public class AppDetail extends Fragment {
     String mPkgName;
+    int mUid;
     Activity mAct;
     AppOpsManager mAom;
     OneApp mOneApp;
@@ -45,12 +48,13 @@ public class AppDetail extends Fragment implements ListView.OnItemClickListener 
         super.onAttach(act);
         mAct = act;
         mAom = (AppOpsManager) act.getSystemService(Context.APP_OPS_SERVICE);
-        mPkgName = getArguments().getString(KEY);
+        mPkgName = getArguments().getString(DetailActivity.KEY_PKG);
+        mUid = getArguments().getInt(DetailActivity.KEY_UID);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup c,
-                             Bundle b) {
+            Bundle b) {
         View root = inflater.inflate(R.layout.ops_app_detail, null);
         ImageView icon = (ImageView) root.findViewById(R.id.ops_app_detail_icon);
         TextView name = (TextView) root.findViewById(R.id.ops_app_detail_name);
@@ -58,54 +62,27 @@ public class AppDetail extends Fragment implements ListView.OnItemClickListener 
         mOneApp = MacUtil.getAppInfo(mAct, mAom, mPkgName);
         icon.setImageDrawable(mOneApp.icon);
         name.setText(mOneApp.name);
-        mAdapter = new OpAdapter(mAct, mOneApp.getOps());
+        mAdapter = new OpAdapter(mAct, mOneApp.getOpsSwitches());
         mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(this);
         return root;
     }
 
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        final MyOpEntry moe = mAdapter.getItem(position);
-        mTempOp = moe.op;
-        new SetModeDialog().show(getFragmentManager(), "tag");
-    }
-
-    int mTempOp = 0;
-
-    class SetModeDialog extends DialogFragment {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder//.setTitle(R.string.pick_color)
-                    .setItems(R.array.app_ops_permissions, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Util.i("click which ? = " + which + ", op = " + mTempOp);
-                            // 0 allow, 1 deny, 2 ask, 3 error ：TODO
-                            mAom.setMode(mTempOp, mOneApp.uid, mOneApp.pkgName, which);
-                            mAdapter.modifyOneOp(mTempOp,which);
-                            mAdapter.notifyDataSetChanged();
-                        }
-                    });
-            return builder.create();
-        }
-    }
-
-    static class OpAdapter extends BaseAdapter {
-        final List<MyOpEntry> mmOps;
+    class OpAdapter extends BaseAdapter {
+        final List<OpMode> mmOps;
         final LayoutInflater mmLi;
 
-        OpAdapter(Context c, List<AppOpsManager.OpEntry> data) {
+        OpAdapter(Context c, List<OpMode> data) {
             mmLi = LayoutInflater.from(c);
             MacUtil.getLabelForOp(c, 0);// to init string..
             MacUtil.getLabelForMode(c, 0);
-            mmOps = MyOpEntry.getFromOpEntry(data);
+            Collections.sort(data);
+            mmOps = data;
         }
 
-        void modifyOneOp(int op, int mode){
-            for(MyOpEntry moe : mmOps){
-                if(moe.op == op) {
-                    moe.mode = mode;
+        void modifyOneOp(int op, int mode) {
+            for (OpMode moe : mmOps) {
+                if (moe.getOp() == op) {
+                    moe.changeMode(mode);
                     return;
                 }
             }
@@ -117,7 +94,7 @@ public class AppDetail extends Fragment implements ListView.OnItemClickListener 
         }
 
         @Override
-        public MyOpEntry getItem(int i) {
+        public OpMode getItem(int i) {
             return mmOps == null ? null : mmOps.get(i);
         }
 
@@ -128,31 +105,54 @@ public class AppDetail extends Fragment implements ListView.OnItemClickListener 
 
         @Override
         public View getView(int p, View v, ViewGroup par) {
-            MyOpEntry oe = getItem(p);
-            if (v == null)
-                v = mmLi.inflate(R.layout.ops_app_detail_item, null);
+            final OpMode oe = getItem(p);
+            // note: this view must create every time, see AppOpsDetails.java in Settings.apk
+            v = mmLi.inflate(R.layout.ops_app_detail_item, null);
             TextView name = (TextView) v.findViewById(R.id.ops_app_detail_op_name);
-            TextView mode = (TextView) v.findViewById(R.id.ops_app_detail_op_mode);
-            name.setText(MacUtil.getLabelForOp(null, oe.op));
-            mode.setText(MacUtil.getLabelForMode(null, oe.mode));
-            return v;
-        }
-    }
+            name.setText(MacUtil.getLabelForOp(null, oe.getOp()));
+            Switch sw = (Switch) v.findViewById(R.id.ops_app_detail_sw);
+            Spinner sp = (Spinner) v.findViewById(R.id.ops_app_detail_sp);
+            sw.setVisibility(View.INVISIBLE);
+            sp.setVisibility(View.INVISIBLE);
+            final int switchOp = AppOpsManager.opToSwitch(oe.getOp());
+            final int mode = oe.getMode();
 
-    static class MyOpEntry {
-        int op, mode;
+            sp.setSelection(modeToPosition(mode));
+            sp.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+                boolean firstMode = true;
 
-        MyOpEntry(int o, int m) {
-            op = o;
-            mode = m;
-        }
-        static List<MyOpEntry> getFromOpEntry(List<AppOpsManager.OpEntry> data){
-            List<MyOpEntry> list = new ArrayList<MyOpEntry>();
-            for(AppOpsManager.OpEntry oe : data){
-                MyOpEntry moe = new MyOpEntry(oe.getOp(),oe.getMode());
-                list.add(moe);
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position,
+                        long id) {
+                    if (firstMode) {
+                        firstMode = false;
+                        return;
+                    }
+                    MacUtil.setMyMode(switchOp, mUid, mPkgName, positionToMode(position), mAom);
+                    modifyOneOp(switchOp, positionToMode(position));
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+            sw.setChecked( mode == AppOpsManager.MODE_ALLOWED);
+            sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    int mmode = isChecked ? AppOpsManager.MODE_ALLOWED
+                            : AppOpsManager.MODE_IGNORED;
+                    MacUtil.setMyMode(switchOp, mUid, mPkgName, mmode, mAom);
+                    modifyOneOp(switchOp, mmode);
+                }
+            });
+
+            if (AppOpsManager.isStrictOp(switchOp)) {
+                sp.setVisibility(View.VISIBLE);
+            } else {
+                sw.setVisibility(View.VISIBLE);
             }
-            return list;
+            return v;
         }
     }
 }

@@ -9,7 +9,8 @@ import com.sudoteam.securitycenter.Util;
 
 public class DetailActivity extends Activity {
 
-    final static String KEY_PKG = "key-pkg", KEY_OP = "key-op";
+    final static String KEY_PKG = "key-pkg", KEY_OP = "key-op",
+            KEY_UID="key-uid";
 
     @Override
     protected void onCreate(Bundle b) {
@@ -18,16 +19,18 @@ public class DetailActivity extends Activity {
 
         String pkg = getIntent().getStringExtra(KEY_PKG);
         int op = getIntent().getIntExtra(KEY_OP, -1);
+        int uid = getIntent().getIntExtra(KEY_UID,99999);
         final Fragment fragment;
         final String title;
         Bundle bundle = new Bundle();
         if (op != -1) { //  op detail
             fragment = new OpsDetail();
-            bundle.putInt(OpsDetail.KEY, op);
+            bundle.putInt(KEY_OP, op);
             title = getString(R.string.ops_detail);
         } else {        //  fragment = // to app detail
             fragment = new AppDetail();
-            bundle.putString(AppDetail.KEY, pkg);
+            bundle.putString(KEY_PKG, pkg);
+            bundle.putInt(KEY_UID, uid);
             title = getString(R.string.app_detail);
         }
         fragment.setArguments(bundle);
