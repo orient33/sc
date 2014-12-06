@@ -1,18 +1,16 @@
 package com.sudoteam.securitycenter.netstat;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.sudoteam.securitycenter.BaseActivity;
 import com.sudoteam.securitycenter.R;
 import com.sudoteam.securitycenter.Util;
 
-public class NetstatActivity extends Activity implements View.OnClickListener {
+public class NetstatActivity extends BaseActivity implements View.OnClickListener {
 
     String title;
 
@@ -26,7 +24,7 @@ public class NetstatActivity extends Activity implements View.OnClickListener {
             getFragmentManager().beginTransaction()
                     .add(R.id.net_container, l).commit();
         }
-        Util.setActionBar(this, true, title, null);
+        Util.setCustomTitle(this, true, title, null);
     }
 
     @Override

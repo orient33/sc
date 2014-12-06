@@ -49,7 +49,7 @@ public class ScanLogActivity extends SuperActivity {
 
         setContentView(R.layout.activity_scan_log);
 
-        Util.setActionBar(this, true, "扫描日志", 0,null);
+        Util.setCustomTitle(this, true, "扫描日志", 0,null);
 
         logs = (ListView) findViewById(R.id.scan_log_list);
         adapter = new ScanLogAdapter(this,getScanLogResult());

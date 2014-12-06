@@ -1,16 +1,5 @@
 package com.sudoteam.securitycenter.activity;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.sudoteam.securitycenter.BaseActivity;
 import com.sudoteam.securitycenter.R;
 import com.sudoteam.securitycenter.Util;
 import com.sudoteam.securitycenter.adapter.BatteryModeAdapter;
@@ -40,7 +30,17 @@ import com.sudoteam.securitycenter.service.BatteryChangeService;
 import com.sudoteam.securitycenter.utils.ConvertHelper;
 import com.sudoteam.securitycenter.views.BatteryWaterWaveView;
 
-public class PowerManagerActivity extends Activity implements Handler.Callback {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PowerManagerActivity extends BaseActivity implements Handler.Callback {
 
 	private static final boolean DEBUG = true;
 	private static final String TAG = "PowerManagerActivity";
@@ -266,7 +266,7 @@ public class PowerManagerActivity extends Activity implements Handler.Callback {
 
 	private void addPowerManagerActionBar() {
 		String title = getString(R.string.module_save);
-		Util.setActionBar(this, true, title, R.drawable.power_add_batterymode,
+		Util.setCustomTitle(this, true, title, R.drawable.power_add_batterymode,
 				new View.OnClickListener() {
 
 					@Override

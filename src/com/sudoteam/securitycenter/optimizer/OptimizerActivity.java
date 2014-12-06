@@ -1,14 +1,14 @@
 package com.sudoteam.securitycenter.optimizer;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.sudoteam.securitycenter.BaseActivity;
 import com.sudoteam.securitycenter.R;
 import com.sudoteam.securitycenter.Util;
 
-public class OptimizerActivity extends Activity implements View.OnClickListener {
+public class OptimizerActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle s) {
@@ -19,7 +19,7 @@ public class OptimizerActivity extends Activity implements View.OnClickListener 
             getFragmentManager().beginTransaction().add(R.id.container, new OptimizerFragment()).commit();
         }
         String title = getString(R.string.module_optimizer);
-        Util.setActionBar(this, true, title, R.drawable.optimizer_set, this);
+        Util.setCustomTitle(this, true, title, R.drawable.optimizer_set, this);
     }
 
     @Override

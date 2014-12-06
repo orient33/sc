@@ -1,13 +1,13 @@
 package com.sudoteam.securitycenter.mac;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 
+import com.sudoteam.securitycenter.BaseActivity;
 import com.sudoteam.securitycenter.R;
 import com.sudoteam.securitycenter.Util;
 
-public class DetailActivity extends Activity {
+public class DetailActivity extends BaseActivity {
 
     final static String KEY_PKG = "key-pkg", KEY_OP = "key-op",
             KEY_UID="key-uid";
@@ -35,7 +35,7 @@ public class DetailActivity extends Activity {
         }
         fragment.setArguments(bundle);
         getFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
-        Util.setActionBar(this, true, title, null);
+        Util.setCustomTitle(this, true, title, null);
     }
 
 }

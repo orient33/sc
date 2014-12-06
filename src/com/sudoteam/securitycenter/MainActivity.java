@@ -1,6 +1,5 @@
 package com.sudoteam.securitycenter;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,7 +22,7 @@ import com.sudoteam.securitycenter.netstat.NetstatActivity;
 import com.sudoteam.securitycenter.optimizer.OptimizerActivity;
 import com.sudoteam.securitycenter.views.LineView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
     private static final int[] BUTTON_IDS = {R.id.module_optimizer, R.id.module_net, R.id.module_block,
             R.id.module_save, R.id.module_antivirse, R.id.module_mac, R.id.title_img};
@@ -43,7 +42,7 @@ public class MainActivity extends Activity {
             getFragmentManager().beginTransaction().add(R.id.container, new _Frag()).commit();
         }
         String title = getString(R.string.app_name);
-        Util.setActionBar(this, false, title, null);
+        Util.setCustomTitle(this, false, title, null);
         
          exit = AnimationUtils.loadAnimation(this, R.anim.dialog_exit_anim);
          enter = AnimationUtils.loadAnimation(this,R.anim.dialog_enter_anim);

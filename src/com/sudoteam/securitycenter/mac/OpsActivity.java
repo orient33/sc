@@ -3,7 +3,6 @@ package com.sudoteam.securitycenter.mac;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
@@ -11,9 +10,10 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
 
-import com.sudoteam.securitycenter.adapter.SlidePagerAdapter;
+import com.sudoteam.securitycenter.BaseActivity;
 import com.sudoteam.securitycenter.R;
 import com.sudoteam.securitycenter.Util;
+import com.sudoteam.securitycenter.adapter.SlidePagerAdapter;
 import com.sudoteam.securitycenter.views.PagerSlidingTabStrip;
 
 import java.util.ArrayList;
@@ -22,13 +22,13 @@ import java.util.List;
 /**
  * app ops man UI.
  */
-public class OpsActivity extends FragmentActivity implements View.OnClickListener {
+public class OpsActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ops);
-        Util.setActionBar(this, true, getTitle().toString(), this);
+        Util.setCustomTitle(this, true, getTitle().toString(), this);
         DisplayMetrics dm = getResources().getDisplayMetrics();
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.ops_tabs);
         ViewPager vp = (ViewPager) findViewById(R.id.ops_pagers);

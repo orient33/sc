@@ -84,7 +84,7 @@ public class ScanVirusActivity extends SuperActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_virus);
 
-        Util.setActionBar(this, true, "病毒扫描", R.drawable.scan_log_list,this);
+        Util.setCustomTitle(this, true, "病毒扫描", R.drawable.scan_log_list,this);
 
         zoomOut = AnimationUtils.loadAnimation(this,R.anim.zoom_out);
         zoomIn = AnimationUtils.loadAnimation(this,R.anim.zoom_in);

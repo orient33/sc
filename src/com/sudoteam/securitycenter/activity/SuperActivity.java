@@ -1,12 +1,11 @@
 package com.sudoteam.securitycenter.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+
+import com.sudoteam.securitycenter.BaseActivity;
 import com.sudoteam.securitycenter.R;
 
-public class SuperActivity extends Activity {
+public class SuperActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

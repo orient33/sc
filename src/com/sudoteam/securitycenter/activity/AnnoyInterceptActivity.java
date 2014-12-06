@@ -1,47 +1,29 @@
 
 package com.sudoteam.securitycenter.activity;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ListView;
-
-import com.sudoteam.securitycenter.adapter.*;
-import com.sudoteam.securitycenter.entity.BlockNumbers;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.db.sqlite.Selector;
-import com.lidroid.xutils.exception.DbException;
-import com.sudoteam.securitycenter.entity.*;
-import com.lidroid.xutils.db.sqlite.Selector;
-import com.sudoteam.securitycenter.R;
-
-import com.sudoteam.securitycenter.adapter.*;
-import com.sudoteam.securitycenter.entity.ScanLog;
-import com.sudoteam.securitycenter.entity.ScanLogResult;
-import com.sudoteam.securitycenter.Util;
-import com.sudoteam.securitycenter.views.*;
-import com.sudoteam.securitycenter.activity.*;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.ViewConfiguration;
-import android.view.Window;
+import android.view.View;
+import android.widget.ListView;
 
-import java.lang.Override;
-import java.lang.String;
+import com.sudoteam.securitycenter.BaseActivity;
+import com.sudoteam.securitycenter.R;
+import com.sudoteam.securitycenter.Util;
+import com.sudoteam.securitycenter.adapter.SlidePagerAdapter;
+import com.sudoteam.securitycenter.adapter.TrashSmsAdapter;
+import com.sudoteam.securitycenter.entity.TrashSms;
+import com.sudoteam.securitycenter.views.PagerSlidingTabStrip;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Intent;
-
-public class AnnoyInterceptActivity extends FragmentActivity implements View.OnClickListener{
+public class AnnoyInterceptActivity extends BaseActivity implements View.OnClickListener{
 
     private ListView smsList;
 
@@ -64,7 +46,7 @@ public class AnnoyInterceptActivity extends FragmentActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_annoy_intercept);
 
-        Util.setActionBar(this, true, "骚扰拦截",this);
+        Util.setCustomTitle(this, true, "骚扰拦截",this);
 
         dm = getResources().getDisplayMetrics();
 

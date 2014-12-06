@@ -23,6 +23,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabWidget;
@@ -47,8 +48,8 @@ public class Util {
         return (int) (size / 1024 / 1024);
     }
 
-    public static ImageView setActionBar(final Activity act, boolean showBack, String t, int resId,View.OnClickListener clickSet){
-        View v = setActionBar(act,showBack,t,clickSet);
+    public static ImageView setCustomTitle(final Activity act, boolean showBack, String t, int resId,View.OnClickListener clickSet){
+        View v = setCustomTitle(act,showBack,t,clickSet);
         ImageView right = (ImageView)v.findViewById(R.id.actionbar_setting);
         right.setImageResource(resId);
         return right;
@@ -57,19 +58,12 @@ public class Util {
     /**
      * 设置actionbar的自定义View
      */
-    public static View setActionBar(final Activity act, boolean showBack, String t, View.OnClickListener clickSet) {
-        final ActionBar ab = act.getActionBar();
-        if (ab == null)
-            return null;
-        ab.setDisplayShowCustomEnabled(true);
-        ab.setDisplayShowHomeEnabled(false);
-        ab.setDisplayShowTitleEnabled(false);
-        ab.setDisplayUseLogoEnabled(false);
-        ab.setDisplayHomeAsUpEnabled(false);
-        View v = View.inflate(act, R.xml.actionbar, null);
-        ImageView back = (ImageView) v.findViewById(R.id.actionbar_back);
-        ImageView set = (ImageView) v.findViewById(R.id.actionbar_setting);
-        TextView title = (TextView) v.findViewById(R.id.actionbar_title);
+    public static View setCustomTitle(final Activity act, boolean showBack, String t, View.OnClickListener clickSet) {
+        act.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.xml.actionbar);
+
+        ImageView back = (ImageView) act.findViewById(R.id.actionbar_back);
+        ImageView set = (ImageView) act.findViewById(R.id.actionbar_setting);
+        TextView title = (TextView) act.findViewById(R.id.actionbar_title);
         if (showBack) {
             back.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -88,10 +82,7 @@ public class Util {
         if (!TextUtils.isEmpty(t)) {
             title.setText(t);
         }
-        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(-1, -1);
-        lp.setMargins(-60, 0, 0, 0);
-        ab.setCustomView(v, lp);
-        return v;
+        return set;
     }
 
     public static void updateActionBarTitle(final Activity act, String title){
