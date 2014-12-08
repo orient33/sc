@@ -48,7 +48,7 @@ public class WaterWaveProgress extends View {
     private long mWaveFactor = 0L;
     private boolean isWaving = false;
     private float mAmplitude = 10.0F; // 30F
-    private float mWaveSpeed = 0.020F; // 0.070F
+    private float mWaveSpeed = 0.040F; // 0.070F
     private int mWaterAlpha = 255; // 255
 
     private MyHandler mHandler = null;
@@ -56,7 +56,7 @@ public class WaterWaveProgress extends View {
     private static class MyHandler extends Handler {
         private WeakReference<WaterWaveProgress> mWeakRef = null;
 
-        private int refreshPeriod = 500;
+        private int refreshPeriod = 100;
 
         public MyHandler(WaterWaveProgress host) {
             mWeakRef = new WeakReference<WaterWaveProgress>(host);
@@ -127,11 +127,11 @@ public class WaterWaveProgress extends View {
 
     }
 
-    public void animateWave() {
+    void animateWave() {
         if (!isWaving) {
             mWaveFactor = 0L;
             isWaving = true;
-            mHandler.sendEmptyMessage(0);
+            mHandler.sendEmptyMessageDelayed(0, 200);
         }
     }
 

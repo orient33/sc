@@ -1,18 +1,20 @@
 package com.sudoteam.securitycenter.optimizer;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
-import com.sudoteam.securitycenter.BaseActivity;
 import com.sudoteam.securitycenter.R;
 import com.sudoteam.securitycenter.Util;
 
-public class OptimizerActivity extends BaseActivity implements View.OnClickListener {
+public class OptimizerActivity extends Activity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle s) {
         super.onCreate(s);
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.activity_main);
 
         if (s == null) {

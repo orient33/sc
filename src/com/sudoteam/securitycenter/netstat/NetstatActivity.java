@@ -1,22 +1,24 @@
 package com.sudoteam.securitycenter.netstat;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
-import com.sudoteam.securitycenter.BaseActivity;
 import com.sudoteam.securitycenter.R;
 import com.sudoteam.securitycenter.Util;
 
-public class NetstatActivity extends BaseActivity implements View.OnClickListener {
+public class NetstatActivity extends Activity implements View.OnClickListener {
 
     String title;
 
     @Override
     protected void onCreate(Bundle b) {
         super.onCreate(b);
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         title = getString(R.string.module_net);
         setContentView(R.layout.activity_netstat);
         if (b == null) {
@@ -40,6 +42,8 @@ public class NetstatActivity extends BaseActivity implements View.OnClickListene
             int ids[] = {R.id.data_usage_day,R.id.data_usage_month,R.id.data_usage_set,R.id.data_usage_mac};
             for(int id : ids)
                 v.findViewById(id).setOnClickListener(this);
+            WaterWaveProgress wwp = (WaterWaveProgress)v.findViewById(R.id.net_anim);
+            wwp.animateWave();
             return v;
         }
         @Override

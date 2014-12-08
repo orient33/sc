@@ -86,10 +86,7 @@ public class Util {
     }
 
     public static void updateActionBarTitle(final Activity act, String title){
-        final ActionBar ab = act.getActionBar();
-        if(ab == null) return;
-        View view = ab.getCustomView();
-        TextView tv = (TextView)view.findViewById(R.id.actionbar_title);
+        TextView tv = (TextView)act.findViewById(R.id.actionbar_title);
         tv.setText(title);
     }
 
