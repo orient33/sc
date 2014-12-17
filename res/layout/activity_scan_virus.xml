@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bak">
+    android:background="@drawable/background">
 
 
 
@@ -10,7 +10,6 @@
         android:id="@+id/scan_page_parent_scanning"
         android:layout_width="match_parent"
         android:layout_height="230dp"
-        android:background="@drawable/bak"
         android:visibility="visible">
 
 <!--        <include layout="@layout/top_navigation" />-->
@@ -97,7 +96,6 @@
         android:id="@+id/scan_page_parent_over"
         android:layout_width="match_parent"
         android:layout_height="230dp"
-        android:background="@drawable/bak"
         android:visibility="invisible">
 
         <RelativeLayout
@@ -157,7 +155,6 @@
         android:id="@+id/scan_page_parent_clear_over"
         android:layout_width="match_parent"
         android:layout_height="230dp"
-        android:background="@drawable/bak"
         android:visibility="invisible">
 
 

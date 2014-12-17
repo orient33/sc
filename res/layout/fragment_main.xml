@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_color" >
+    android:background="@drawable/background" >
 
     <RelativeLayout
         android:id="@+id/one_key_check_title_parent"
@@ -44,9 +44,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
+        android:layout_alignParentBottom="true"
         android:background="@drawable/arc"
-        android:layout_below="@id/one_key_check_title_parent"
-        android:layout_marginTop="10dp"
         >
 
         <GridLayout
@@ -125,7 +124,6 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/arc"
         android:visibility="invisible" 
-        android:layout_below="@id/one_key_check_title_parent"
         android:layout_marginTop="10dp">
 
         <View
